@@ -1,5 +1,6 @@
 package com.felipe.belo.mvp.role.entity;
 
+import com.felipe.belo.mvp.core.entity.AudityEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 import com.felipe.belo.mvp.utils.permissions.Permissions;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "role",
        uniqueConstraints = {@UniqueConstraint(name = "uk_role_name", columnNames = "name")})
-public class Role {
+public class Role extends AudityEntity {
 
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
