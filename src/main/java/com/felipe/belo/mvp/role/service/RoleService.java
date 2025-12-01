@@ -15,6 +15,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Service class responsible for handling all business logic related to the Role entity.
+ * It provides methods for creating, updating, deleting, and retrieving roles, along with
+ * handling validation and constraints on the entity during operations.
+ */
 @Service
 public class RoleService {
 
@@ -48,22 +53,19 @@ public class RoleService {
         this.roleRepository.delete(existing);
     }
 
+    public List<RoleListDto> findAll() {
+        return this.roleMapper.toDtoList(this.roleRepository.findAll());
+    }
+
     private static void CheckIsNull(Role existing) {
         if (existing == null) {
             throw new BusinessException(HttpStatus.NOT_FOUND, I18nConstants.MESSAGE_ROLE_NAME_NOT_FOUND);
         }
     }
 
-    public List<RoleListDto> findAll() {
-        return this.roleMapper.toDtoList(this.roleRepository.findAll());
-    }
-
-
     private void checkConstraints(Role role, UUID id) {
         if (role != null && (id == null || !role.getId().equals(id))) {
             throw new BusinessException(HttpStatus.CONFLICT, I18nConstants.MESSAGE_ROLE_NAME_EXISTS);
         }
     }
-
-
 }
