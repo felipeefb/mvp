@@ -40,9 +40,6 @@ public class SecurityConfiguration {
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml"
                         ).permitAll()
-                        // Exemplo: endpoint público
-                        .requestMatchers("/actuator/health").permitAll()
-                        // Todo o resto protegido
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
