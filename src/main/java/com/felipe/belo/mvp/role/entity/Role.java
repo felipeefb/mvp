@@ -2,8 +2,7 @@ package com.felipe.belo.mvp.role.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
-
-import java.security.Permission;
+import com.felipe.belo.mvp.utils.permissions.Permissions;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -25,14 +24,28 @@ public class Role {
     @CollectionTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id"))
     @Column(name = "permission")
     @Enumerated(EnumType.STRING)
-    private Set<Permission> permissions = new HashSet<>();
+    private Set<Permissions> permissions = new HashSet<>();
 
     public Role() {
     }
 
-    public Role(String name, Set<Permission> permissions) {
+    public Role(String name, Set<Permissions> permissions) {
         this.name = name;
         this.permissions = permissions;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Set<Permissions> getPermissions() {
+        return permissions;
+    }
 }

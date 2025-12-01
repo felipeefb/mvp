@@ -1,5 +1,7 @@
 package com.felipe.belo.mvp.core.config.security;
 import com.felipe.belo.mvp.core.exception.BusinessException;
+import com.felipe.belo.mvp.user.entity.UserEntity;
+import com.felipe.belo.mvp.user.repository.UserRepository;
 import com.felipe.belo.mvp.utils.I18nConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -71,8 +73,8 @@ public class SecurityConfiguration {
                     ));
 
             return User.withUsername(user.getEmail())
-                    .password(user.getPasswordHash())
-                    .roles(user.getRole().name())
+                    .password(user.getPassword())
+                    .roles(user.getRole().getName())
                     .build();
         };
     }

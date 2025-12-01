@@ -9,7 +9,7 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - ${POSTGRES_VOLUME}:/var/lib/postgresql/data
+      - mvp-postgres-data:/var/lib/postgresql/data
     healthcheck:
         test: ["CMD-SHELL", "pg_isready -U mvp -d mvpdatabase"]
         interval: 10s
@@ -17,4 +17,4 @@ services:
         retries: 5
 
 volumes:
-  ${POSTGRES_VOLUME}:
+  mvp-postgres-data:

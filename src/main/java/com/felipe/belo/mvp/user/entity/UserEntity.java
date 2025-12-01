@@ -21,7 +21,7 @@ import java.util.UUID;
         }
 )
 @SQLRestriction("deleted_at is null")
-public class User extends AudityEntity {
+public class UserEntity extends AudityEntity {
 
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
@@ -46,10 +46,10 @@ public class User extends AudityEntity {
 
     private LocalDateTime deletedAt;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(UUID id, String name, String email, String password, Role role, UUID deletedBy, LocalDateTime deletedAt) {
+    public UserEntity(UUID id, String name, String email, String password, Role role, UUID deletedBy, LocalDateTime deletedAt) {
         this.id = id;
         this.name = name;
         this.email = email;

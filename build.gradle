@@ -10,9 +10,8 @@ version = '0.0.1-SNAPSHOT'
 description = 'mvp'
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-    }
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
 }
 
 configurations {
@@ -43,8 +42,8 @@ dependencies {
     implementation 'org.springframework.session:spring-session-jdbc'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-    runtimeOnly 'io.micrometer:micrometer-registry-influx'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+   // runtimeOnly 'io.micrometer:micrometer-registry-influx'
+    //runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'org.springframework.modulith:spring-modulith-actuator'
     runtimeOnly 'org.springframework.modulith:spring-modulith-observability'

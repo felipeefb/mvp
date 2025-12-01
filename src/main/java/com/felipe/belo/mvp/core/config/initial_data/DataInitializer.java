@@ -1,0 +1,51 @@
+package com.felipe.belo.mvp.core.config.initial_data;
+
+import com.felipe.belo.mvp.role.entity.Role;
+import com.felipe.belo.mvp.role.repository.RoleRepository;
+import com.felipe.belo.mvp.user.entity.UserEntity;
+import com.felipe.belo.mvp.user.repository.UserRepository;
+import com.felipe.belo.mvp.utils.permissions.Permissions;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+
+@Configuration
+public class DataInitializer {
+
+    @Bean
+    @Transactional
+    public CommandLineRunner initDatabase(UserRepository userRepository,
+                                          RoleRepository roleRepository,
+                                          PasswordEncoder passwordEncoder) {
+        return args -> {
+            Role adminRole = createRoleIfNotFound(roleRepository, "SUPER_ADMIN", new HashSet<>(List.of(Permissions.values())));
+            Role userRole = createRoleIfNotFound(roleRepository, "USER", new HashSet<>(Collections.singletonList(Permissions.USER_LIST)));
+
+            createUserIfNotFound(userRepository, "admin", "admin@admin.com", "admin", adminRole, passwordEncoder);
+            createUserIfNotFound(userRepository, "user", "user@user.com", "user", userRole, passwordEncoder);
+
+        };
+    }
+
+    private Role createRoleIfNotFound(RoleRepository roleRepository, String name, Set<Permissions> permissions) {
+        return roleRepository.findByName(name).orElseGet(() -> {
+            Role role = new Role(name, permissions);
+            return roleRepository.save(role);
+        });
+    }
+
+    private void createUserIfNotFound(UserRepository userRepository, String name, String email, String password, Role role, PasswordEncoder passwordEncoder) {
+        if (userRepository.findByEmailIgnoreCase(email).isEmpty()) {
+            UserEntity user = new UserEntity();
+            user.setName(name);
+            user.setEmail(email);
+            user.setPassword(passwordEncoder.encode(password));
+            user.setRole(role);
+            userRepository.save(user);
+        }
+    }
+}
