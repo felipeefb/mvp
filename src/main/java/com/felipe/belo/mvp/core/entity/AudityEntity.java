@@ -16,21 +16,16 @@ import java.util.UUID;
  * AudityEntity is an abstract base class designed to capture and automatically
  * manage entity audit information such as creation and modification metadata.
  * It uses JPA and Spring Data JPA auditing capabilities.
- *
  * This class is annotated with @MappedSuperclass, indicating that its
  * fields will be inherited by entity classes that extend it.
- *
  * The AuditingEntityListener is registered with this class to automatically
  * populate the audit fields using Spring Data JPA's auditing mechanism.
- *
  * Features:
  * - Tracks the user who created an entity via the 'createdBy' field.
  * - Tracks the timestamp when an entity was created via the 'createdDate' field.
  * - Tracks the user who last modified an entity via the 'lastModifiedBy' field.
  * - Tracks the timestamp when an entity was last modified via the 'lastModifiedDate' field.
- *
  * This class is intended to be extended by entity classes that require audit logging.
- *
  * Note:
  * The auditing annotations require Spring Data JPA's auditing feature to be enabled.
  */
