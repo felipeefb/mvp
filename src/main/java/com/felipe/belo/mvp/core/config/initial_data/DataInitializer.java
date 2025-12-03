@@ -32,8 +32,8 @@ public class DataInitializer {
     }
 
     private Role createRoleIfNotFound(RoleRepository roleRepository, String name, Set<Permissions> permissions) {
-        return roleRepository.findByName(name).orElseGet(() -> {
-            Role role = new Role(name, permissions);
+        return roleRepository.findByNormalizedName(name).orElseGet(() -> {
+            Role role = new Role(name, permissions, null, null);
             return roleRepository.save(role);
         });
     }
