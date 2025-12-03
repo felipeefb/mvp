@@ -37,7 +37,7 @@ public class CurrentUserService {
         }
 
         // 2. Extract username
-        String username = null;
+        String username;
         if (principal instanceof UserDetails userDetails) {
             username = userDetails.getUsername();
         } else if (principal instanceof String principalName) {

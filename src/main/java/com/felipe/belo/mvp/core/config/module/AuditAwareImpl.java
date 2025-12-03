@@ -36,7 +36,7 @@ public class AuditAwareImpl implements AuditorAware<UUID> {
         }
 
         // 2. Extract username from various principal types
-        String username = null;
+        String username;
         if (principal instanceof UserDetails userDetails) {
             username = userDetails.getUsername();
         } else if (principal instanceof String principalName) {
