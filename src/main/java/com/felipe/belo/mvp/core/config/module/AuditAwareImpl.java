@@ -1,5 +1,6 @@
 package com.felipe.belo.mvp.core.config.module;
 
+import com.felipe.belo.mvp.user.entity.UserEntity;
 import com.felipe.belo.mvp.user.repository.UserRepository;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
@@ -27,19 +28,34 @@ public class AuditAwareImpl implements AuditorAware<UUID> {
             return Optional.empty();
         }
 
-        if (isUserDetailsAuthentication(authentication)) {
-            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-            return userRepository.findByEmailIgnoreCase(username)
-                    .map(user -> user.getId());
+        Object principal = authentication.getPrincipal();
+
+        // 1. Optimization: If the principal is already our UserEntity, use it directly
+        if (principal instanceof UserEntity userEntity) {
+            return Optional.of(userEntity.getId());
         }
+
+        // 2. Extract username from various principal types
+        String username = null;
+        if (principal instanceof UserDetails userDetails) {
+            username = userDetails.getUsername();
+        } else if (principal instanceof String principalName) {
+            username = principalName;
+        } else {
+            // Fallback
+            username = authentication.getName();
+        }
+
+        // 3. Try to find the user by email (assuming username is email)
+        if (username != null) {
+            return userRepository.findByEmailIgnoreCase(username)
+                    .map(UserEntity::getId);
+        }
+
         return Optional.empty();
     }
 
     private boolean isAuthenticationValid(Authentication authentication) {
         return authentication != null && authentication.isAuthenticated();
-    }
-
-    private boolean isUserDetailsAuthentication(Authentication authentication) {
-        return authentication.getPrincipal() instanceof UserDetails;
     }
 }

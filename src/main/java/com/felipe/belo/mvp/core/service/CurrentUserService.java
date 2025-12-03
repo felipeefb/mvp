@@ -22,11 +22,6 @@ public class CurrentUserService {
         this.userRepository = userRepository;
     }
 
-    /**
-     * Gets the current authenticated user.
-     *
-     * @return Optional containing the UserEntity if authenticated, empty otherwise
-     */
     public Optional<UserEntity> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -34,8 +29,25 @@ public class CurrentUserService {
             return Optional.empty();
         }
 
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String username = userDetails.getUsername();
+        Object principal = authentication.getPrincipal();
+
+        // 1. If the principal is already our UserEntity
+        if (principal instanceof UserEntity userEntity) {
+            return Optional.of(userEntity);
+        }
+
+        // 2. Extract username
+        String username = null;
+        if (principal instanceof UserDetails userDetails) {
+            username = userDetails.getUsername();
+        } else if (principal instanceof String principalName) {
+            username = principalName;
+        } else {
+            username = authentication.getName();
+        }
+
+        // 3. Find by email
+        if (username != null) {
             return userRepository.findByEmailIgnoreCase(username);
         }
 
