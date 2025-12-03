@@ -23,7 +23,7 @@ public class DataInitializer {
                                           PasswordEncoder passwordEncoder) {
         return args -> {
             Role adminRole = createRoleIfNotFound(roleRepository, "SUPER_ADMIN", new HashSet<>(List.of(Permissions.values())));
-            Role userRole = createRoleIfNotFound(roleRepository, "USER", new HashSet<>(Collections.singletonList(Permissions.USER_LIST)));
+            Role userRole = createRoleIfNotFound(roleRepository, "USER", new HashSet<>(List.of(Permissions.USER_LIST, Permissions.ROLE_LIST)));
 
             createUserIfNotFound(userRepository, "admin", "admin@admin.com", "admin", adminRole, passwordEncoder);
             createUserIfNotFound(userRepository, "user", "user@user.com", "user", userRole, passwordEncoder);

@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableJpaAuditing (auditorAwareRef = "auditorAwareImpl")
 @EnableScheduling
+
 @EnableAsync
 @EnableConfigurationProperties({SecurityProps.class})
 public class MvpApplication {

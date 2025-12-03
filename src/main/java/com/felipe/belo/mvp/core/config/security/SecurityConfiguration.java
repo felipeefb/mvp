@@ -20,8 +20,13 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.web.SecurityFilterChain;
-import com.nimbusds.jose.jwk.source.ImmutableSecret;
-
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.OctetSequenceKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.proc.SecurityContext;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 
@@ -46,6 +51,7 @@ public class SecurityConfiguration {
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml"
                         ).permitAll()
+                        .requestMatchers("api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
@@ -55,15 +61,33 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtEncoder jwtEncoder() {
-        byte[] keyBytes = securityProps.secret().getBytes(StandardCharsets.UTF_8);
-        return new NimbusJwtEncoder(new ImmutableSecret<>(keyBytes));
+        byte[] secretBytes = securityProps.secret().getBytes(StandardCharsets.UTF_8);
+        
+        System.out.println("DEBUG: Secret length: " + secretBytes.length + " bytes");
+        System.out.println("DEBUG: Secret value: " + securityProps.secret());
+        
+        // Create an OctetSequenceKey with explicit algorithm
+        OctetSequenceKey jwk = new OctetSequenceKey.Builder(secretBytes)
+                .algorithm(JWSAlgorithm.HS256)
+                .keyID("mvp-jwt-key")
+                .build();
+        
+        System.out.println("DEBUG: JWK created - Algorithm: " + jwk.getAlgorithm());
+        System.out.println("DEBUG: JWK Key ID: " + jwk.getKeyID());
+        
+        // Create JWKSource from the key
+        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
+        
+        return new NimbusJwtEncoder(jwkSource);
     }
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        byte[] keyBytes = securityProps.secret().getBytes(StandardCharsets.UTF_8);
-        SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(secretKey).build();
+        byte[] secretBytes = securityProps.secret().getBytes(StandardCharsets.UTF_8);
+        SecretKey secretKey = new SecretKeySpec(secretBytes, "HmacSHA256");
+        return NimbusJwtDecoder.withSecretKey(secretKey)
+                .macAlgorithm(MacAlgorithm.HS256)
+                .build();
     }
 
     @Bean
