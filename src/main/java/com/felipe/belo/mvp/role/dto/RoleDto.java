@@ -11,7 +11,15 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * DTO for {@link com.felipe.belo.mvp.role.entity.Role}
+ * DTO for {@link com.felipe.belo.mvp.role.entity.Role}.
+ *
+ * @param createdBy        the user id who created the role
+ * @param createdDate      the timestamp when the role was created
+ * @param lastModifiedBy   the user id who last modified the role
+ * @param lastModifiedDate the timestamp when the role was last modified
+ * @param id               the role id
+ * @param name             the role name
+ * @param permissions      the set of permissions associated with the role
  */
 public record RoleDto(UUID createdBy, LocalDateTime createdDate, UUID lastModifiedBy, LocalDateTime lastModifiedDate,
                       UUID id,

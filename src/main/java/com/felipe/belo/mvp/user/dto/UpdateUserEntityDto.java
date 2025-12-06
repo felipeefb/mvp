@@ -9,7 +9,11 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.felipe.belo.mvp.user.entity.UserEntity}
+ * DTO for updating a {@link com.felipe.belo.mvp.user.entity.UserEntity}.
+ *
+ * @param name  the new user name
+ * @param email the new e-mail address
+ * @param role  the new role
  */
 public record UpdateUserEntityDto( @NotBlank(message = "{I18nConstants.MESSAGE_USER_NAME_REQUIRED}")
                                    @Size(min = 5, max = 20, message = "{I18nConstants.MESSAGE_USER_NAME_LENGTH}")

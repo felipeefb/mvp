@@ -48,12 +48,25 @@ public class RoleService {
 
     private final CurrentUserService currentUserService;
 
+    /**
+     * Creates a new role service.
+     *
+     * @param roleRepository repository for roles
+     * @param roleMapper mapper for entity/DTO conversions
+     * @param currentUserService service to resolve the current user
+     */
     public RoleService(RoleRepository roleRepository, RoleMapper roleMapper, CurrentUserService currentUserService) {
         this.roleRepository = roleRepository;
         this.roleMapper = roleMapper;
         this.currentUserService = currentUserService;
     }
 
+    /**
+     * Creates a new role after validating constraints.
+     *
+     * @param createRoleDto input payload
+     * @return created role
+     */
     @Transactional
     public RoleDto create(CreateRoleDto createRoleDto) {
         Role existing = this.roleRepository.findByNormalizedName(createRoleDto.name()).orElse(null);
@@ -62,6 +75,13 @@ public class RoleService {
         return this.roleMapper.toDto(this.roleRepository.save(role));
     }
 
+    /**
+     * Updates an existing role.
+     *
+     * @param id role id
+     * @param updateRoleDto input payload
+     * @return updated role
+     */
     @Transactional
     public RoleDto update(UUID id, UpdateRoleDto updateRoleDto) {
         Role existing = this.roleRepository.findById(id).orElse(null);
@@ -72,12 +92,23 @@ public class RoleService {
     }
 
 
+    /**
+     * Retrieves a role by its identifier.
+     *
+     * @param id role id
+     * @return role details
+     */
     public RoleDto findById(UUID id) {
         Role role = this.roleRepository.findById(id).orElse(null);
         checkIsNull(role);
         return this.roleMapper.toDto(role);
     }
 
+    /**
+     * Soft-deletes a role by setting deletedAt and deletedBy.
+     *
+     * @param id role id
+     */
     @Transactional
     public void delete(UUID id) {
         Role existing = this.roleRepository.findById(id).orElse(null);
@@ -87,16 +118,31 @@ public class RoleService {
         this.roleRepository.save(existing);
     }
 
+    /**
+     * Returns all non-deleted roles.
+     *
+     * @return list of roles
+     */
     public List<RoleListDto> findAll() {
         return this.roleMapper.toDtoList(this.roleRepository.findAllByDeletedAtIsNull());
     }
 
+    /**
+     * Ensures the given role exists.
+     * @param existing role or null
+     */
     private static void checkIsNull(Role existing) {
         if (existing == null) {
             throw new BusinessException(HttpStatus.NOT_FOUND, I18nConstants.MESSAGE_ROLE_NAME_NOT_FOUND);
         }
     }
 
+    /**
+     * Validates role constraints (e.g., unique name).
+     *
+     * @param role existing role with same name, if any
+     * @param id   current id for updates, null for create
+     */
     private void checkConstraints(Role role, UUID id) {
         if (role != null && (id == null || !role.getId().equals(id))) {
             throw new BusinessException(HttpStatus.CONFLICT, I18nConstants.MESSAGE_ROLE_NAME_EXISTS);

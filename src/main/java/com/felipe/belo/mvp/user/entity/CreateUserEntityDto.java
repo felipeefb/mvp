@@ -7,7 +7,12 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * DTO for {@link UserEntity}
+ * DTO for creating a {@link UserEntity}.
+ *
+ * @param name     the display name
+ * @param email    the e-mail address
+ * @param password the raw password to be encoded
+ * @param role     the initial role
  */
 public record CreateUserEntityDto(String name, @Email String email, String password,
                                   RoleDto role) implements Serializable {

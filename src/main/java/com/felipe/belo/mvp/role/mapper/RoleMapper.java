@@ -28,17 +28,57 @@ import java.util.List;
  * - updateEntityFromDto(UpdateRoleDto dto, @MappingTarget Role entity): Updates an existing Role entity
  *   with the properties from UpdateRoleDto, ignoring null properties from the source.
  * - toDto(Role entity): Maps from Role entity to RoleDto.
- * - toDto(Iterable<Role> entities): Maps a collection of Role entities to a list of RoleListDto.
+ * - {@code toDto(Iterable<Role> entities)}: Maps a collection of {@code Role} entities to a list of {@code RoleListDto}.
  */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RoleMapper {
+    /**
+     * Maps a create DTO to a Role entity.
+     * @param dto source
+     * @return new Role entity
+     */
     Role toEntity(CreateRoleDto dto);
+
+    /**
+     * Maps an update DTO to a Role entity.
+     * @param dto source
+     * @return Role entity
+     */
     Role toEntity(UpdateRoleDto dto);
+
+    /**
+     * Maps a Role DTO to a Role entity.
+     * @param dto source
+     * @return Role entity
+     */
     Role toEntity(RoleDto dto);
+    /**
+     * Partially updates an existing entity ignoring null source values.
+     * @param updateRoleDto source of changes
+     * @param role target entity
+     * @return the updated entity
+     */
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Role partialUpdate(UpdateRoleDto updateRoleDto, @MappingTarget Role role);
+    /**
+     * Updates target entity in-place from DTO, ignoring nulls.
+     * @param dto source
+     * @param entity target
+     */
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UpdateRoleDto dto, @MappingTarget Role entity);
+
+    /**
+     * Maps an entity to its detailed DTO.
+     * @param entity source
+     * @return RoleDto
+     */
     RoleDto toDto(Role entity);
+
+    /**
+     * Maps a collection of entities to list DTOs.
+     * @param entities source iterable
+     * @return list of RoleListDto
+     */
    List<RoleListDto> toDtoList(Iterable<Role> entities);
 }

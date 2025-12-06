@@ -33,6 +33,11 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AudityEntity {
 
+    /**
+     * Protected no-arg constructor for JPA inheritance.
+     */
+    protected AudityEntity() {}
+
     @CreatedBy
     @Column(name = "created_by", updatable = false)
     private UUID createdBy;
@@ -49,34 +54,74 @@ public abstract class AudityEntity {
     @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 
+    /**
+     * Gets the user id that created the entity.
+     *
+     * @return creator user id
+     */
     public UUID getCreatedBy() {
         return createdBy;
     }
 
+    /**
+     * Sets the creator user id.
+     *
+     * @param createdBy creator user id
+     */
     public void setCreatedBy(UUID createdBy) {
         this.createdBy = createdBy;
     }
 
+    /**
+     * Gets the creation timestamp.
+     *
+     * @return creation time
+     */
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
+    /**
+     * Sets the creation timestamp.
+     *
+     * @param createdDate creation time
+     */
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
+    /**
+     * Gets the last modifier user id.
+     *
+     * @return last modifier
+     */
     public UUID getLastModifiedBy() {
         return lastModifiedBy;
     }
 
+    /**
+     * Sets the last modifier user id.
+     *
+     * @param lastModifiedBy last modifier
+     */
     public void setLastModifiedBy(UUID lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    /**
+     * Gets the last modification timestamp.
+     *
+     * @return last modification time
+     */
     public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
+    /**
+     * Sets the last modification timestamp.
+     *
+     * @param lastModifiedDate last modification time
+     */
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }

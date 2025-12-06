@@ -8,7 +8,11 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * DTO for {@link com.felipe.belo.mvp.role.entity.Role}
+ * Lightweight DTO for listing {@link com.felipe.belo.mvp.role.entity.Role} entries.
+ *
+ * @param id          the role id
+ * @param name        the role name
+ * @param permissions the permissions assigned to the role
  */
 public record RoleListDto(UUID id, String name, Set<Permissions> permissions) implements Serializable {
     @Serial

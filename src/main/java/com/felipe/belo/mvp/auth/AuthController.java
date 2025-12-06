@@ -38,6 +38,14 @@ public class AuthController {
 
     private final JwtDecoder jwtDecoder;
 
+    /**
+     * Creates a new authentication controller.
+     *
+     * @param userRepository repository for user lookup
+     * @param passwordEncoder encoder for password verification
+     * @param jwtEncoder encoder for generating JWTs
+     * @param jwtDecoder decoder for validating JWTs
+     */
     public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -45,10 +53,35 @@ public class AuthController {
         this.jwtDecoder = jwtDecoder;
     }
 
+    /**
+     * Login request payload.
+     *
+     * @param email    user e-mail
+     * @param password raw password
+     */
     public static record LoginRequest(String email, String password) {}
+
+    /**
+     * Token response payload containing access and refresh tokens.
+     *
+     * @param accessToken  short-lived access token
+     * @param refreshToken long-lived refresh token
+     */
     public static record TokenResponse(String accessToken, String refreshToken) {}
+
+    /**
+     * Refresh request payload.
+     *
+     * @param refreshToken an existing valid refresh token
+     */
     public static record RefreshRequest(String refreshToken) {}
 
+    /**
+     * Authenticates a user and returns JWT tokens.
+     *
+     * @param loginReq login request
+     * @return a pair of access and refresh tokens
+     */
     @PostMapping("/login")
     public TokenResponse login(@RequestBody @Validated LoginRequest loginReq) {
 
@@ -66,6 +99,12 @@ public class AuthController {
     }
 
 
+    /**
+     * Validates a refresh token and issues a new token pair.
+     *
+     * @param refreshReq refresh request
+     * @return new access and refresh tokens
+     */
     @PostMapping("/refresh")
     public TokenResponse refreshToken(@RequestBody @Validated RefreshRequest refreshReq) {
         String refreshToken = refreshReq.refreshToken();
@@ -85,6 +124,13 @@ public class AuthController {
         return new TokenResponse(newAccessToken, newRefreshToken);
     }
 
+    /**
+     * Generates a signed JWT token for the given user.
+     *
+     * @param user             the subject user
+     * @param expiresInMinutes expiration window in minutes
+     * @return a signed JWT string
+     */
     private String generateToken(UserEntity user, int expiresInMinutes) {
         Instant now = Instant.now();
         Instant expiry = now.plus(expiresInMinutes, ChronoUnit.MINUTES);

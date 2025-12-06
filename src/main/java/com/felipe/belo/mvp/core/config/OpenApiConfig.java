@@ -12,9 +12,22 @@ import org.springframework.context.annotation.Configuration;
 
 
 
+/**
+ * Springdoc/OpenAPI configuration for the application.
+ */
 @Configuration
 public class OpenApiConfig {
 
+    /**
+     * Utility constructor to prevent instantiation.
+     */
+    public OpenApiConfig() { }
+
+    /**
+     * Builds the base OpenAPI specification used by Swagger UI.
+     *
+     * @return the configured {@link OpenAPI} instance
+     */
     @Bean
     public OpenAPI customOpenAPI() {
         Info info = new Info()

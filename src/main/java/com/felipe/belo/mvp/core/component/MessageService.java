@@ -8,32 +8,65 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 
 
+/**
+ * Facade for resolving i18n messages from Spring's {@link MessageSource}.
+ */
 @Component
 public class MessageService {
 
     private final MessageSource messageSource;
 
+    /**
+     * Creates a new MessageService.
+     *
+     * @param messageSource the message source bean to use
+     */
     public MessageService(@Qualifier("messageSource") MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
     /**
-     * Usa o Locale atual do contexto (ex: Accept-Language do request).
+     * Resolve a message with the current request locale.
+     *
+     * @param code the message key
+     * @return the resolved message
      */
     public String getMessage(String code) {
         Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage(code, null, locale);
     }
 
+    /**
+     * Resolve a parameterized message with the current request locale.
+     *
+     * @param code the message key
+     * @param args positional arguments for the message
+     * @return the resolved message
+     */
     public String getMessage(String code, Object[] args) {
         Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage(code, args, locale);
     }
 
+    /**
+     * Resolve a message with an explicit locale.
+     *
+     * @param code   the message key
+     * @param locale the locale to use
+     * @return the resolved message
+     */
     public String getMessage(String code, Locale locale) {
         return messageSource.getMessage(code, null, locale);
     }
 
+    /**
+     * Resolve a parameterized message with an explicit locale.
+     *
+     * @param code   the message key
+     * @param args   positional arguments for the message
+     * @param locale the locale to use
+     * @return the resolved message
+     */
     public String getMessage(String code, Object[] args, Locale locale) {
         return messageSource.getMessage(code, args, locale);
     }

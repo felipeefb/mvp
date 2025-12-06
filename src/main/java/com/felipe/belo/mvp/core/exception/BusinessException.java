@@ -20,13 +20,23 @@ public class BusinessException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 1L;
+    /** HTTP status to return. */
     private final HttpStatus status;
+    /** i18n message key associated with the error. */
     private final String messageKey;
+    /** Optional arguments for message formatting. */
     private final Object[] args;
 
 
     private static final Logger logger = LoggerFactory.getLogger(BusinessException.class);
 
+    /**
+     * Creates a new business exception.
+     *
+     * @param status     the HTTP status to return
+     * @param messageKey the i18n message key describing the error
+     * @param args       optional formatting arguments for the message
+     */
     public BusinessException(HttpStatus status, String messageKey, Object... args) {
         super(messageKey);
         this.status = status;
@@ -35,14 +45,29 @@ public class BusinessException extends RuntimeException {
 
     }
 
+    /**
+     * Returns the HTTP status associated with this error.
+     *
+     * @return the status
+     */
     public HttpStatus getStatus() {
         return status;
     }
 
+    /**
+     * Returns the i18n message key for this error.
+     *
+     * @return the message key
+     */
     public String getMessageKey() {
         return messageKey;
     }
 
+    /**
+     * Returns the optional formatting arguments for the error message.
+     *
+     * @return message arguments
+     */
     public Object[] getArgs() {
         return args;
     }

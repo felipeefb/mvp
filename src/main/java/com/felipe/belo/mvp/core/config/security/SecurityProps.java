@@ -3,8 +3,12 @@ package com.felipe.belo.mvp.core.config.security;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Config de JWT lida a partir de:
- * security.jwt.secret=...
+ * Security properties for JWT.
+ * <p>
+ * Values are read from application properties using the prefix {@code security.jwt}.
+ * For example: {@code security.jwt.secret=...}
+ *
+ * @param secret the symmetric signing secret used for HS256 JWTs
  */
 @ConfigurationProperties(prefix = "security.jwt")
 public record SecurityProps(String secret) {

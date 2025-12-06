@@ -9,7 +9,10 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * DTO for {@link com.felipe.belo.mvp.role.entity.Role}
+ * DTO for {@link com.felipe.belo.mvp.role.entity.Role} creation.
+ *
+ * @param name        the role name
+ * @param permissions the set of permissions associated with the role
  */
 public record CreateRoleDto(
         @NotBlank(message = "{I18nConstants.MESSAGE_ROLE_NAME_REQUIRED}")

@@ -12,7 +12,19 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * DTO for {@link com.felipe.belo.mvp.user.entity.UserEntity}
+ * DTO for {@link com.felipe.belo.mvp.user.entity.UserEntity}.
+ *
+ * @param createdBy        the creator user id
+ * @param createdDate      the creation timestamp
+ * @param lastModifiedBy   the last modifier user id
+ * @param lastModifiedDate the last modification timestamp
+ * @param id               the user id
+ * @param name             the user name
+ * @param email            the e-mail address
+ * @param password         the hashed password
+ * @param role             the role details
+ * @param deletedBy        the user id who soft-deleted this user, if any
+ * @param deletedAt        the soft delete timestamp, if any
  */
 public record UserEntityDto(UUID createdBy, LocalDateTime createdDate, UUID lastModifiedBy,
                             LocalDateTime lastModifiedDate, UUID id,

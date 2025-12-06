@@ -11,15 +11,28 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Provides the current auditor (user id) for JPA auditing fields.
+ */
 @Component("auditorAwareImpl")
 public class AuditAwareImpl implements AuditorAware<UUID> {
 
     private final UserRepository userRepository;
 
+    /**
+     * Creates a new instance backed by the given repository.
+     *
+     * @param userRepository repository used to resolve users by email
+     */
     public AuditAwareImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Resolve the current authenticated user's id to populate auditing fields.
+     *
+     * @return the current user's id if available
+     */
     @Override
     public Optional<UUID> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,6 +68,12 @@ public class AuditAwareImpl implements AuditorAware<UUID> {
         return Optional.empty();
     }
 
+    /**
+     * Checks whether the given authentication is non-null and authenticated.
+     *
+     * @param authentication the authentication instance
+     * @return true if valid
+     */
     private boolean isAuthenticationValid(Authentication authentication) {
         return authentication != null && authentication.isAuthenticated();
     }

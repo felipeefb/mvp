@@ -8,7 +8,12 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * DTO for {@link com.felipe.belo.mvp.user.entity.UserEntity}
+ * Lightweight DTO for listing {@link com.felipe.belo.mvp.user.entity.UserEntity} entries.
+ *
+ * @param id    the user identifier
+ * @param name  the display name
+ * @param email the e-mail address
+ * @param role  the role summary
  */
 public record ListUserEntityDto(UUID id, String name, @Email String email, RoleListDto role) implements Serializable {
     @Serial

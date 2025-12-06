@@ -8,14 +8,26 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * Spring Boot application entry point.
+ */
 @SpringBootApplication
 @EnableJpaAuditing (auditorAwareRef = "auditorAwareImpl")
 @EnableScheduling
-
 @EnableAsync
 @EnableConfigurationProperties({SecurityProps.class})
 public class MvpApplication {
 
+    /**
+     * Utility constructor to prevent instantiation.
+     */
+    private MvpApplication() { }
+
+    /**
+     * Bootstraps the Spring application.
+     *
+     * @param args program arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(MvpApplication.class, args);
     }

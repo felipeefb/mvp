@@ -7,7 +7,10 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * DTO for {@link com.felipe.belo.mvp.role.entity.Role}
+ * DTO for updating a {@link com.felipe.belo.mvp.role.entity.Role}.
+ *
+ * @param name        the new role name (optional)
+ * @param permissions the new set of permissions (optional)
  */
 public record UpdateRoleDto(String name, Set<Permissions> permissions) implements Serializable {
     @Serial

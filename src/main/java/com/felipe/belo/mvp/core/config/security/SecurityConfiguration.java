@@ -30,15 +30,30 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Spring Security configuration for JWT-based authentication and stateless APIs.
+ */
 @Configuration
 public class SecurityConfiguration {
 
     private final SecurityProps securityProps;
 
+    /**
+     * Creates a new security configuration.
+     *
+     * @param securityProps application security properties (e.g., JWT secret)
+     */
     public SecurityConfiguration(SecurityProps securityProps) {
         this.securityProps = securityProps;
     }
 
+    /**
+     * Configures the HTTP security filter chain.
+     *
+     * @param http the HTTP security builder
+     * @return the configured filter chain
+     * @throws Exception if configuration fails
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -59,6 +74,11 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+    /**
+     * Provides a Nimbus JWT encoder using an HS256 symmetric key.
+     *
+     * @return JWT encoder
+     */
     @Bean
     public JwtEncoder jwtEncoder() {
         byte[] secretBytes = securityProps.secret().getBytes(StandardCharsets.UTF_8);
@@ -81,6 +101,11 @@ public class SecurityConfiguration {
         return new NimbusJwtEncoder(jwkSource);
     }
 
+    /**
+     * Provides a Nimbus JWT decoder using an HS256 symmetric key.
+     *
+     * @return JWT decoder
+     */
     @Bean
     public JwtDecoder jwtDecoder() {
         byte[] secretBytes = securityProps.secret().getBytes(StandardCharsets.UTF_8);
@@ -90,11 +115,22 @@ public class SecurityConfiguration {
                 .build();
     }
 
+    /**
+     * Password encoder bean (BCrypt).
+     *
+     * @return password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Custom user-details service that loads a user by e-mail.
+     *
+     * @param userRepo repository for user lookup
+     * @return user details service
+     */
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepo) {
         // Custom user lookup por email

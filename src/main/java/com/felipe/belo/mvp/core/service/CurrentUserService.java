@@ -18,10 +18,20 @@ public class CurrentUserService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Creates a new service instance.
+     *
+     * @param userRepository repository used to resolve users
+     */
     public CurrentUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Retrieves the current authenticated {@link UserEntity}, if available.
+     *
+     * @return an optional containing the current user or empty if unauthenticated
+     */
     public Optional<UserEntity> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -60,11 +70,23 @@ public class CurrentUserService {
      * @return the UserEntity
      * @throws IllegalStateException if no user is authenticated
      */
+    /**
+     * Gets the current authenticated user or throws an exception.
+     *
+     * @return the authenticated {@link UserEntity}
+     * @throws IllegalStateException if no user is authenticated
+     */
     public UserEntity getCurrentUserOrThrow() {
         return getCurrentUser()
                 .orElseThrow(() -> new IllegalStateException("No authenticated user found"));
     }
 
+    /**
+     * Checks whether the given authentication is present and valid.
+     *
+     * @param authentication the authentication to check
+     * @return true if authenticated
+     */
     private boolean isAuthenticationValid(Authentication authentication) {
         return authentication != null && authentication.isAuthenticated();
     }

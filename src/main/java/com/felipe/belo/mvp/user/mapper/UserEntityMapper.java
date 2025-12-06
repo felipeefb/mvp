@@ -26,16 +26,52 @@ import java.util.List;
  * - partialUpdate(UpdateUserEntityDto updateUserEntityDto, @MappingTarget UserEntity userEntity): Performs partial
  *   update by mapping UpdateUserEntityDto onto an existing UserEntity, ignoring null properties from the source.
  * - toDto(UserEntity userEntity): Maps from UserEntity to UserEntityDto.
- * - toDto(Iterable<UserEntity> entities): Maps a collection of UserEntity objects to a list of ListUserEntityDto.
+ * - {@code toDto(Iterable<UserEntity> entities)}: Maps a collection of {@code UserEntity} objects to a list of {@code ListUserEntityDto}.
  */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {RoleMapper.class})
 public interface UserEntityMapper {
 
+    /**
+     * Maps a create DTO to a {@link UserEntity}.
+     * @param createUserEntityDto source
+     * @return new entity
+     */
     UserEntity toEntity(CreateUserEntityDto createUserEntityDto);
+
+    /**
+     * Maps a detailed DTO to a {@link UserEntity}.
+     * @param userEntityDto source
+     * @return entity
+     */
     UserEntity toEntity(UserEntityDto userEntityDto);
+
+    /**
+     * Maps an update DTO to a {@link UserEntity}.
+     * @param updateUserEntityDto source
+     * @return entity
+     */
     UserEntity toEntity(UpdateUserEntityDto updateUserEntityDto);
+
+    /**
+     * Partially updates an entity from an update DTO, ignoring nulls.
+     * @param updateUserEntityDto source changes
+     * @param userEntity target entity
+     * @return the updated entity
+     */
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     UserEntity partialUpdate(UpdateUserEntityDto updateUserEntityDto, @MappingTarget UserEntity userEntity);
+
+    /**
+     * Maps an entity to a detailed DTO.
+     * @param userEntity source
+     * @return dto
+     */
     UserEntityDto toDto(UserEntity userEntity);
+
+    /**
+     * Maps a collection of entities to lightweight list DTOs.
+     * @param entities source iterable
+     * @return list of list DTOs
+     */
     List<ListUserEntityDto> toDto(Iterable<UserEntity> entities);
 }

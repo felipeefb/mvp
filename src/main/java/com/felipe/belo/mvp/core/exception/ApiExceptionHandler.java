@@ -8,15 +8,30 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.Instant;
 
+/**
+ * Global exception handler that translates application exceptions into consistent HTTP responses.
+ */
 @ControllerAdvice
 public class ApiExceptionHandler {
 
     private final MessageService messages;
 
+    /**
+     * Creates a new handler.
+     *
+     * @param messages the message service used to resolve i18n messages
+     */
     public ApiExceptionHandler(MessageService messages) {
         this.messages = messages;
     }
 
+    /**
+     * Handles domain/business exceptions.
+     *
+     * @param ex      the thrown business exception
+     * @param request the web request context
+     * @return a response entity containing an error body and the proper HTTP status
+     */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(
             BusinessException ex,
@@ -36,6 +51,13 @@ public class ApiExceptionHandler {
     }
 
 
+    /**
+     * Fallback handler for uncaught exceptions.
+     *
+     * @param ex      the thrown exception
+     * @param request the web request context
+     * @return an internal server error response
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(
             Exception ex,
@@ -54,6 +76,15 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(500).body(body);
     }
 
+    /**
+     * Standard error payload returned by the API.
+     *
+     * @param timestamp ISO-8601 timestamp when the error occurred
+     * @param status    HTTP status code
+     * @param error     HTTP reason phrase
+     * @param code      stable application error code
+     * @param message   localized error message
+     */
     public record ErrorResponse(
             String timestamp,
             int status,
