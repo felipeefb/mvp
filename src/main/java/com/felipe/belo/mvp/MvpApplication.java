@@ -21,7 +21,7 @@ public class MvpApplication {
     /**
      * Utility constructor to prevent instantiation.
      */
-    private MvpApplication() { }
+    public MvpApplication() { }
 
     /**
      * Bootstraps the Spring application.
