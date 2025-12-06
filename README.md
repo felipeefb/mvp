@@ -314,7 +314,7 @@ Follow these steps to create safe, reproducible schema changes for all developer
 - Location: `src/main/resources/db/migration`
 - Versioned migrations use the pattern `V<N>__Description.sql` (double underscore before the description).
 - Check the latest version in the repo. Currently present: `V1` … `V6`. Your next file should be `V7__<your_change>.sql` (e.g., `V7__Create_product_table.sql`).
-- Keep descriptions short, lowercase and snake_case. Examples: `add_soft_delete_to_order`, `create_order_item_table`.
+- Keep descriptions short, lowercase, and snake_case. Examples: `add_soft_delete_to_order`, `create_order_item_table`.
 
 2) Write migration SQL that is idempotent in spirit
 - Prefer explicit `CREATE TABLE IF NOT EXISTS` only for extensions or helper objects; for tables use `CREATE TABLE` with clear constraints. Avoid destructive changes unless absolutely required.
