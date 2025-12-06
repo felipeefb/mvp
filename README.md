@@ -4,6 +4,8 @@ This project is a minimal-yet-complete Spring Boot REST API template with produc
 
 Use it as a starting point to add new domains/entities quickly while keeping consistency and testability.
 
+**[📚 View API Documentation (Javadoc)](https://yourusername.github.io/mvp/)**
+
 ---
 
 ### Table of contents
