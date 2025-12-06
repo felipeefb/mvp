@@ -1,6 +1,7 @@
-package com.felipe.belo.mvp.user.entity;
+package com.felipe.belo.mvp.user.dto;
 
 import com.felipe.belo.mvp.role.dto.RoleDto;
+import com.felipe.belo.mvp.user.entity.UserEntity;
 import jakarta.validation.constraints.Email;
 
 import java.io.Serial;

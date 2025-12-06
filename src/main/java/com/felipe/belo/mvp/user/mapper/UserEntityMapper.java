@@ -4,7 +4,7 @@ import com.felipe.belo.mvp.role.mapper.RoleMapper;
 import com.felipe.belo.mvp.user.dto.ListUserEntityDto;
 import com.felipe.belo.mvp.user.dto.UpdateUserEntityDto;
 import com.felipe.belo.mvp.user.dto.UserEntityDto;
-import com.felipe.belo.mvp.user.entity.CreateUserEntityDto;
+import com.felipe.belo.mvp.user.dto.CreateUserEntityDto;
 import com.felipe.belo.mvp.user.entity.UserEntity;
 import org.mapstruct.*;
 
