@@ -7,6 +7,7 @@ com.felipe.belo.mvp.core.config.module
 com.felipe.belo.mvp.core.config.security
 com.felipe.belo.mvp.core.entity
 com.felipe.belo.mvp.core.exception
+com.felipe.belo.mvp.core.page
 com.felipe.belo.mvp.core.service
 com.felipe.belo.mvp.role.controller
 com.felipe.belo.mvp.role.dto

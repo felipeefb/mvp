@@ -56,6 +56,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/auth/AuthController.TokenResponse.html#param-accessToken"><code>accessToken</code></a> record component.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#accessTokenExpirationMinutes()" class="member-name-link">accessTokenExpirationMinutes()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/core/config/security/SecurityProps.html#param-accessTokenExpirationMinutes"><code>accessTokenExpirationMinutes</code></a> record component.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.html" class="type-name-link" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler</a> - Class in <a href="com/felipe/belo/mvp/core/exception/package-summary.html">com.felipe.belo.mvp.core.exception</a></dt>
 <dd>
 <div class="block">Global exception handler that translates application exceptions into consistent HTTP responses.</div>
@@ -90,7 +94,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Controller responsible for handling authentication-related operations,
  including login and token refresh functionalities.</div>
 </dd>
-<dt><a href="com/felipe/belo/mvp/auth/AuthController.html#%3Cinit%3E(com.felipe.belo.mvp.user.repository.UserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.oauth2.jwt.JwtEncoder,org.springframework.security.oauth2.jwt.JwtDecoder)" class="member-name-link">AuthController(UserRepository, PasswordEncoder, JwtEncoder, JwtDecoder)</a> - Constructor for class com.felipe.belo.mvp.auth.<a href="com/felipe/belo/mvp/auth/AuthController.html" title="class in com.felipe.belo.mvp.auth">AuthController</a></dt>
+<dt><a href="com/felipe/belo/mvp/auth/AuthController.html#%3Cinit%3E(com.felipe.belo.mvp.user.repository.UserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.oauth2.jwt.JwtEncoder,org.springframework.security.oauth2.jwt.JwtDecoder,com.felipe.belo.mvp.core.config.security.SecurityProps)" class="member-name-link">AuthController(UserRepository, PasswordEncoder, JwtEncoder, JwtDecoder, SecurityProps)</a> - Constructor for class com.felipe.belo.mvp.auth.<a href="com/felipe/belo/mvp/auth/AuthController.html" title="class in com.felipe.belo.mvp.auth">AuthController</a></dt>
 <dd>
 <div class="block">Creates a new authentication controller.</div>
 </dd>
@@ -120,6 +124,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:C">C</h2>
 <dl class="index">
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#code()" class="member-name-link">code()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>code</code> record component.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#code()" class="member-name-link">code()</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#param-code"><code>code</code></a> record component.</div>
@@ -141,6 +149,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/felipe/belo/mvp/core/entity/package-summary.html">com.felipe.belo.mvp.core.entity</a> - package com.felipe.belo.mvp.core.entity</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/package-summary.html">com.felipe.belo.mvp.core.exception</a> - package com.felipe.belo.mvp.core.exception</dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/package-summary.html">com.felipe.belo.mvp.core.page</a> - package com.felipe.belo.mvp.core.page</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/felipe/belo/mvp/core/service/package-summary.html">com.felipe.belo.mvp.core.service</a> - package com.felipe.belo.mvp.core.service</dt>
 <dd>&nbsp;</dd>
@@ -171,6 +181,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/felipe/belo/mvp/utils/permissions/package-summary.html">com.felipe.belo.mvp.utils.permissions</a> - package com.felipe.belo.mvp.utils.permissions</dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#content()" class="member-name-link">content()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>content</code> record component.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/role/service/RoleService.html#create(com.felipe.belo.mvp.role.dto.CreateRoleDto)" class="member-name-link">create(CreateRoleDto)</a> - Method in class com.felipe.belo.mvp.role.service.<a href="com/felipe/belo/mvp/role/service/RoleService.html" title="class in com.felipe.belo.mvp.role.service">RoleService</a></dt>
 <dd>
 <div class="block">Creates a new role after validating constraints.</div>
@@ -219,6 +233,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new service instance.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html#customAccessDeniedHandler(com.felipe.belo.mvp.core.component.MessageService,com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">customAccessDeniedHandler(MessageService, ObjectMapper)</a> - Method in class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/felipe/belo/mvp/core/config/OpenApiConfig.html#customOpenAPI()" class="member-name-link">customOpenAPI()</a> - Method in class com.felipe.belo.mvp.core.config.<a href="com/felipe/belo/mvp/core/config/OpenApiConfig.html" title="class in com.felipe.belo.mvp.core.config">OpenApiConfig</a></dt>
 <dd>
 <div class="block">Builds the base OpenAPI specification used by Swagger UI.</div>
@@ -241,6 +257,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html#deletedAt()" class="member-name-link">deletedAt()</a> - Method in record class com.felipe.belo.mvp.user.dto.<a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html" title="class in com.felipe.belo.mvp.user.dto">UserEntityDto</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/user/dto/UserEntityDto.html#param-deletedAt"><code>deletedAt</code></a> record component.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/role/dto/RoleListDto.html#DeletedAt()" class="member-name-link">DeletedAt()</a> - Method in record class com.felipe.belo.mvp.role.dto.<a href="com/felipe/belo/mvp/role/dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/role/dto/RoleListDto.html#param-DeletedAt"><code>DeletedAt</code></a> record component.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html#deletedBy()" class="member-name-link">deletedBy()</a> - Method in record class com.felipe.belo.mvp.user.dto.<a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html" title="class in com.felipe.belo.mvp.user.dto">UserEntityDto</a></dt>
 <dd>
@@ -285,11 +305,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -325,9 +353,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#error()" class="member-name-link">error()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>error</code> record component.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#error()" class="member-name-link">error()</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#param-error"><code>error</code></a> record component.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#%3Cinit%3E(java.lang.String,int,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">ErrorResponse(String, int, String, String, String)</a> - Constructor for record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>ErrorResponse</code> record class.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#%3Cinit%3E(java.lang.String,int,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">ErrorResponse(String, int, String, String, String)</a> - Constructor for record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
 <dd>
@@ -339,6 +375,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/felipe/belo/mvp/role/service/RoleService.html#findAll()" class="member-name-link">findAll()</a> - Method in class com.felipe.belo.mvp.role.service.<a href="com/felipe/belo/mvp/role/service/RoleService.html" title="class in com.felipe.belo.mvp.role.service">RoleService</a></dt>
 <dd>
 <div class="block">Returns all non-deleted roles.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/role/service/RoleService.html#findAll(java.lang.String,int,int,boolean)" class="member-name-link">findAll(String, int, int, boolean)</a> - Method in class com.felipe.belo.mvp.role.service.<a href="com/felipe/belo/mvp/role/service/RoleService.html" title="class in com.felipe.belo.mvp.role.service">RoleService</a></dt>
+<dd>
+<div class="block">Searches and lists roles with pagination and optional inclusion of soft-deleted roles.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/role/repository/RoleRepository.html#findAllByDeletedAtIsNull()" class="member-name-link">findAllByDeletedAtIsNull()</a> - Method in interface com.felipe.belo.mvp.role.repository.<a href="com/felipe/belo/mvp/role/repository/RoleRepository.html" title="interface in com.felipe.belo.mvp.role.repository">RoleRepository</a></dt>
 <dd>
@@ -356,6 +396,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Finds a role by a normalized form of its name (lowercased, unaccented, and without spaces).</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#first()" class="member-name-link">first()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>first</code> record component.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#from(org.springframework.data.domain.Page)" class="member-name-link">from(Page&lt;T&gt;)</a> - Static method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:G">G</h2>
 <dl class="index">
@@ -490,11 +536,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -560,6 +614,8 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:J">J</h2>
 <dl class="index">
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html#jwtAuthenticationConverter(org.springframework.security.oauth2.jwt.JwtDecoder)" class="member-name-link">jwtAuthenticationConverter(JwtDecoder)</a> - Method in class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html#jwtDecoder()" class="member-name-link">jwtDecoder()</a> - Method in class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration</a></dt>
 <dd>
 <div class="block">Provides a Nimbus JWT decoder using an HS256 symmetric key.</div>
@@ -571,6 +627,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:L">L</h2>
 <dl class="index">
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#last()" class="member-name-link">last()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>last</code> record component.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/role/dto/RoleDto.html#lastModifiedBy()" class="member-name-link">lastModifiedBy()</a> - Method in record class com.felipe.belo.mvp.role.dto.<a href="com/felipe/belo/mvp/role/dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/role/dto/RoleDto.html#param-lastModifiedBy"><code>lastModifiedBy</code></a> record component.</div>
@@ -587,9 +647,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/user/dto/UserEntityDto.html#param-lastModifiedDate"><code>lastModifiedDate</code></a> record component.</div>
 </dd>
-<dt><a href="com/felipe/belo/mvp/role/controller/RoleController.html#listRoles()" class="member-name-link">listRoles()</a> - Method in class com.felipe.belo.mvp.role.controller.<a href="com/felipe/belo/mvp/role/controller/RoleController.html" title="class in com.felipe.belo.mvp.role.controller">RoleController</a></dt>
+<dt><a href="com/felipe/belo/mvp/role/controller/RoleController.html#listRoles(java.lang.String,int,int,boolean)" class="member-name-link">listRoles(String, int, int, boolean)</a> - Method in class com.felipe.belo.mvp.role.controller.<a href="com/felipe/belo/mvp/role/controller/RoleController.html" title="class in com.felipe.belo.mvp.role.controller">RoleController</a></dt>
 <dd>
-<div class="block">Lists all roles (excluding soft-deleted ones).</div>
+<div class="block">Lists roles with optional search, pagination, and the ability to include soft-deleted items.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/user/dto/ListUserEntityDto.html" class="type-name-link" title="class in com.felipe.belo.mvp.user.dto">ListUserEntityDto</a> - Record Class in <a href="com/felipe/belo/mvp/user/dto/package-summary.html">com.felipe.belo.mvp.user.dto</a></dt>
 <dd>
@@ -613,6 +673,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/felipe/belo/mvp/MvpApplication.html#main(java.lang.String%5B%5D)" class="member-name-link">main(String[])</a> - Static method in class com.felipe.belo.mvp.<a href="com/felipe/belo/mvp/MvpApplication.html" title="class in com.felipe.belo.mvp">MvpApplication</a></dt>
 <dd>
 <div class="block">Bootstraps the Spring application.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#message()" class="member-name-link">message()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>message</code> record component.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#message()" class="member-name-link">message()</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
 <dd>
@@ -650,6 +714,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">User already exists error key.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/utils/I18nConstants.html#MESSAGE_USER_FORBIDDEN" class="member-name-link">MESSAGE_USER_FORBIDDEN</a> - Static variable in class com.felipe.belo.mvp.utils.<a href="com/felipe/belo/mvp/utils/I18nConstants.html" title="class in com.felipe.belo.mvp.utils">I18nConstants</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/felipe/belo/mvp/utils/I18nConstants.html#MESSAGE_USER_NAME_LENGTH" class="member-name-link">MESSAGE_USER_NAME_LENGTH</a> - Static variable in class com.felipe.belo.mvp.utils.<a href="com/felipe/belo/mvp/utils/I18nConstants.html" title="class in com.felipe.belo.mvp.utils">I18nConstants</a></dt>
 <dd>
 <div class="block">User name length validation key.</div>
@@ -743,6 +809,16 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:P">P</h2>
 <dl class="index">
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#page()" class="member-name-link">page()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>page</code> record component.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html" class="type-name-link" title="class in com.felipe.belo.mvp.core.page">PageResponse&lt;T&gt;</a> - Record Class in <a href="com/felipe/belo/mvp/core/page/package-summary.html">com.felipe.belo.mvp.core.page</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#%3Cinit%3E(java.util.List,int,int,long,int,boolean,boolean)" class="member-name-link">PageResponse(List&lt;T&gt;, int, int, long, int, boolean, boolean)</a> - Constructor for record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>PageResponse</code> record class.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/role/mapper/RoleMapper.html#partialUpdate(com.felipe.belo.mvp.role.dto.UpdateRoleDto,com.felipe.belo.mvp.role.entity.Role)" class="member-name-link">partialUpdate(UpdateRoleDto, Role)</a> - Method in interface com.felipe.belo.mvp.role.mapper.<a href="com/felipe/belo/mvp/role/mapper/RoleMapper.html" title="interface in com.felipe.belo.mvp.role.mapper">RoleMapper</a></dt>
 <dd>
 <div class="block">Partially updates an existing entity ignoring null source values.</div>
@@ -805,6 +881,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/felipe/belo/mvp/auth/AuthController.html#refreshToken(com.felipe.belo.mvp.auth.AuthController.RefreshRequest)" class="member-name-link">refreshToken(AuthController.RefreshRequest)</a> - Method in class com.felipe.belo.mvp.auth.<a href="com/felipe/belo/mvp/auth/AuthController.html" title="class in com.felipe.belo.mvp.auth">AuthController</a></dt>
 <dd>
 <div class="block">Validates a refresh token and issues a new token pair.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#refreshTokenExpirationMinutes()" class="member-name-link">refreshTokenExpirationMinutes()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/core/config/security/SecurityProps.html#param-refreshTokenExpirationMinutes"><code>refreshTokenExpirationMinutes</code></a> record component.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/user/dto/CreateUserEntityDto.html#role()" class="member-name-link">role()</a> - Method in record class com.felipe.belo.mvp.user.dto.<a href="com/felipe/belo/mvp/user/dto/CreateUserEntityDto.html" title="class in com.felipe.belo.mvp.user.dto">CreateUserEntityDto</a></dt>
 <dd>
@@ -874,7 +954,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Lightweight DTO for listing <a href="com/felipe/belo/mvp/role/entity/Role.html" title="class in com.felipe.belo.mvp.role.entity"><code>Role</code></a> entries.</div>
 </dd>
-<dt><a href="com/felipe/belo/mvp/role/dto/RoleListDto.html#%3Cinit%3E(java.util.UUID,java.lang.String,java.util.Set)" class="member-name-link">RoleListDto(UUID, String, Set&lt;Permissions&gt;)</a> - Constructor for record class com.felipe.belo.mvp.role.dto.<a href="com/felipe/belo/mvp/role/dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a></dt>
+<dt><a href="com/felipe/belo/mvp/role/dto/RoleListDto.html#%3Cinit%3E(java.util.UUID,java.lang.String,java.util.Set,java.time.LocalDateTime)" class="member-name-link">RoleListDto(UUID, String, Set&lt;Permissions&gt;, LocalDateTime)</a> - Constructor for record class com.felipe.belo.mvp.role.dto.<a href="com/felipe/belo/mvp/role/dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>RoleListDto</code> record class.</div>
 </dd>
@@ -897,6 +977,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:S">S</h2>
 <dl class="index">
+<dt><a href="com/felipe/belo/mvp/role/repository/RoleRepository.html#search(java.lang.String,boolean,org.springframework.data.domain.Pageable)" class="member-name-link">search(String, boolean, Pageable)</a> - Method in interface com.felipe.belo.mvp.role.repository.<a href="com/felipe/belo/mvp/role/repository/RoleRepository.html" title="interface in com.felipe.belo.mvp.role.repository">RoleRepository</a></dt>
+<dd>
+<div class="block">Searches roles by (optional) name term, with pagination, and optional inclusion of soft-deleted entries.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#secret()" class="member-name-link">secret()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/core/config/security/SecurityProps.html#param-secret"><code>secret</code></a> record component.</div>
@@ -909,7 +993,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new security configuration.</div>
 </dd>
-<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html#securityFilterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity)" class="member-name-link">securityFilterChain(HttpSecurity)</a> - Method in class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration</a></dt>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" class="type-name-link" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a> - Record Class in <a href="com/felipe/belo/mvp/core/config/security/package-summary.html">com.felipe.belo.mvp.core.config.security</a></dt>
+<dd>
+<div class="block">Standard error payload returned by the API.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html#securityFilterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.jwt.JwtEncoder,org.springframework.security.core.userdetails.UserDetailsService,com.felipe.belo.mvp.core.component.MessageService,com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">securityFilterChain(HttpSecurity, JwtDecoder, JwtEncoder, UserDetailsService, MessageService, ObjectMapper)</a> - Method in class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration</a></dt>
 <dd>
 <div class="block">Configures the HTTP security filter chain.</div>
 </dd>
@@ -917,7 +1005,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Security properties for JWT.</div>
 </dd>
-<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#%3Cinit%3E(java.lang.String)" class="member-name-link">SecurityProps(String)</a> - Constructor for record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#%3Cinit%3E(java.lang.String,int,int)" class="member-name-link">SecurityProps(String, int, int)</a> - Constructor for record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>SecurityProps</code> record class.</div>
 </dd>
@@ -977,6 +1065,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the role.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#size()" class="member-name-link">size()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>size</code> record component.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#status()" class="member-name-link">status()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>status</code> record component.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#status()" class="member-name-link">status()</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#param-status"><code>status</code></a> record component.</div>
@@ -988,6 +1084,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:T">T</h2>
 <dl class="index">
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#timestamp()" class="member-name-link">timestamp()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>timestamp</code> record component.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#timestamp()" class="member-name-link">timestamp()</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#param-timestamp"><code>timestamp</code></a> record component.</div>
@@ -1048,11 +1148,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
+<dt><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html#toString()" class="member-name-link">toString()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html#toString()" class="member-name-link">toString()</a> - Method in record class com.felipe.belo.mvp.core.config.security.<a href="com/felipe/belo/mvp/core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html#toString()" class="member-name-link">toString()</a> - Method in record class com.felipe.belo.mvp.core.exception.<a href="com/felipe/belo/mvp/core/exception/ApiExceptionHandler.ErrorResponse.html" title="class in com.felipe.belo.mvp.core.exception">ApiExceptionHandler.ErrorResponse</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#toString()" class="member-name-link">toString()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -1087,6 +1195,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html#toString()" class="member-name-link">toString()</a> - Method in record class com.felipe.belo.mvp.user.dto.<a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html" title="class in com.felipe.belo.mvp.user.dto">UserEntityDto</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#totalElements()" class="member-name-link">totalElements()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>totalElements</code> record component.</div>
+</dd>
+<dt><a href="com/felipe/belo/mvp/core/page/PageResponse.html#totalPages()" class="member-name-link">totalPages()</a> - Method in record class com.felipe.belo.mvp.core.page.<a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>totalPages</code> record component.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:U">U</h2>

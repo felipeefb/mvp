@@ -93,22 +93,17 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">RoleService</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Service class for managing roles in the system.
-
  This class provides methods to create, update, delete, and retrieve roles. It also includes
  logic to validate constraints and handle business rules related to roles.
-
  Key functionalities:
  - Create a new role.
  - Update an existing role.
  - Delete a role by its ID.
  - Retrieve a list of all roles that are not marked as deleted.
-
  The class uses RoleRepository for database operations and RoleMapper for mapping between
  entities and DTOs.
-
  Transactions:
  - Methods that modify data are marked as @Transactional to ensure consistency and rollback in case of errors.
-
  Exceptions:
  - Throws BusinessException for specific business rule violations, such as role name conflicts or missing roles.</div>
 </section>
@@ -157,15 +152,23 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns all non-deleted roles.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findById(java.util.UUID)" class="member-name-link">findById</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.data.domain.Page<wbr>&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findAll(java.lang.String,int,int,boolean)" class="member-name-link">findAll</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ int&nbsp;page,
+ int&nbsp;size,
+ boolean&nbsp;includeDeleted)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Retrieves a role by its identifier.</div>
+<div class="block">Searches and lists roles with pagination and optional inclusion of soft-deleted roles.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(java.util.UUID,com.felipe.belo.mvp.role.dto.UpdateRoleDto)" class="member-name-link">update</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id,
- <a href="../dto/UpdateRoleDto.html" title="class in com.felipe.belo.mvp.role.dto">UpdateRoleDto</a>&nbsp;updateRoleDto)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findById(java.util.UUID)" class="member-name-link">findById</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves a role by its identifier.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(java.util.UUID,com.felipe.belo.mvp.role.dto.UpdateRoleDto)" class="member-name-link">update</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id,
+ <a href="../dto/UpdateRoleDto.html" title="class in com.felipe.belo.mvp.role.dto">UpdateRoleDto</a>&nbsp;updateRoleDto)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates an existing role.</div>
 </div>
 </div>
@@ -271,6 +274,25 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>list of roles</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="findAll(java.lang.String,int,int,boolean)">
+<h3>findAll</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.data.domain.Page&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;</span>&nbsp;<span class="element-name">findAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ int&nbsp;page,
+ int&nbsp;size,
+ boolean&nbsp;includeDeleted)</span></div>
+<div class="block">Searches and lists roles with pagination and optional inclusion of soft-deleted roles.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>search</code> - optional search term for role name</dd>
+<dd><code>page</code> - page number (0-based)</dd>
+<dd><code>size</code> - page size</dd>
+<dd><code>includeDeleted</code> - whether to include soft-deleted roles</dd>
+<dt>Returns:</dt>
+<dd>paged result of RoleListDto</dd>
 </dl>
 </section>
 </li>

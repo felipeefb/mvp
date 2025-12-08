@@ -139,10 +139,13 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a role by id.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.http.ResponseEntity<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listRoles()" class="member-name-link">listRoles</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.http.ResponseEntity<wbr>&lt;org.springframework.data.domain.Page&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listRoles(java.lang.String,int,int,boolean)" class="member-name-link">listRoles</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ int&nbsp;page,
+ int&nbsp;size,
+ boolean&nbsp;includeDeleted)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Lists all roles (excluding soft-deleted ones).</div>
+<div class="block">Lists roles with optional search, pagination, and the ability to include soft-deleted items.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.http.ResponseEntity<wbr>&lt;<a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateRole(java.util.UUID,com.felipe.belo.mvp.role.dto.UpdateRoleDto)" class="member-name-link">updateRole</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id,
@@ -190,6 +193,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createRole(com.felipe.belo.mvp.role.dto.CreateRoleDto)">
 <h3>createRole</h3>
 <div class="member-signature"><span class="annotations">@PostMapping
+@PreAuthorize("hasAuthority(\'ROLE_CREATE\')")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;<a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a>&gt;</span>&nbsp;<span class="element-name">createRole</span><wbr><span class="parameters">(@RequestBody @Validated
  <a href="../dto/CreateRoleDto.html" title="class in com.felipe.belo.mvp.role.dto">CreateRoleDto</a>&nbsp;roleDto)</span></div>
 <div class="block">Creates a new role.</div>
@@ -202,14 +206,27 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="listRoles()">
+<section class="detail" id="listRoles(java.lang.String,int,int,boolean)">
 <h3>listRoles</h3>
 <div class="member-signature"><span class="annotations">@GetMapping
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;&gt;</span>&nbsp;<span class="element-name">listRoles</span>()</div>
-<div class="block">Lists all roles (excluding soft-deleted ones).</div>
+@PreAuthorize("hasAuthority(\'ROLE_LIST\')")
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;org.springframework.data.domain.Page&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;&gt;</span>&nbsp;<span class="element-name">listRoles</span><wbr><span class="parameters">(@RequestParam(required=false)
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ @RequestParam(defaultValue="0")
+ int&nbsp;page,
+ @RequestParam(defaultValue="20")
+ int&nbsp;size,
+ @RequestParam(defaultValue="false")
+ boolean&nbsp;includeDeleted)</span></div>
+<div class="block">Lists roles with optional search, pagination, and the ability to include soft-deleted items.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>search</code> - optional term to search by role name</dd>
+<dd><code>page</code> - page number (0-based)</dd>
+<dd><code>size</code> - page size (number of items per page)</dd>
+<dd><code>includeDeleted</code> - whether to include soft-deleted roles in the result</dd>
 <dt>Returns:</dt>
-<dd>list of roles</dd>
+<dd>a paginated list of roles</dd>
 </dl>
 </section>
 </li>
@@ -217,6 +234,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getRoleById(java.util.UUID)">
 <h3>getRoleById</h3>
 <div class="member-signature"><span class="annotations">@GetMapping("/{id}")
+@PreAuthorize("hasAuthority(\'ROLE_READ\')")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;<a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a>&gt;</span>&nbsp;<span class="element-name">getRoleById</span><wbr><span class="parameters">(@PathVariable
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id)</span></div>
 <div class="block">Gets a role by id.</div>
@@ -232,6 +250,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="updateRole(java.util.UUID,com.felipe.belo.mvp.role.dto.UpdateRoleDto)">
 <h3>updateRole</h3>
 <div class="member-signature"><span class="annotations">@PutMapping("/{id}")
+@PreAuthorize("hasAuthority(\'ROLE_UPDATE\')")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;<a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a>&gt;</span>&nbsp;<span class="element-name">updateRole</span><wbr><span class="parameters">(@PathVariable
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id,
  @RequestBody @Validated
@@ -250,6 +269,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="deleteRole(java.util.UUID)">
 <h3>deleteRole</h3>
 <div class="member-signature"><span class="annotations">@DeleteMapping("/{id}")
+@PreAuthorize("hasAuthority(\'ROLE_DELETE\')")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">deleteRole</span><wbr><span class="parameters">(@PathVariable
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id)</span></div>
 <div class="block">Soft-deletes a role.</div>

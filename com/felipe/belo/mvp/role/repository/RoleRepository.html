@@ -118,6 +118,13 @@ extends org.springframework.data.jpa.repository.JpaRepository&lt;<a href="../ent
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Finds a role by a normalized form of its name (lowercased, unaccented, and without spaces).</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>org.springframework.data.domain.Page<wbr>&lt;<a href="../entity/Role.html" title="class in com.felipe.belo.mvp.role.entity">Role</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#search(java.lang.String,boolean,org.springframework.data.domain.Pageable)" class="member-name-link">search</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ boolean&nbsp;includeDeleted,
+ org.springframework.data.domain.Pageable&nbsp;pageable)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Searches roles by (optional) name term, with pagination, and optional inclusion of soft-deleted entries.</div>
+</div>
 </div>
 </div>
 </div>
@@ -175,6 +182,21 @@ extends org.springframework.data.jpa.repository.JpaRepository&lt;<a href="../ent
 <dt>Returns:</dt>
 <dd>list of active roles</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="search(java.lang.String,boolean,org.springframework.data.domain.Pageable)">
+<h3>search</h3>
+<div class="member-signature"><span class="annotations">@Query(value="SELECT * FROM role r WHERE (:includeDeleted = true OR r.deleted_at IS NULL) AND (:search IS NULL OR unaccent(lower(r.name)) LIKE CONCAT(\'%\', unaccent(lower(:search)), \'%\'))",
+       countQuery="SELECT count(*) FROM role r WHERE (:includeDeleted = true OR r.deleted_at IS NULL) AND (:search IS NULL OR unaccent(lower(r.name)) LIKE CONCAT(\'%\', unaccent(lower(:search)), \'%\'))",
+       nativeQuery=true)
+</span><span class="return-type">org.springframework.data.domain.Page&lt;<a href="../entity/Role.html" title="class in com.felipe.belo.mvp.role.entity">Role</a>&gt;</span>&nbsp;<span class="element-name">search</span><wbr><span class="parameters">(@Param("search")
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ @Param("includeDeleted")
+ boolean&nbsp;includeDeleted,
+ org.springframework.data.domain.Pageable&nbsp;pageable)</span></div>
+<div class="block">Searches roles by (optional) name term, with pagination, and optional inclusion of soft-deleted entries.
+ Uses PostgreSQL unaccent for accent-insensitive search.</div>
 </section>
 </li>
 </ul>

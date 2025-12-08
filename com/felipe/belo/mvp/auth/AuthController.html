@@ -135,10 +135,11 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.felipe.belo.mvp.user.repository.UserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.oauth2.jwt.JwtEncoder,org.springframework.security.oauth2.jwt.JwtDecoder)" class="member-name-link">AuthController</a><wbr>(<a href="../user/repository/UserRepository.html" title="interface in com.felipe.belo.mvp.user.repository">UserRepository</a>&nbsp;userRepository,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.felipe.belo.mvp.user.repository.UserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.oauth2.jwt.JwtEncoder,org.springframework.security.oauth2.jwt.JwtDecoder,com.felipe.belo.mvp.core.config.security.SecurityProps)" class="member-name-link">AuthController</a><wbr>(<a href="../user/repository/UserRepository.html" title="interface in com.felipe.belo.mvp.user.repository">UserRepository</a>&nbsp;userRepository,
  org.springframework.security.crypto.password.PasswordEncoder&nbsp;passwordEncoder,
  org.springframework.security.oauth2.jwt.JwtEncoder&nbsp;jwtEncoder,
- org.springframework.security.oauth2.jwt.JwtDecoder&nbsp;jwtDecoder)</code></div>
+ org.springframework.security.oauth2.jwt.JwtDecoder&nbsp;jwtDecoder,
+ <a href="../core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a>&nbsp;securityProps)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new authentication controller.</div>
 </div>
@@ -184,12 +185,13 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.felipe.belo.mvp.user.repository.UserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.oauth2.jwt.JwtEncoder,org.springframework.security.oauth2.jwt.JwtDecoder)">
+<section class="detail" id="&lt;init&gt;(com.felipe.belo.mvp.user.repository.UserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.oauth2.jwt.JwtEncoder,org.springframework.security.oauth2.jwt.JwtDecoder,com.felipe.belo.mvp.core.config.security.SecurityProps)">
 <h3>AuthController</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AuthController</span><wbr><span class="parameters">(<a href="../user/repository/UserRepository.html" title="interface in com.felipe.belo.mvp.user.repository">UserRepository</a>&nbsp;userRepository,
  org.springframework.security.crypto.password.PasswordEncoder&nbsp;passwordEncoder,
  org.springframework.security.oauth2.jwt.JwtEncoder&nbsp;jwtEncoder,
- org.springframework.security.oauth2.jwt.JwtDecoder&nbsp;jwtDecoder)</span></div>
+ org.springframework.security.oauth2.jwt.JwtDecoder&nbsp;jwtDecoder,
+ <a href="../core/config/security/SecurityProps.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityProps</a>&nbsp;securityProps)</span></div>
 <div class="block">Creates a new authentication controller.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -197,6 +199,7 @@ loadScripts(document, 'script');</script>
 <dd><code>passwordEncoder</code> - encoder for password verification</dd>
 <dd><code>jwtEncoder</code> - encoder for generating JWTs</dd>
 <dd><code>jwtDecoder</code> - decoder for validating JWTs</dd>
+<dd><code>securityProps</code> - security configuration properties</dd>
 </dl>
 </section>
 </li>
