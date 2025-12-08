@@ -10,6 +10,7 @@ public final class I18nConstants {
     /** Utility class; do not instantiate. */
     private I18nConstants() {}
 
+    public static final String  MESSAGE_USER_FORBIDDEN = "user.forbidden";
     /** User not found error key. */
     public static final String MESSAGE_USER_NOT_FOUND = "user.not.found";
     /** User already exists error key. */

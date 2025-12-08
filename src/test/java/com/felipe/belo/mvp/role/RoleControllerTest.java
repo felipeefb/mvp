@@ -15,6 +15,9 @@ import com.felipe.belo.mvp.utils.permissions.Permissions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -60,11 +63,13 @@ class RoleControllerTest {
 
     @Test
     void listRoles_ReturnsOk() throws Exception {
-        roleService.listResponse = List.of(new RoleListDto(UUID.randomUUID(), "A", EnumSet.of(Permissions.ROLE_LIST)));
+        RoleListDto item = new RoleListDto(UUID.randomUUID(), "A", EnumSet.of(Permissions.ROLE_LIST));
+        roleService.pageResponse = new PageImpl<>(List.of(item), PageRequest.of(0, 20), 1);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/roles"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("A"));
+                .andExpect(jsonPath("$.content[0].name").value("A"))
+                .andExpect(jsonPath("$.totalElements").value(1));
     }
 
     @Test
@@ -117,7 +122,7 @@ class MessageServiceStub extends MessageService {
 
 class StubRoleService extends RoleService {
     RoleDto createResponse;
-    List<RoleListDto> listResponse;
+    Page<RoleListDto> pageResponse;
     RoleDto getByIdResponse;
     RoleDto updateResponse;
     boolean throwNotFound = false;
@@ -144,7 +149,7 @@ class StubRoleService extends RoleService {
     public void delete(UUID id) { /* no-op */ }
 
     @Override
-    public List<RoleListDto> findAll() {
-        return listResponse;
+    public org.springframework.data.domain.Page<RoleListDto> findAll(String search, int page, int size, boolean includeDeleted) {
+        return pageResponse;
     }
 }

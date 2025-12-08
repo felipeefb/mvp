@@ -9,7 +9,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * For example: {@code security.jwt.secret=...}
  *
  * @param secret the symmetric signing secret used for HS256 JWTs
+ * @param accessTokenExpirationMinutes access token expiration time in minutes
+ * @param refreshTokenExpirationMinutes refresh token expiration time in minutes
  */
 @ConfigurationProperties(prefix = "security.jwt")
-public record SecurityProps(String secret) {
+public record SecurityProps(
+        String secret,
+        int accessTokenExpirationMinutes,
+        int refreshTokenExpirationMinutes
+) {
 }

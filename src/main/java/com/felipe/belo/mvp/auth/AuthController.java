@@ -1,5 +1,6 @@
 package com.felipe.belo.mvp.auth;
 
+import com.felipe.belo.mvp.core.config.security.SecurityProps;
 import com.felipe.belo.mvp.core.exception.BusinessException;
 import com.felipe.belo.mvp.user.entity.UserEntity;
 import com.felipe.belo.mvp.user.repository.UserRepository;
@@ -38,6 +39,8 @@ public class AuthController {
 
     private final JwtDecoder jwtDecoder;
 
+    private final SecurityProps securityProps;
+
     /**
      * Creates a new authentication controller.
      *
@@ -45,12 +48,14 @@ public class AuthController {
      * @param passwordEncoder encoder for password verification
      * @param jwtEncoder encoder for generating JWTs
      * @param jwtDecoder decoder for validating JWTs
+     * @param securityProps security configuration properties
      */
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, SecurityProps securityProps) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtEncoder = jwtEncoder;
         this.jwtDecoder = jwtDecoder;
+        this.securityProps = securityProps;
     }
 
     /**
@@ -93,8 +98,8 @@ public class AuthController {
             throw new BusinessException(HttpStatus.UNAUTHORIZED, "user.invalid.credentials");
         }
 
-        String accessToken = generateToken(user, 15);    // 15 minutos de validade
-        String refreshToken = generateToken(user, 1440); // 1440 minutos = 24h de validade
+        String accessToken = generateToken(user, securityProps.accessTokenExpirationMinutes());
+        String refreshToken = generateToken(user, securityProps.refreshTokenExpirationMinutes());
         return new TokenResponse(accessToken, refreshToken);
     }
 
@@ -118,9 +123,8 @@ public class AuthController {
         UserEntity user = userRepository.findByEmailIgnoreCase(userEmail)
                 .orElseThrow(() -> new BusinessException(HttpStatus.UNAUTHORIZED, "user.not.found"));
 
-        String newAccessToken = generateToken(user, 15);
-
-        String newRefreshToken = generateToken(user, 1440);
+        String newAccessToken = generateToken(user, securityProps.accessTokenExpirationMinutes());
+        String newRefreshToken = generateToken(user, securityProps.refreshTokenExpirationMinutes());
         return new TokenResponse(newAccessToken, newRefreshToken);
     }
 

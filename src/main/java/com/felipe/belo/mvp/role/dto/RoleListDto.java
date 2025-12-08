@@ -4,6 +4,7 @@ import com.felipe.belo.mvp.utils.permissions.Permissions;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,8 +14,9 @@ import java.util.UUID;
  * @param id          the role id
  * @param name        the role name
  * @param permissions the permissions assigned to the role
+ * @param DeletedAt   the role deletion timestamp (optional)
  */
-public record RoleListDto(UUID id, String name, Set<Permissions> permissions) implements Serializable {
+public record RoleListDto(UUID id, String name, Set<Permissions> permissions, LocalDateTime DeletedAt) implements Serializable {
     @Serial
     private static final long serialVersionUID = -8834198609984273766L;
 }

@@ -17,25 +17,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service class for managing roles in the system.
- *
  * This class provides methods to create, update, delete, and retrieve roles. It also includes
  * logic to validate constraints and handle business rules related to roles.
- *
  * Key functionalities:
  * - Create a new role.
  * - Update an existing role.
  * - Delete a role by its ID.
  * - Retrieve a list of all roles that are not marked as deleted.
- *
  * The class uses RoleRepository for database operations and RoleMapper for mapping between
  * entities and DTOs.
- *
  * Transactions:
  * - Methods that modify data are marked as @Transactional to ensure consistency and rollback in case of errors.
- *
  * Exceptions:
  * - Throws BusinessException for specific business rule violations, such as role name conflicts or missing roles.
  */
@@ -50,7 +49,6 @@ public class RoleService {
 
     /**
      * Creates a new role service.
-     *
      * @param roleRepository repository for roles
      * @param roleMapper mapper for entity/DTO conversions
      * @param currentUserService service to resolve the current user
@@ -63,7 +61,6 @@ public class RoleService {
 
     /**
      * Creates a new role after validating constraints.
-     *
      * @param createRoleDto input payload
      * @return created role
      */
@@ -77,7 +74,6 @@ public class RoleService {
 
     /**
      * Updates an existing role.
-     *
      * @param id role id
      * @param updateRoleDto input payload
      * @return updated role
@@ -94,7 +90,6 @@ public class RoleService {
 
     /**
      * Retrieves a role by its identifier.
-     *
      * @param id role id
      * @return role details
      */
@@ -106,7 +101,6 @@ public class RoleService {
 
     /**
      * Soft-deletes a role by setting deletedAt and deletedBy.
-     *
      * @param id role id
      */
     @Transactional
@@ -120,11 +114,26 @@ public class RoleService {
 
     /**
      * Returns all non-deleted roles.
-     *
      * @return list of roles
      */
     public List<RoleListDto> findAll() {
         return this.roleMapper.toDtoList(this.roleRepository.findAllByDeletedAtIsNull());
+    }
+
+    /**
+     * Searches and lists roles with pagination and optional inclusion of soft-deleted roles.
+     *
+     * @param search         optional search term for role name
+     * @param page           page number (0-based)
+     * @param size           page size
+     * @param includeDeleted whether to include soft-deleted roles
+     * @return paged result of RoleListDto
+     */
+    public Page<RoleListDto> findAll(String search, int page, int size, boolean includeDeleted) {
+        Pageable pageable = PageRequest.of(Math.max(page, 0), Math.max(size, 1));
+        Page<Role> roles = this.roleRepository.search(search, includeDeleted, pageable);
+        List<RoleListDto> content = this.roleMapper.toDtoList(roles.getContent());
+        return new PageImpl<>(content, pageable, roles.getTotalElements());
     }
 
     /**
