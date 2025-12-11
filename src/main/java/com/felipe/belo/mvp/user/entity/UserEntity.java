@@ -1,6 +1,6 @@
 package com.felipe.belo.mvp.user.entity;
 
-import com.felipe.belo.mvp.core.entity.AudityEntity;
+import com.felipe.belo.mvp.core.domain.entity.AudityEntity;
 import com.felipe.belo.mvp.role.entity.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 /**
  * User entity representing application users.
- * Extends {@link com.felipe.belo.mvp.core.entity.AudityEntity} to include auditing fields
+ * Extends {@link AudityEntity} to include auditing fields
  * and uses soft-delete fields {@code deletedAt}/{@code deletedBy}.
  */
 @Entity

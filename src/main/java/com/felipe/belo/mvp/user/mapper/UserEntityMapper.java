@@ -1,7 +1,7 @@
 package com.felipe.belo.mvp.user.mapper;
 
 import com.felipe.belo.mvp.role.mapper.RoleMapper;
-import com.felipe.belo.mvp.user.dto.ListUserEntityDto;
+import com.felipe.belo.mvp.user.dto.UserEntityListDto;
 import com.felipe.belo.mvp.user.dto.UpdateUserEntityDto;
 import com.felipe.belo.mvp.user.dto.UserEntityDto;
 import com.felipe.belo.mvp.user.dto.CreateUserEntityDto;
@@ -73,5 +73,5 @@ public interface UserEntityMapper {
      * @param entities source iterable
      * @return list of list DTOs
      */
-    List<ListUserEntityDto> toDto(Iterable<UserEntity> entities);
+    List<UserEntityListDto> toDto(Iterable<UserEntity> entities);
 }

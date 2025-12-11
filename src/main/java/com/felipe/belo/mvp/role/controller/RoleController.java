@@ -1,5 +1,6 @@
 package com.felipe.belo.mvp.role.controller;
 
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO;
 import com.felipe.belo.mvp.role.dto.CreateRoleDto;
 import com.felipe.belo.mvp.role.dto.RoleDto;
 import com.felipe.belo.mvp.role.dto.RoleListDto;
@@ -46,22 +47,14 @@ public class RoleController {
     }
 
     /**
-     * Lists roles with optional search, pagination, and the ability to include soft-deleted items.
-     * @param search          optional term to search by role name
-     * @param page            page number (0-based)
-     * @param size            page size (number of items per page)
-     * @param includeDeleted  whether to include soft-deleted roles in the result
+     * Lists roles with search, pagination, and filtering based on the provided search request.
+     * @param searchRequest search request containing filters, pagination, and soft-delete inclusion
      * @return a paginated list of roles
      */
-    @GetMapping
+    @PostMapping("/search")
     @PreAuthorize("hasAuthority('ROLE_LIST')")
-    public ResponseEntity<Page<RoleListDto>> listRoles(
-            @RequestParam(required = false) String search,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size,
-            @RequestParam(defaultValue = "false") boolean includeDeleted
-    ) {
-        return ResponseEntity.ok(this.roleService.findAll(search, page, size, includeDeleted));
+    public ResponseEntity<Page<RoleListDto>> listRoles(@RequestBody @Validated SearchRequestDTO searchRequest) {
+        return ResponseEntity.ok(this.roleService.findAll(searchRequest));
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.felipe.belo.mvp.core.entity;
+package com.felipe.belo.mvp.core.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

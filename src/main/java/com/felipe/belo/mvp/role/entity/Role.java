@@ -1,6 +1,6 @@
 package com.felipe.belo.mvp.role.entity;
 
-import com.felipe.belo.mvp.core.entity.AudityEntity;
+import com.felipe.belo.mvp.core.domain.entity.AudityEntity;
 import com.felipe.belo.mvp.utils.permissions.Permissions;
 import jakarta.persistence.*;
 import org.hibernate.annotations.SQLRestriction;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 /**
  * Role entity representing a group of permissions assigned to users.
- * Extends {@link com.felipe.belo.mvp.core.entity.AudityEntity} to include auditing fields
+ * Extends {@link AudityEntity} to include auditing fields
  * and uses a soft-delete strategy through {@code deletedAt}/{@code deletedBy}.
  */
 @Entity

@@ -15,7 +15,7 @@ import java.util.UUID;
  * @param email the e-mail address
  * @param role  the role summary
  */
-public record ListUserEntityDto(UUID id, String name, @Email String email, RoleListDto role) implements Serializable {
+public record UserEntityListDto(UUID id, String name, @Email String email, RoleListDto role) implements Serializable {
     @Serial
     private static final long serialVersionUID = 5220714431208772028L;
 }

@@ -7,6 +7,8 @@ package com.felipe.belo.mvp.utils;
  */
 public final class I18nConstants {
 
+    public static final String MESSAGE_INTERNAL_SERVER_ERROR = "internal.error";
+
     /** Utility class; do not instantiate. */
     private I18nConstants() {}
 

@@ -1,4 +1,4 @@
-package com.felipe.belo.mvp.core.page;
+package com.felipe.belo.mvp.core.domain.page.response;
 
 import org.springframework.data.domain.Page;
 

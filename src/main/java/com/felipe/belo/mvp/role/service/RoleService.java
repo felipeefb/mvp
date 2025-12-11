@@ -1,5 +1,7 @@
 package com.felipe.belo.mvp.role.service;
 
+import com.felipe.belo.mvp.core.domain.page.dto.SearchFieldDTO;
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO;
 import com.felipe.belo.mvp.core.exception.BusinessException;
 import com.felipe.belo.mvp.core.service.CurrentUserService;
 import com.felipe.belo.mvp.user.entity.UserEntity;
@@ -121,19 +123,47 @@ public class RoleService {
     }
 
     /**
-     * Searches and lists roles with pagination and optional inclusion of soft-deleted roles.
+     * Searches and lists roles with pagination and filtering based on the provided search request.
      *
-     * @param search         optional search term for role name
-     * @param page           page number (0-based)
-     * @param size           page size
-     * @param includeDeleted whether to include soft-deleted roles
+     * @param searchRequest search request containing filters, pagination, and soft-delete inclusion
      * @return paged result of RoleListDto
      */
-    public Page<RoleListDto> findAll(String search, int page, int size, boolean includeDeleted) {
-        Pageable pageable = PageRequest.of(Math.max(page, 0), Math.max(size, 1));
-        Page<Role> roles = this.roleRepository.search(search, includeDeleted, pageable);
+    public Page<RoleListDto> findAll(SearchRequestDTO searchRequest) {
+        Pageable pageable = PageRequest.of(
+                Math.max(searchRequest.page(), 0),
+                Math.max(searchRequest.size(), 1)
+        );
+
+        // Extract search term from filters if present
+        String searchTerm = extractSearchTerm(searchRequest);
+
+        Page<Role> roles = this.roleRepository.search(
+                searchTerm,
+                searchRequest.includeDeleted(),
+                pageable
+        );
         List<RoleListDto> content = this.roleMapper.toDtoList(roles.getContent());
         return new PageImpl<>(content, pageable, roles.getTotalElements());
+    }
+
+    /**
+     * Extracts the search term from the SearchRequestDTO filters.
+     * Looks for filters on 'name' field with 'contains' operation.
+     *
+     * @param searchRequest the search request
+     * @return the search term or null if not found
+     */
+    private String extractSearchTerm(SearchRequestDTO searchRequest) {
+        if (searchRequest.filters() == null || searchRequest.filters().isEmpty()) {
+            return null;
+        }
+
+        return searchRequest.filters().stream()
+                .filter(filter -> "name".equals(filter.field())
+                        && ("contains".equalsIgnoreCase(filter.operation()) || ":".equals(filter.operation())))
+                .map(SearchFieldDTO::value)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
