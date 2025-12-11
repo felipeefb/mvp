@@ -113,6 +113,13 @@ extends org.springframework.data.jpa.repository.JpaRepository&lt;<a href="../ent
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Finds a user by e-mail ignoring case.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>org.springframework.data.domain.Page<wbr>&lt;<a href="../entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity">UserEntity</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#search(java.lang.String,boolean,org.springframework.data.domain.Pageable)" class="member-name-link">search</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ boolean&nbsp;includeDeleted,
+ org.springframework.data.domain.Pageable&nbsp;pageable)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Searches users by optional search term, with pagination, and optional inclusion of soft-deleted entries.</div>
+</div>
 </div>
 </div>
 </div>
@@ -155,6 +162,29 @@ extends org.springframework.data.jpa.repository.JpaRepository&lt;<a href="../ent
 <dd><code>email</code> - e-mail to search</dd>
 <dt>Returns:</dt>
 <dd>optional user</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="search(java.lang.String,boolean,org.springframework.data.domain.Pageable)">
+<h3>search</h3>
+<div class="member-signature"><span class="annotations">@Query(value="SELECT * FROM users u WHERE (:includeDeleted = true OR u.deleted_at IS NULL) AND (:search IS NULL OR      unaccent(lower(u.name)) LIKE CONCAT(\'%\', unaccent(lower(:search)), \'%\') OR      unaccent(lower(u.email)) LIKE CONCAT(\'%\', unaccent(lower(:search)), \'%\'))",
+       countQuery="SELECT count(*) FROM users u WHERE (:includeDeleted = true OR u.deleted_at IS NULL) AND (:search IS NULL OR      unaccent(lower(u.name)) LIKE CONCAT(\'%\', unaccent(lower(:search)), \'%\') OR      unaccent(lower(u.email)) LIKE CONCAT(\'%\', unaccent(lower(:search)), \'%\'))",
+       nativeQuery=true)
+</span><span class="return-type">org.springframework.data.domain.Page&lt;<a href="../entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity">UserEntity</a>&gt;</span>&nbsp;<span class="element-name">search</span><wbr><span class="parameters">(@Param("search")
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
+ @Param("includeDeleted")
+ boolean&nbsp;includeDeleted,
+ org.springframework.data.domain.Pageable&nbsp;pageable)</span></div>
+<div class="block">Searches users by optional search term, with pagination, and optional inclusion of soft-deleted entries.
+ Uses PostgreSQL unaccent for accent-insensitive search across name and email fields.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>search</code> - search term to filter by name or email</dd>
+<dd><code>includeDeleted</code> - whether to include soft-deleted users</dd>
+<dd><code>pageable</code> - pagination information</dd>
+<dt>Returns:</dt>
+<dd>page of users</dd>
 </dl>
 </section>
 </li>

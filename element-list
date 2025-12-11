@@ -5,9 +5,12 @@ com.felipe.belo.mvp.core.config
 com.felipe.belo.mvp.core.config.initial_data
 com.felipe.belo.mvp.core.config.module
 com.felipe.belo.mvp.core.config.security
-com.felipe.belo.mvp.core.entity
+com.felipe.belo.mvp.core.domain
+com.felipe.belo.mvp.core.domain.entity
+com.felipe.belo.mvp.core.domain.page.dto
+com.felipe.belo.mvp.core.domain.page.request
+com.felipe.belo.mvp.core.domain.page.response
 com.felipe.belo.mvp.core.exception
-com.felipe.belo.mvp.core.page
 com.felipe.belo.mvp.core.service
 com.felipe.belo.mvp.role.controller
 com.felipe.belo.mvp.role.dto
@@ -15,9 +18,11 @@ com.felipe.belo.mvp.role.entity
 com.felipe.belo.mvp.role.mapper
 com.felipe.belo.mvp.role.repository
 com.felipe.belo.mvp.role.service
+com.felipe.belo.mvp.user.controller
 com.felipe.belo.mvp.user.dto
 com.felipe.belo.mvp.user.entity
 com.felipe.belo.mvp.user.mapper
 com.felipe.belo.mvp.user.repository
+com.felipe.belo.mvp.user.service
 com.felipe.belo.mvp.utils
 com.felipe.belo.mvp.utils.permissions

@@ -67,7 +67,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Provides the current auditor (user id) for JPA auditing fields.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/core/entity/AudityEntity.html" title="class in com.felipe.belo.mvp.core.entity">AudityEntity</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/core/domain/entity/AudityEntity.html" title="class in com.felipe.belo.mvp.core.domain.entity">AudityEntity</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">AudityEntity is an abstract base class designed to capture and automatically
  manage entity audit information such as creation and modification metadata.</div>
@@ -109,13 +109,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Development-time data initializer for seeding roles and users.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/utils/I18nConstants.html" title="class in com.felipe.belo.mvp.utils">I18nConstants</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/core/exception/GlobalExceptionHandler.html" title="class in com.felipe.belo.mvp.core.exception">GlobalExceptionHandler</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/utils/I18nConstants.html" title="class in com.felipe.belo.mvp.utils">I18nConstants</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Centralized i18n message keys used across the application.</div>
-</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/user/dto/ListUserEntityDto.html" title="class in com.felipe.belo.mvp.user.dto">ListUserEntityDto</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
-<div class="block">Lightweight DTO for listing <a href="com/felipe/belo/mvp/user/entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity"><code>UserEntity</code></a> entries.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/core/component/MessageService.html" title="class in com.felipe.belo.mvp.core.component">MessageService</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
@@ -129,39 +127,49 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Springdoc/OpenAPI configuration for the application.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/core/page/PageResponse.html" title="class in com.felipe.belo.mvp.core.page">PageResponse&lt;T&gt;</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/core/domain/page/dto/PageableDto.html" title="class in com.felipe.belo.mvp.core.domain.page.dto">PageableDto</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="com/felipe/belo/mvp/utils/permissions/Permissions.html" title="enum class in com.felipe.belo.mvp.utils.permissions">Permissions</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/core/domain/page/response/PageResponse.html" title="class in com.felipe.belo.mvp.core.domain.page.response">PageResponse&lt;T&gt;</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="com/felipe/belo/mvp/utils/permissions/Permissions.html" title="enum class in com.felipe.belo.mvp.utils.permissions">Permissions</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">
 <div class="block">System-wide permission identifiers used to authorize actions.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/role/entity/Role.html" title="class in com.felipe.belo.mvp.role.entity">Role</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/role/entity/Role.html" title="class in com.felipe.belo.mvp.role.entity">Role</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Role entity representing a group of permissions assigned to users.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/role/controller/RoleController.html" title="class in com.felipe.belo.mvp.role.controller">RoleController</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/role/controller/RoleController.html" title="class in com.felipe.belo.mvp.role.controller">RoleController</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">REST controller for managing roles.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/role/dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/role/dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">DTO for <a href="com/felipe/belo/mvp/role/entity/Role.html" title="class in com.felipe.belo.mvp.role.entity"><code>Role</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/role/dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/role/dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Lightweight DTO for listing <a href="com/felipe/belo/mvp/role/entity/Role.html" title="class in com.felipe.belo.mvp.role.entity"><code>Role</code></a> entries.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="com/felipe/belo/mvp/role/mapper/RoleMapper.html" title="interface in com.felipe.belo.mvp.role.mapper">RoleMapper</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="com/felipe/belo/mvp/role/mapper/RoleMapper.html" title="interface in com.felipe.belo.mvp.role.mapper">RoleMapper</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">RoleMapper interface provides methods for mapping between Role entity and its corresponding DTOs.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="com/felipe/belo/mvp/role/repository/RoleRepository.html" title="interface in com.felipe.belo.mvp.role.repository">RoleRepository</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="com/felipe/belo/mvp/role/repository/RoleRepository.html" title="interface in com.felipe.belo.mvp.role.repository">RoleRepository</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Repository for managing <a href="com/felipe/belo/mvp/role/entity/Role.html" title="class in com.felipe.belo.mvp.role.entity"><code>Role</code></a> entities.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/role/service/RoleService.html" title="class in com.felipe.belo.mvp.role.service">RoleService</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/role/service/RoleService.html" title="class in com.felipe.belo.mvp.role.service">RoleService</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Service class for managing roles in the system.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/core/domain/page/dto/SearchFieldDTO.html" title="class in com.felipe.belo.mvp.core.domain.page.dto">SearchFieldDTO</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/core/domain/page/request/SearchRequestDTO.html" title="class in com.felipe.belo.mvp.core.domain.page.request">SearchRequestDTO</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/core/domain/SearchSpecification.html" title="class in com.felipe.belo.mvp.core.domain">SearchSpecification</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Utility class for building JPA Specifications based on search criteria.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/core/config/security/SecurityConfiguration.html" title="class in com.felipe.belo.mvp.core.config.security">SecurityConfiguration</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
@@ -187,13 +195,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">DTO for updating a <a href="com/felipe/belo/mvp/user/entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity"><code>UserEntity</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/user/entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity">UserEntity</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/user/controller/UserController.html" title="class in com.felipe.belo.mvp.user.controller">UserController</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/user/entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity">UserEntity</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">User entity representing application users.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html" title="class in com.felipe.belo.mvp.user.dto">UserEntityDto</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/user/dto/UserEntityDto.html" title="class in com.felipe.belo.mvp.user.dto">UserEntityDto</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">DTO for <a href="com/felipe/belo/mvp/user/entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity"><code>UserEntity</code></a>.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="com/felipe/belo/mvp/user/dto/UserEntityListDto.html" title="class in com.felipe.belo.mvp.user.dto">UserEntityListDto</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="block">Lightweight DTO for listing <a href="com/felipe/belo/mvp/user/entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity"><code>UserEntity</code></a> entries.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="com/felipe/belo/mvp/user/mapper/UserEntityMapper.html" title="interface in com.felipe.belo.mvp.user.mapper">UserEntityMapper</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
@@ -203,6 +217,8 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Repository for managing <a href="com/felipe/belo/mvp/user/entity/UserEntity.html" title="class in com.felipe.belo.mvp.user.entity"><code>UserEntity</code></a> instances.</div>
 </div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="com/felipe/belo/mvp/user/service/UserService.html" title="class in com.felipe.belo.mvp.user.service">UserService</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 </div>
 </div>
 </div>

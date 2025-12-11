@@ -153,12 +153,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns all non-deleted roles.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.data.domain.Page<wbr>&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findAll(java.lang.String,int,int,boolean)" class="member-name-link">findAll</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
- int&nbsp;page,
- int&nbsp;size,
- boolean&nbsp;includeDeleted)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findAll(com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO)" class="member-name-link">findAll</a><wbr>(<a href="../../core/domain/page/request/SearchRequestDTO.html" title="class in com.felipe.belo.mvp.core.domain.page.request">SearchRequestDTO</a>&nbsp;searchRequest)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Searches and lists roles with pagination and optional inclusion of soft-deleted roles.</div>
+<div class="block">Searches and lists roles with pagination and filtering based on the provided search request.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dto/RoleDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleDto</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findById(java.util.UUID)" class="member-name-link">findById</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;id)</code></div>
@@ -278,19 +275,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="findAll(java.lang.String,int,int,boolean)">
+<section class="detail" id="findAll(com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO)">
 <h3>findAll</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.data.domain.Page&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;</span>&nbsp;<span class="element-name">findAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;search,
- int&nbsp;page,
- int&nbsp;size,
- boolean&nbsp;includeDeleted)</span></div>
-<div class="block">Searches and lists roles with pagination and optional inclusion of soft-deleted roles.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.data.domain.Page&lt;<a href="../dto/RoleListDto.html" title="class in com.felipe.belo.mvp.role.dto">RoleListDto</a>&gt;</span>&nbsp;<span class="element-name">findAll</span><wbr><span class="parameters">(<a href="../../core/domain/page/request/SearchRequestDTO.html" title="class in com.felipe.belo.mvp.core.domain.page.request">SearchRequestDTO</a>&nbsp;searchRequest)</span></div>
+<div class="block">Searches and lists roles with pagination and filtering based on the provided search request.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>search</code> - optional search term for role name</dd>
-<dd><code>page</code> - page number (0-based)</dd>
-<dd><code>size</code> - page size</dd>
-<dd><code>includeDeleted</code> - whether to include soft-deleted roles</dd>
+<dd><code>searchRequest</code> - search request containing filters, pagination, and soft-delete inclusion</dd>
 <dt>Returns:</dt>
 <dd>paged result of RoleListDto</dd>
 </dl>
