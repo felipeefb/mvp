@@ -31,12 +31,12 @@ jobs:
         run: chmod +x gradlew
 
       - name: Generate Javadoc
-        run: ./gradlew javadoc
+        run: ./gradlew :application:javadoc
 
       - name: Prepare deployment directory
         run: |
           mkdir -p deploy
-          cp -r build/docs/javadoc/* deploy/
+          cp -r application/build/docs/javadoc/* deploy/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

@@ -13,16 +13,19 @@ Use it as a starting point to add new domains/entities quickly while keeping con
 - [Tech stack](#tech-stack)
 - [How the project is organized](#how-the-project-is-organized)
 - [Architecture and conventions](#architecture-and-conventions)
+- [System design](#system-design)
 - [Security and permissions](#security-and-permissions)
 - [Auditing and soft delete](#auditing-and-soft-delete)
 - [Database & migrations](#database--migrations)
 - [Internationalization (i18n)](#internationalization-i18n)
+- [Implementing a new feature (DDD flow)](#implementing-a-new-feature-ddd-flow)
 - [How to implement a new entity (step-by-step)](#how-to-implement-a-new-entity-step-by-step)
 - [Creating a new Flyway migration](#creating-a-new-flyway-migration)
 - [Automatically generating migrations (plugins & tools)](#automatically-generating-migrations-plugins--tools)
 - [Javadoc: writing and generating API docs](#javadoc-writing-and-generating-api-docs)
 - [Running locally](#running-locally)
 - [Testing](#testing)
+- [Contributing](#contributing)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -41,26 +44,31 @@ Use it as a starting point to add new domains/entities quickly while keeping con
 
 ### How the project is organized
 
-Packages are grouped by feature (modulith style), with a small `core` for cross-cutting concerns and `utils` for shared helpers.
+This repository uses Gradle subprojects, but keeps a single source tree. Modules are separated by package:
 
-- `com.felipe.belo.mvp` — Spring Boot entry point
+- `src/main/java/com/felipe/belo/mvp/application` — Spring Boot entry point and web layer (controllers, auth)
+- `src/main/java/com/felipe/belo/mvp/usecase` — services, DTOs, and mappers (business orchestration)
+- `src/main/java/com/felipe/belo/mvp/infra` — entities and repositories (persistence)
+- `src/main/java/com/felipe/belo/mvp/core` — cross-cutting concerns and shared utilities
+
+Packages are grouped by feature (modulith style), with `core` for cross-cutting concerns and `utils` for shared helpers.
+
+- `com.felipe.belo.mvp.application` — Spring Boot entry point and web layer
+- `com.felipe.belo.mvp.application.role` — role controllers, DTOs, and mappers
+- `com.felipe.belo.mvp.application.user` — user controllers, DTOs, and mappers
 - `com.felipe.belo.mvp.core` — shared config/components
-  - `config` — OpenAPI config, auditing, and security
-    - `security` — `SecurityConfiguration`, `SecurityProps`
+  - `config` — OpenAPI config, auditing, and base security props
+    - `security` — `SecurityProps`
     - `module` — `AuditAwareImpl` (auditor provider)
   - `component` — `MessageService` (i18n) 
-  - `entity` — `AudityEntity` (created/modified auditing fields)
+  - `domain` — domain models and `AudityEntity` (auditing base for JPA)
   - `exception` — `BusinessException`, `ApiExceptionHandler`
-  - `service` — `CurrentUserService` (resolve authenticated user)
-- `com.felipe.belo.mvp.role` — example feature module
-  - `entity` — `Role` (audited + soft delete)
-  - `dto` — input/output records used by the API
-  - `mapper` — `RoleMapper` (MapStruct)
-  - `repository` — `RoleRepository` (Spring Data JPA)
-  - `service` — `RoleService` (business rules)
-  - `controller` — `RoleController` (REST endpoints)
-- `com.felipe.belo.mvp.user` — user model (reference for authentication)
-- `com.felipe.belo.mvp.utils` — helpers and `permissions.Permissions` enum
+- `com.felipe.belo.mvp.usecase.core` — shared application services (e.g., `CurrentUserService`)
+- `com.felipe.belo.mvp.usecase.role` — role use cases and commands
+- `com.felipe.belo.mvp.infra.role` — role persistence (JPA entities, repositories, adapters)
+- `com.felipe.belo.mvp.usecase.user` — user use cases and commands
+- `com.felipe.belo.mvp.infra.user` — user persistence (JPA entities, repositories, adapters)
+- `com.felipe.belo.mvp.core.utils` — helpers and `permissions.Permissions` enum
 
 Resources:
 - `src/main/resources/application.properties` — environment configuration
@@ -74,28 +82,20 @@ Tests:
 
 ### Architecture and conventions
 
-Layering inside each feature module follows the same pattern:
+This project follows clean architecture/DDD boundaries with explicit ports and adapters.
 
-1. Entity
-   - JPA `@Entity` representing persisted state
-   - Extends `AudityEntity` to inherit auditing fields: `createdBy`, `createdDate`, `lastModifiedBy`, `lastModifiedDate`
-   - Implements soft delete using two columns (commonly `deletedAt`, `deletedBy`) and `@SQLRestriction("deleted_at is null")`
-2. DTOs
-   - Separate request and response shapes (e.g., `CreateXDto`, `UpdateXDto`, `XDto`, `XListDto`)
-   - Validate at the controller boundary via `@Validated`
-3. Mapper (MapStruct)
-   - Converts between Entity and DTOs
-   - Partial updates via `@BeanMapping(nullValuePropertyMappingStrategy = IGNORE)`
-4. Repository
-   - `JpaRepository<Entity, UUID>`
-   - Custom queries when needed (e.g., normalized name, case-insensitive lookups)
-5. Service
-   - Business rules and transactions
+1. Domain model
+   - Plain Java objects in `core.domain.model`
+2. Use case
+   - Commands + ports + services in `usecase`
    - Throw `BusinessException(HttpStatus, i18nKey, args...)` for domain errors
-   - Handle soft delete (set `deletedAt`, `deletedBy`)
-6. Controller
-   - `@RestController` + `@RequestMapping("/api/v1/<feature>")`
-   - Translates HTTP requests to service calls and returns DTOs
+3. Infrastructure
+   - JPA `@Entity` models in `infra` extending `AudityEntity`
+   - Spring Data repositories + adapters implement use case ports
+   - Framework beans live in `infra.config` (e.g., `PasswordEncoder`, JPA scanning)
+4. Application
+   - `@RestController` under `application`
+   - Request/response DTOs mapped to domain models via mappers
 
 Cross-cutting:
 - Security & Auth: JWT-based auth; most endpoints require authentication (see `SecurityConfiguration`).
@@ -105,9 +105,50 @@ Cross-cutting:
 
 ---
 
+### System design
+
+This codebase is organized around clean architecture and DDD-friendly boundaries:
+
+- **Core (domain)** holds pure models (`Role`, `User`) and shared utilities.
+- **Usecase** defines commands, ports (interfaces), and services that implement business rules.
+- **Infra** provides framework integrations (JPA entities, Spring Data repositories, adapters, `PasswordEncoder`, and persistence config).
+- **Application** exposes controllers and API DTOs/mappers that translate HTTP requests into use case commands.
+
+Why this split:
+- Keeps domain logic framework-agnostic and testable.
+- Makes infrastructure replaceable (JPA ↔ other stores) via ports/adapters.
+- Keeps controllers thin and consistent across features.
+
+---
+
+### Implementing a new feature (DDD flow)
+
+Use this checklist when adding a new feature (e.g., `Project`):
+
+1. **Domain model (core)**  
+   - Add `Project` to `src/main/java/com/felipe/belo/mvp/core/domain/model`.
+2. **Use case (usecase)**  
+   - Add commands like `CreateProjectCommand`, ports like `ProjectRepository`, and a service implementing the use cases.
+3. **Infrastructure (infra)**  
+   - Add `ProjectEntity` (`@Entity`) and `ProjectJpaRepository`.  
+   - Add an adapter implementing the use case port, mapping between domain and entity.
+4. **Application (application)**  
+   - Add controller, request/response DTOs, and a mapper to convert to/from domain.
+5. **Permissions**  
+   - Add new permissions in `src/main/java/com/felipe/belo/mvp/core/utils/permissions/Permissions.java` grouped by entity (e.g., `PROJECT_READ`, `PROJECT_CREATE`, ...).  
+   - Update any seed data or roles if needed (`DataInitializer`).
+6. **Tests**  
+   - Use case tests for business rules (`usecase` service).  
+   - Infra tests for repository behavior (`infra` + Testcontainers).  
+   - Controller tests for API contracts (`application`).
+
+When in doubt, mirror the existing `role` and `user` implementations for structure and naming.
+
+---
+
 ### Security and permissions
 
-- Security is configured in `core.config.security.SecurityConfiguration`.
+- Security is configured in `application.config.security.SecurityConfiguration`.
   - Stateless sessions, CSRF disabled for APIs
   - JWT Resource Server using a symmetric secret (HS256)
   - Open routes: Swagger and `/api/v1/auth/**` (see `AuthController`)
@@ -118,6 +159,44 @@ Cross-cutting:
 Tip: Tie controller access to roles/permissions using Spring Security method-level annotations (`@PreAuthorize`) if/when needed.
 
 ---
+
+### Permissions checklist template
+
+Use this template to keep permissions consistent and discoverable for every new feature:
+
+```
+// <ENTITY> permissions
+<ENTITY>_READ,
+<ENTITY>_CREATE,
+<ENTITY>_UPDATE,
+<ENTITY>_DELETE,
+<ENTITY>_LIST,
+```
+
+Where to add:
+- `src/main/java/com/felipe/belo/mvp/core/utils/permissions/Permissions.java`
+- Seed default roles in `DataInitializer` if needed (e.g., add permissions to `SUPER_ADMIN`)
+
+Why this helps:
+- Enforces a consistent CRUD + LIST permission model.
+- Keeps `@PreAuthorize("hasAuthority('<ENTITY>_<ACTION>')")` checks predictable.
+- Makes it obvious what to add when creating a new feature.
+
+Example usage in controllers:
+- `@PreAuthorize("hasAuthority('PROJECT_READ')")`
+- `@PreAuthorize("hasAuthority('USER_LIST')")`
+
+Permissions endpoints:
+- `GET /api/v1/permissions` returns all permissions grouped by entity.
+- `GET /api/v1/roles/{id}/permissions` returns permissions for a role grouped by entity.
+
+Example response:
+```
+{
+  "ROLE": ["READ", "CREATE", "UPDATE", "DELETE", "LIST"],
+  "USER": ["READ", "CREATE", "UPDATE", "DELETE", "LIST"]
+}
+```
 
 ### Auditing and soft delete
 
@@ -153,7 +232,10 @@ Tip: Tie controller access to roles/permissions using Spring Security method-lev
 
 The fastest way is to mirror the `role` module structure and naming.
 
-Assume your new entity is `Product` under package `com.felipe.belo.mvp.product`.
+Assume your new entity is `Product`, with packages split by module:
+- `com.felipe.belo.mvp.infra.product` for entity/repository
+- `com.felipe.belo.mvp.usecase.product` for DTOs/mapper/service
+- `com.felipe.belo.mvp.application.product` for controllers
 
 1) Create the database table via Flyway
 - Add `V<N>__Create_product_table.sql` under `src/main/resources/db/migration`.
@@ -163,7 +245,7 @@ Assume your new entity is `Product` under package `com.felipe.belo.mvp.product`.
 - Add constraints and useful indexes (unique, lookups).
 
 2) Create the JPA Entity
-- File: `src/main/java/com/felipe/belo/mvp/product/entity/Product.java`
+- File: `src/main/java/com/felipe/belo/mvp/infra/product/entity/Product.java`
 ```
 @Entity
 @Table(name = "product", uniqueConstraints = {@UniqueConstraint(name = "uk_product_name", columnNames = "name")})
@@ -188,7 +270,7 @@ public class Product extends AudityEntity {
 ```
 
 3) Define DTOs
-- Folder: `product/dto`
+- Folder: `src/main/java/com/felipe/belo/mvp/usecase/product/dto`
 - Suggested records:
   - `CreateProductDto(name, ...)` — request body for POST
   - `UpdateProductDto(name, ...)` — request body for PUT
@@ -196,7 +278,7 @@ public class Product extends AudityEntity {
   - `ProductListDto(id, name, ...)` — response for list
 
 4) Create MapStruct mapper
-- File: `product/mapper/ProductMapper.java`
+- File: `src/main/java/com/felipe/belo/mvp/usecase/product/mapper/ProductMapper.java`
 ```
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProductMapper {
@@ -213,7 +295,7 @@ public interface ProductMapper {
 ```
 
 5) Repository
-- File: `product/repository/ProductRepository.java`
+- File: `src/main/java/com/felipe/belo/mvp/infra/product/repository/ProductRepository.java`
 ```
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
@@ -223,7 +305,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 ```
 
 6) Service (business rules + soft delete)
-- File: `product/service/ProductService.java`
+- File: `src/main/java/com/felipe/belo/mvp/usecase/product/service/ProductService.java`
 ```
 @Service
 public class ProductService {
@@ -255,7 +337,7 @@ public class ProductService {
 ```
 
 7) Controller
-- File: `product/controller/ProductController.java`
+- File: `src/main/java/com/felipe/belo/mvp/application/product/controller/ProductController.java`
 ```
 @RestController
 @RequestMapping("/api/v1/products")
@@ -494,9 +576,9 @@ public class ProductService { ... }
 
 3) Generating Javadoc with Gradle
 - Generate docs:
-  - Windows: `gradlew.bat javadoc`
-  - Unix/macOS: `./gradlew javadoc`
-- Output location: `build/docs/javadoc/index.html`.
+  - Windows: `gradlew.bat :application:javadoc`
+  - Unix/macOS: `./gradlew :application:javadoc`
+- Output location: `application/build/docs/javadoc/index.html`.
 - You can open this file in your browser to browse the generated API documentation.
 
 4) IDE assistance
@@ -509,6 +591,9 @@ Checklist:
 
 ### Running locally
 
+Java:
+- Use JDK 21 (project targets Java 21). If your IDE uses another JDK, update the run configuration and reimport Gradle.
+
 Database (Docker):
 - Ensure Docker is running. From the project root:
 ```
@@ -516,8 +601,10 @@ docker compose -f compose.yaml up -d
 ```
 
 Application:
-- Windows: `gradlew.bat bootRun`
-- Unix/macOS: `./gradlew bootRun`
+- Windows: `gradlew.bat :application:bootRun`
+- Unix/macOS: `./gradlew :application:bootRun`
+- If the app can't find `compose.yaml` in your IDE, ensure the run working directory is the repo root or set:
+  - `-Dspring.docker.compose.file=<repo-root>/compose.yaml`
 
 Swagger UI:
 - http://localhost:8080/swagger-ui.html
@@ -530,9 +617,28 @@ JWT secret & dev users:
 ### Testing
 
 - Run all tests:
-  - Windows: `gradlew.bat test`
-  - Unix/macOS: `./gradlew test`
+  - Windows: `gradlew.bat :application:test`
+  - Unix/macOS: `./gradlew :application:test`
 - Integration tests use Testcontainers (PostgreSQL). Docker must be available.
+
+---
+
+### Contributing
+
+- Start from `main` and keep changes focused per PR.
+- Follow the module layout under `src/main/java/com/felipe/belo/mvp/{core,usecase,infra,application}`.
+- Use the existing naming patterns:
+  - DTOs: `CreateXDto`, `UpdateXDto`, `XDto`, `XListDto`
+  - Tests: `*Test` for unit tests, `*IT` for integration tests
+  - Migrations: `V<number>__<desc>.sql`
+- Run tests locally before opening a PR:
+  - Windows: `gradlew.bat :application:test`
+  - Unix/macOS: `./gradlew :application:test`
+- When adding DB changes, include a Flyway migration and mention it in the PR.
+- Keep commit messages short and imperative, describing the module or feature.
+- PRs should include: purpose, key changes, tests run, and any API or migration impact.
+
+See `AGENTS.md` for a compact contributor guide and repository expectations.
 
 ---
 

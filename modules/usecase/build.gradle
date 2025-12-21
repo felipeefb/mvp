@@ -1,0 +1,18 @@
+dependencies {
+    implementation project(':core')
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.modulith:spring-modulith-starter-core'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["$rootDir/src/main/java"]
+            include "com/felipe/belo/mvp/usecase/**"
+        }
+        resources {
+            srcDirs = []
+        }
+    }
+}

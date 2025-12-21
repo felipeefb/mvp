@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.felipe.belo.mvp.utils.I18nConstants;
+import com.felipe.belo.mvp.core.utils.I18nConstants;
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestControllerAdvice

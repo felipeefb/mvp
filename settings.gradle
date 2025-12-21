@@ -1,1 +1,8 @@
 rootProject.name = 'mvp'
+
+include 'core', 'usecase', 'application', 'infra'
+
+project(':core').projectDir = file('modules/core')
+project(':usecase').projectDir = file('modules/usecase')
+project(':infra').projectDir = file('modules/infra')
+project(':application').projectDir = file('modules/application')
