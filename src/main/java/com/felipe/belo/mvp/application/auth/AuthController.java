@@ -1,9 +1,12 @@
 package com.felipe.belo.mvp.application.auth;
 
 import com.felipe.belo.mvp.core.config.security.SecurityProps;
+import com.felipe.belo.mvp.core.utils.I18nConstants;
 import com.felipe.belo.mvp.core.exception.BusinessException;
 import com.felipe.belo.mvp.core.domain.model.User;
 import com.felipe.belo.mvp.usecase.user.port.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -29,6 +32,7 @@ import java.time.temporal.ChronoUnit;
 @RestController
 @RequestMapping("/api/v1/auth")
 @Validated
+@Tag(name = "Auth", description = I18nConstants.SWAGGER_AUTH_TAG)
 public class AuthController {
 
     private final UserRepository userRepository;
@@ -88,6 +92,10 @@ public class AuthController {
      * @return a pair of access and refresh tokens
      */
     @PostMapping("/login")
+    @Operation(
+            summary = I18nConstants.SWAGGER_AUTH_LOGIN_SUMMARY,
+            description = I18nConstants.SWAGGER_AUTH_LOGIN_DESC
+    )
     public TokenResponse login(@RequestBody @Validated LoginRequest loginReq) {
 
         User user = userRepository.findByEmailIgnoreCase(loginReq.email())
@@ -111,6 +119,10 @@ public class AuthController {
      * @return new access and refresh tokens
      */
     @PostMapping("/refresh")
+    @Operation(
+            summary = I18nConstants.SWAGGER_AUTH_REFRESH_SUMMARY,
+            description = I18nConstants.SWAGGER_AUTH_REFRESH_DESC
+    )
     public TokenResponse refreshToken(@RequestBody @Validated RefreshRequest refreshReq) {
         String refreshToken = refreshReq.refreshToken();
         try {

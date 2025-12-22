@@ -1,91 +1,78 @@
 package com.felipe.belo.mvp.core.domain;
 
-import com.felipe.belo.mvp.core.domain.page.dto.SearchFieldDTO;
-import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO;
-import jakarta.persistence.criteria.*;
+import com.felipe.belo.mvp.core.domain.page.dto.SearchFieldDto;
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
- * Utility class for building JPA Specifications based on search criteria.
+ * Base builder for JPA Specifications based on search criteria.
  */
-public class SearchSpecification {
+public final class SearchSpecification {
+
+    private SearchSpecification() {
+    }
+
     /**
-     * Creates a JPA Specification from a search request.
+     * Builds a JPA specification from a search request and field mapper.
      *
-     * @param <E>     the entity type
-     * @param request the search request containing filters and criteria
-     * @return a Specification that applies all search filters
+     * @param request search request containing filters
+     * @param mapper  mapper with allowed fields and aliases
+     * @param <E>     entity type
+     * @return specification representing filters
      */
-    public static <E> Specification<E> bySearchCriteria(SearchRequestDTO request) {
+    public static <E> Specification<E> build(SearchRequestDto request, SearchFieldMapper mapper) {
         return (Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+            List<SearchFieldDto> filters = request == null ? List.of() : request.filters();
+            Map<String, String> aliases = mapper == null ? Map.of() : mapper.fieldAliases();
+            Set<String> allowed = mapper == null ? Set.of() : mapper.allowedFields();
 
-            if (request.filters() == null || request.filters().isEmpty()) {
-                if (Boolean.FALSE.equals(request.includeDeleted())) {
-                    try {
-                        Path<?> deletedAtField = root.get("deletedAt");
-                        predicates.add(cb.isNull(deletedAtField));
-                    } catch (IllegalArgumentException e) {
-                        // Entity doesn't have deletedAt field
+            if (filters != null) {
+                for (SearchFieldDto filter : filters) {
+                    if (filter == null || filter.value() == null) {
+                        continue;
                     }
-                }
-                return cb.and(predicates.toArray(new Predicate[0]));
-            }
 
-            for (SearchFieldDTO filter : request.filters()) {
-                String field = filter.field();
-                String operation = filter.operation() != null
-                        ? filter.operation().toLowerCase()
-                        : "equals";
-                String valueStr = filter.value();
-                if (valueStr == null) continue;
-
-                Path<Object> fieldPath;
-                try {
-                    fieldPath = root.get(field);
-                } catch (IllegalArgumentException e) {
-                    continue;
-                }
-
-                Class<?> attrType = fieldPath.getJavaType();
-                Object value = convertValue(valueStr, attrType);
-
-                switch (operation) {
-                    case "equals", "=" ->
-                            predicates.add(cb.equal(fieldPath, value));
-                    case "contains", ":" -> {
-                        if (attrType == String.class) {
-                            predicates.add(cb.like(cb.lower(fieldPath.as(String.class)),
-                                    "%" + valueStr.toLowerCase() + "%"));
-                        }
+                    String operation = normalizeOperation(filter.operation());
+                    Path<?> fieldPath = resolveFieldPath(root, filter.field(), aliases, allowed);
+                    if (fieldPath == null) {
+                        continue;
                     }
-                    case ">" -> {
-                        if (Number.class.isAssignableFrom(attrType)) {
-                            predicates.add(cb.gt(root.get(field), (Number) value));
-                        } else if (attrType == LocalDate.class || attrType == LocalDateTime.class) {
-                            predicates.add(cb.greaterThan(root.get(field), (Comparable) value));
+
+                    Object value = convertValue(filter.value(), fieldPath.getJavaType());
+                    String rawValue = filter.value();
+
+                    switch (operation) {
+                        case "contains" -> {
+                            if (fieldPath.getJavaType() == String.class) {
+                                predicates.add(cb.like(cb.lower(fieldPath.as(String.class)),
+                                        "%" + rawValue.toLowerCase() + "%"));
+                            }
                         }
-                    }
-                    case "<" -> {
-                        if (Number.class.isAssignableFrom(attrType)) {
-                            predicates.add(cb.lt(root.get(field), (Number) value));
-                        } else if (attrType == LocalDate.class || attrType == LocalDateTime.class) {
-                            predicates.add(cb.lessThan(root.get(field), (Comparable) value));
-                        }
+                        case ">" -> predicates.add(buildGreaterThanPredicate(cb, fieldPath, value));
+                        case "<" -> predicates.add(buildLessThanPredicate(cb, fieldPath, value));
+                        default -> predicates.add(cb.equal(fieldPath, value));
                     }
                 }
             }
 
-            if (Boolean.FALSE.equals(request.includeDeleted())) {
-                try {
-                    Path<?> deletedAtField = root.get("deletedAt");
-                    predicates.add(cb.isNull(deletedAtField));
-                } catch (IllegalArgumentException e) {
+            if (request == null || !request.includeDeletedOrDefault()) {
+                Path<?> deletedAt = resolveFieldPath(root, "deletedAt", aliases, allowed);
+                if (deletedAt != null) {
+                    predicates.add(cb.isNull(deletedAt));
                 }
             }
 
@@ -93,14 +80,74 @@ public class SearchSpecification {
         };
     }
 
-    /**
-     * Converts a string value to the target type.
-     *
-     * @param valueStr the string value
-     * @param targetType the target class type
-     * @return the converted value
-     */
+    private static String normalizeOperation(String operation) {
+        if (operation == null || operation.isBlank()) {
+            return "equals";
+        }
+        String normalized = operation.trim().toLowerCase();
+        if ("=".equals(normalized)) {
+            return "equals";
+        }
+        if (":".equals(normalized)) {
+            return "contains";
+        }
+        return normalized;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Predicate buildGreaterThanPredicate(CriteriaBuilder cb, Path<?> fieldPath, Object value) {
+        Class<?> type = fieldPath.getJavaType();
+        if (Number.class.isAssignableFrom(type)) {
+            return cb.gt(fieldPath.as(Number.class), (Number) value);
+        }
+        if (Comparable.class.isAssignableFrom(type) && value instanceof Comparable<?> comparable) {
+            @SuppressWarnings("unchecked")
+            Path<? extends Comparable<Object>> comparablePath = (Path<? extends Comparable<Object>>) fieldPath;
+            return cb.greaterThan(comparablePath, (Comparable<Object>) comparable);
+        }
+        return cb.conjunction();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Predicate buildLessThanPredicate(CriteriaBuilder cb, Path<?> fieldPath, Object value) {
+        Class<?> type = fieldPath.getJavaType();
+        if (Number.class.isAssignableFrom(type)) {
+            return cb.lt(fieldPath.as(Number.class), (Number) value);
+        }
+        if (Comparable.class.isAssignableFrom(type) && value instanceof Comparable<?> comparable) {
+            @SuppressWarnings("unchecked")
+            Path<? extends Comparable<Object>> comparablePath = (Path<? extends Comparable<Object>>) fieldPath;
+            return cb.lessThan(comparablePath, (Comparable<Object>) comparable);
+        }
+        return cb.conjunction();
+    }
+
+    private static <E> Path<?> resolveFieldPath(Root<E> root, String field, Map<String, String> aliases, Set<String> allowedFields) {
+        if (field == null || field.isBlank()) {
+            return null;
+        }
+
+        String resolved = aliases.getOrDefault(field, field);
+        if (!allowedFields.isEmpty() && !allowedFields.contains(resolved)) {
+            return null;
+        }
+
+        String[] parts = resolved.split("\\.");
+        Path<?> path = root;
+        try {
+            for (String part : parts) {
+                path = path.get(part);
+            }
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+        return path;
+    }
+
     private static Object convertValue(String valueStr, Class<?> targetType) {
+        if (valueStr == null) {
+            return null;
+        }
         if (targetType == String.class) {
             return valueStr;
         } else if (targetType == Integer.class || targetType == int.class) {
@@ -117,6 +164,8 @@ public class SearchSpecification {
             return LocalDate.parse(valueStr);
         } else if (targetType == LocalDateTime.class) {
             return LocalDateTime.parse(valueStr);
+        } else if (targetType == UUID.class) {
+            return UUID.fromString(valueStr);
         }
         return valueStr;
     }

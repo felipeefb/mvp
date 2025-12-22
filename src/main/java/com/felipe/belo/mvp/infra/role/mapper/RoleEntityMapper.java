@@ -1,46 +1,72 @@
 package com.felipe.belo.mvp.infra.role.mapper;
 
+import com.felipe.belo.mvp.core.domain.SearchFieldMapper;
 import com.felipe.belo.mvp.core.domain.model.Role;
 import com.felipe.belo.mvp.infra.role.entity.RoleEntity;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Maps between Role JPA entities and domain models.
+ * MapStruct mapper between {@link RoleEntity} persistence model and {@link Role} domain model.
+ * Also exposes allowed search fields/aliases for dynamic filtering.
  */
-public class RoleEntityMapper {
-    public Role toDomain(RoleEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        Role role = new Role();
-        role.setId(entity.getId());
-        role.setName(entity.getName());
-        role.setPermissions(entity.getPermissions());
-        role.setCreatedBy(entity.getCreatedBy());
-        role.setCreatedDate(entity.getCreatedDate());
-        role.setLastModifiedBy(entity.getLastModifiedBy());
-        role.setLastModifiedDate(entity.getLastModifiedDate());
-        role.setDeletedBy(entity.getDeletedBy());
-        role.setDeletedAt(entity.getDeletedAt());
-        return role;
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface RoleEntityMapper extends SearchFieldMapper {
+
+    /**
+     * Converts a JPA entity to a domain role.
+     *
+     * @param entity source entity
+     * @return domain role
+     */
+    Role toDomain(RoleEntity entity);
+
+    /**
+     * Converts a domain role to a JPA entity.
+     *
+     * @param role source domain model
+     * @return entity
+     */
+    RoleEntity toEntity(Role role);
+
+    /**
+     * Updates an existing entity with non-null fields from the source.
+     *
+     * @param target entity to update
+     * @param source source domain data
+     */
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntity(@MappingTarget RoleEntity target, Role source);
+
+    /**
+     * Converts a list of entities to domain roles.
+     *
+     * @param entities source list
+     * @return list of domain roles
+     */
+    List<Role> toDomainList(List<RoleEntity> entities);
+
+    @Override
+    default Set<String> allowedFields() {
+        return Set.of(
+                "id",
+                "name",
+                "createdDate",
+                "lastModifiedDate",
+                "deletedAt",
+                "deletedBy"
+        );
     }
 
-    public RoleEntity toEntity(Role role) {
-        if (role == null) {
-            return null;
-        }
-        RoleEntity entity = new RoleEntity();
-        entity.setId(role.getId());
-        entity.setName(role.getName());
-        entity.setPermissions(role.getPermissions());
-        entity.setDeletedBy(role.getDeletedBy());
-        entity.setDeletedAt(role.getDeletedAt());
-        return entity;
-    }
-
-    public List<Role> toDomainList(List<RoleEntity> entities) {
-        return entities.stream().map(this::toDomain).collect(Collectors.toList());
+    @Override
+    default Map<String, String> fieldAliases() {
+        return Map.of();
     }
 }

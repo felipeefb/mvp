@@ -15,13 +15,13 @@ import java.util.UUID;
  *
  * @param createdBy        the user id who created the role
  * @param createdDate      the timestamp when the role was created
- * @param lastModifiedBy   the user id who last modified the role
+ * @param lastModifiedBy   the user e-mail who last modified the role
  * @param lastModifiedDate the timestamp when the role was last modified
  * @param id               the role id
  * @param name             the role name
  * @param permissions      the set of permissions associated with the role
  */
-public record RoleDto(UUID createdBy, LocalDateTime createdDate, UUID lastModifiedBy, LocalDateTime lastModifiedDate,
+public record RoleDto(UUID createdBy, LocalDateTime createdDate, String lastModifiedBy, LocalDateTime lastModifiedDate,
                       UUID id,
                       @NotBlank(message = "{I18nConstants.MESSAGE_ROLE_NAME_REQUIRED}")
                       @Size(min = 5, max = 20, message = "{I18nConstants.MESSAGE_ROLE_NAME_LENGTH}")

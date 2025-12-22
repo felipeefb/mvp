@@ -82,12 +82,32 @@ class RoleServiceTest {
     }
 
     @Test
+    void update_WhenNameAlreadyExists_ThrowsConflict() {
+        UUID id = UUID.randomUUID();
+        Role existing = new Role();
+        existing.setId(id);
+        when(roleRepository.findById(id)).thenReturn(Optional.of(existing));
+
+        Role other = new Role();
+        other.setId(UUID.randomUUID());
+        when(roleRepository.findByNormalizedName("New")).thenReturn(Optional.of(other));
+
+        assertThatThrownBy(() -> service.update(id, new UpdateRoleCommand("New", EnumSet.of(Permissions.ROLE_UPDATE))))
+                .isInstanceOf(BusinessException.class)
+                .hasMessage(I18nConstants.MESSAGE_ROLE_NAME_EXISTS)
+                .extracting("status").isEqualTo(HttpStatus.CONFLICT);
+
+        verify(roleRepository, never()).save(any(Role.class));
+    }
+
+    @Test
     void update_Success() {
         UUID id = UUID.randomUUID();
         Role existing = new Role();
         existing.setName("Old");
         existing.setId(id);
         when(roleRepository.findById(id)).thenReturn(Optional.of(existing));
+        when(roleRepository.findByNormalizedName("New")).thenReturn(Optional.empty());
         when(roleRepository.save(any(Role.class))).thenAnswer(inv -> inv.getArgument(0));
 
         Role role = service.update(id, new UpdateRoleCommand("New", EnumSet.of(Permissions.ROLE_UPDATE)));

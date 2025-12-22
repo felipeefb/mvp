@@ -2,8 +2,8 @@ package com.felipe.belo.mvp.usecase.user.service;
 
 import com.felipe.belo.mvp.core.domain.model.Role;
 import com.felipe.belo.mvp.core.domain.model.User;
-import com.felipe.belo.mvp.core.domain.page.dto.SearchFieldDTO;
-import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO;
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
+import com.felipe.belo.mvp.core.domain.page.PageableUtils;
 import com.felipe.belo.mvp.core.exception.BusinessException;
 import com.felipe.belo.mvp.core.utils.I18nConstants;
 import com.felipe.belo.mvp.usecase.user.CreateUserUseCase;
@@ -12,12 +12,12 @@ import com.felipe.belo.mvp.usecase.user.FindUserByUsernameUseCase;
 import com.felipe.belo.mvp.usecase.user.GetUserByIdUseCase;
 import com.felipe.belo.mvp.usecase.user.SearchUsersUseCase;
 import com.felipe.belo.mvp.usecase.user.UpdateUserUseCase;
+import com.felipe.belo.mvp.usecase.user.LookupUserByIdUseCase;
 import com.felipe.belo.mvp.usecase.user.command.CreateUserCommand;
 import com.felipe.belo.mvp.usecase.user.command.UpdateUserCommand;
 import com.felipe.belo.mvp.usecase.user.port.UserRepository;
 import com.felipe.belo.mvp.usecase.role.port.RoleRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,14 +26,24 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Service layer implementing user use cases.
+ */
 @Service
 public class UserService implements CreateUserUseCase, FindUserByEmailUseCase, FindUserByUsernameUseCase,
-        GetUserByIdUseCase, SearchUsersUseCase, UpdateUserUseCase {
+        GetUserByIdUseCase, SearchUsersUseCase, UpdateUserUseCase, LookupUserByIdUseCase {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Creates a new user service.
+     *
+     * @param userRepository repository for users
+     * @param roleRepository repository for roles
+     * @param passwordEncoder password encoder
+     */
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -73,25 +83,20 @@ public class UserService implements CreateUserUseCase, FindUserByEmailUseCase, F
     }
 
     @Override
-    public Page<User> search(SearchRequestDTO searchRequest) {
-        Pageable pageable = PageRequest.of(
-                Math.max(searchRequest.page(), 0),
-                Math.max(searchRequest.size(), 1)
-        );
-
-        String searchTerm = extractSearchTerm(searchRequest);
-
-        return this.userRepository.search(
-                searchTerm,
-                searchRequest.includeDeleted(),
-                pageable
-        );
+    public Page<User> search(SearchRequestDto searchRequest) {
+        Pageable pageable = PageableUtils.from(searchRequest);
+        return this.userRepository.search(searchRequest, pageable);
     }
 
     @Override
     public User findById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND, I18nConstants.MESSAGE_USER_NOT_FOUND));
+    }
+
+    @Override
+    public Optional<User> findOptionalById(UUID id) {
+        return userRepository.findById(id);
     }
 
     @Override
@@ -114,26 +119,6 @@ public class UserService implements CreateUserUseCase, FindUserByEmailUseCase, F
             existing.setRole(role);
         }
         return userRepository.save(existing);
-    }
-
-    /**
-     * Extracts the search term from the SearchRequestDTO filters.
-     * Looks for filters on 'name' or 'email' fields with 'contains' operation.
-     *
-     * @param searchRequest the search request
-     * @return the search term or null if not found
-     */
-    private String extractSearchTerm(SearchRequestDTO searchRequest) {
-        if (searchRequest.filters() == null || searchRequest.filters().isEmpty()) {
-            return null;
-        }
-
-        return searchRequest.filters().stream()
-                .filter(filter -> ("name".equals(filter.field()) || "email".equals(filter.field()))
-                        && ("contains".equalsIgnoreCase(filter.operation()) || ":".equals(filter.operation())))
-                .map(SearchFieldDTO::value)
-                .findFirst()
-                .orElse(null);
     }
 
 }

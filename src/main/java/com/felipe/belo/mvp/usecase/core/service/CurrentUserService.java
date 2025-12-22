@@ -67,13 +67,7 @@ public class CurrentUserService {
     /**
      * Gets the current authenticated user or throws an exception.
      *
-     * @return the UserEntity
-     * @throws IllegalStateException if no user is authenticated
-     */
-    /**
-     * Gets the current authenticated user or throws an exception.
-     *
-     * @return the authenticated {@link UserEntity}
+     * @return the authenticated {@link User}
      * @throws IllegalStateException if no user is authenticated
      */
     public User getCurrentUserOrThrow() {

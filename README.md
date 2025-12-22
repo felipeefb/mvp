@@ -100,7 +100,7 @@ This project follows clean architecture/DDD boundaries with explicit ports and a
 Cross-cutting:
 - Security & Auth: JWT-based auth; most endpoints require authentication (see `SecurityConfiguration`).
 - i18n: `MessageService` resolves localized messages by keys in `I18nConstants` and `messages*.properties`.
-- OpenAPI: documented at `/swagger-ui.html` and `/v3/api-docs`.
+- OpenAPI: documented at `/swagger-ui.html` and `/v3/api-docs` with i18n descriptions resolved per request locale.
 - Database: PostgreSQL; Flyway manages schema.
 
 ---
@@ -188,7 +188,6 @@ Example usage in controllers:
 
 Permissions endpoints:
 - `GET /api/v1/permissions` returns all permissions grouped by entity.
-- `GET /api/v1/roles/{id}/permissions` returns permissions for a role grouped by entity.
 
 Example response:
 ```

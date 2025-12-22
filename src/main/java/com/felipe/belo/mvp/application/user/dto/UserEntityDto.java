@@ -1,6 +1,5 @@
 package com.felipe.belo.mvp.application.user.dto;
 
-import com.felipe.belo.mvp.application.role.dto.RoleDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -16,17 +15,17 @@ import java.util.UUID;
  *
  * @param createdBy        the creator user id
  * @param createdDate      the creation timestamp
- * @param lastModifiedBy   the last modifier user id
+ * @param lastModifiedBy   the last modifier user e-mail
  * @param lastModifiedDate the last modification timestamp
  * @param id               the user id
  * @param name             the user name
  * @param email            the e-mail address
  * @param password         the hashed password
  * @param role             the role details
- * @param deletedBy        the user id who soft-deleted this user, if any
+ * @param deletedBy        the user e-mail who soft-deleted this user, if any
  * @param deletedAt        the soft delete timestamp, if any
  */
-public record UserEntityDto(UUID createdBy, LocalDateTime createdDate, UUID lastModifiedBy,
+public record UserEntityDto(UUID createdBy, LocalDateTime createdDate, String lastModifiedBy,
                             LocalDateTime lastModifiedDate, UUID id,
                             @NotBlank(message = "{I18nConstants.MESSAGE_USER_NAME_REQUIRED}")
                             @Size(min = 5, max = 20, message = "{I18nConstants.MESSAGE_USER_NAME_LENGTH}")
@@ -41,7 +40,7 @@ public record UserEntityDto(UUID createdBy, LocalDateTime createdDate, UUID last
                             @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
                                     message = "{I18nConstants.MESSAGE_USER_PASSWORD_PATTERN}")
                             String password,
-                            RoleDto role, UUID deletedBy, LocalDateTime deletedAt) implements Serializable {
+                            UserRoleDto role, String deletedBy, LocalDateTime deletedAt) implements Serializable {
     @Serial
     private static final long serialVersionUID = 8954817447700268948L;
 }

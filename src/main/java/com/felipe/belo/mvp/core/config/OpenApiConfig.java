@@ -7,8 +7,15 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
+import org.springdoc.core.customizers.OpenApiCustomizer;
+import org.springdoc.core.customizers.OperationCustomizer;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import java.util.Locale;
 
 
 
@@ -56,5 +63,47 @@ public class OpenApiConfig {
                 .addServersItem(server)
                 .schemaRequirement("BearerAuth", bearerAuth)
                 .addSecurityItem(new SecurityRequirement().addList("BearerAuth"));
+    }
+
+    /**
+     * Customizes operation text based on request locale.
+     *
+     * @param messageSource i18n message source
+     * @return operation customizer
+     */
+    @Bean
+    public OperationCustomizer i18nOperationCustomizer(MessageSource messageSource) {
+        return (operation, handlerMethod) -> {
+            Locale locale = LocaleContextHolder.getLocale();
+            operation.setSummary(resolveMessage(messageSource, operation.getSummary(), locale));
+            operation.setDescription(resolveMessage(messageSource, operation.getDescription(), locale));
+            return operation;
+        };
+    }
+
+    /**
+     * Customizes tag descriptions based on request locale.
+     *
+     * @param messageSource i18n message source
+     * @return openapi customizer
+     */
+    @Bean
+    public OpenApiCustomizer i18nOpenApiCustomizer(MessageSource messageSource) {
+        return openApi -> {
+            Locale locale = LocaleContextHolder.getLocale();
+            if (openApi.getTags() == null) {
+                return;
+            }
+            for (Tag tag : openApi.getTags()) {
+                tag.setDescription(resolveMessage(messageSource, tag.getDescription(), locale));
+            }
+        };
+    }
+
+    private static String resolveMessage(MessageSource messageSource, String key, Locale locale) {
+        if (key == null || key.isBlank()) {
+            return key;
+        }
+        return messageSource.getMessage(key, null, key, locale);
     }
 }

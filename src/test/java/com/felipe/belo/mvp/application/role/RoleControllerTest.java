@@ -7,11 +7,15 @@ import com.felipe.belo.mvp.core.exception.BusinessException;
 import com.felipe.belo.mvp.application.role.controller.RoleController;
 import com.felipe.belo.mvp.application.role.dto.CreateRoleDto;
 import com.felipe.belo.mvp.application.role.dto.UpdateRoleDto;
+import com.felipe.belo.mvp.application.role.mapper.RoleDtoMapper;
+import com.felipe.belo.mvp.application.shared.UserEmailResolver;
 import com.felipe.belo.mvp.core.domain.model.Role;
-import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO;
+import com.felipe.belo.mvp.core.domain.model.User;
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
 import com.felipe.belo.mvp.usecase.role.RoleUseCase;
 import com.felipe.belo.mvp.usecase.role.command.CreateRoleCommand;
 import com.felipe.belo.mvp.usecase.role.command.UpdateRoleCommand;
+import com.felipe.belo.mvp.usecase.user.LookupUserByIdUseCase;
 import com.felipe.belo.mvp.core.utils.I18nConstants;
 import com.felipe.belo.mvp.core.utils.permissions.Permissions;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +47,8 @@ class RoleControllerTest {
         this.objectMapper = new ObjectMapper();
         this.messageService = new MessageServiceStub();
         this.roleService = new StubRoleService();
-        RoleController controller = new RoleController(roleService);
+        RoleDtoMapper mapper = new RoleDtoMapper(new UserEmailResolver(new StubUserLookupUseCase()));
+        RoleController controller = new RoleController(roleService, mapper);
         ApiExceptionHandler handler = new ApiExceptionHandler(messageService);
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(handler)
@@ -67,11 +72,8 @@ class RoleControllerTest {
     void listRoles_ReturnsOk() throws Exception {
         Role item = new Role(UUID.randomUUID(), "A", EnumSet.of(Permissions.ROLE_LIST));
         roleService.pageResponse = new PageImpl<>(List.of(item), PageRequest.of(0, 20), 1);
-        SearchRequestDTO request = new SearchRequestDTO(List.of(), 0, 20, null, false);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/roles/search")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(request)))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/roles"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("A"))
                 .andExpect(jsonPath("$.totalElements").value(1));
@@ -108,19 +110,6 @@ class RoleControllerTest {
     }
 
     @Test
-    void getRolePermissions_ReturnsGroupedPermissions() throws Exception {
-        UUID id = UUID.randomUUID();
-        roleService.permissionsResponse = java.util.Map.of(
-                "USER", java.util.Set.of("READ", "LIST")
-        );
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/roles/" + id + "/permissions"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.USER").isArray())
-                .andExpect(jsonPath("$.USER").value(org.hamcrest.Matchers.hasItem("READ")));
-    }
-
-    @Test
     void getRoleById_WhenNotFound_Returns404FromHandler() throws Exception {
         roleService.throwNotFound = true;
         UUID id = UUID.randomUUID();
@@ -144,8 +133,6 @@ class StubRoleService implements RoleUseCase {
     Role getByIdResponse;
     Role updateResponse;
     boolean throwNotFound = false;
-    java.util.Map<String, java.util.Set<String>> permissionsResponse = java.util.Map.of();
-
     StubRoleService() { }
 
     @Override
@@ -168,7 +155,7 @@ class StubRoleService implements RoleUseCase {
     public void delete(UUID id) { /* no-op */ }
 
     @Override
-    public org.springframework.data.domain.Page<Role> findAll(SearchRequestDTO searchRequest) {
+    public org.springframework.data.domain.Page<Role> findAll(SearchRequestDto searchRequest) {
         return pageResponse;
     }
 
@@ -177,8 +164,11 @@ class StubRoleService implements RoleUseCase {
         return java.util.List.of();
     }
 
+}
+
+class StubUserLookupUseCase implements LookupUserByIdUseCase {
     @Override
-    public java.util.Map<String, java.util.Set<String>> findPermissionGroups(UUID id) {
-        return permissionsResponse;
+    public java.util.Optional<User> findOptionalById(UUID id) {
+        return java.util.Optional.empty();
     }
 }

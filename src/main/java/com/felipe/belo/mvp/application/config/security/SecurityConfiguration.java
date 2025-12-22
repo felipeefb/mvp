@@ -64,6 +64,11 @@ public class SecurityConfiguration {
      * Configures the HTTP security filter chain.
      *
      * @param http the HTTP security builder
+     * @param jwtDecoder decoder used to validate JWTs
+     * @param jwtEncoder encoder used to issue JWTs
+     * @param userDetailsService user lookup service
+     * @param messageService message source for localized responses
+     * @param objectMapper JSON serializer for error payloads
      * @return the configured filter chain
      * @throws Exception if configuration fails
      */
@@ -94,6 +99,13 @@ public class SecurityConfiguration {
         return http.build();
     }
     //TODO refactor this to a global handle exception
+    /**
+     * Builds an access denied handler that returns a localized JSON error.
+     *
+     * @param messageService i18n message resolver
+     * @param objectMapper JSON serializer
+     * @return access denied handler
+     */
     @Bean
     public AccessDeniedHandler customAccessDeniedHandler(MessageService messageService, ObjectMapper objectMapper) {
         return (request, response, accessDeniedException) -> {
@@ -115,6 +127,12 @@ public class SecurityConfiguration {
 
     /**
      * Standard error payload returned by the API.
+     *
+     * @param timestamp ISO timestamp of the error
+     * @param status    HTTP status code
+     * @param error     HTTP reason phrase
+     * @param code      application error code
+     * @param message   localized error message
      */
     public record ErrorResponse(
             String timestamp,
@@ -199,6 +217,12 @@ public class SecurityConfiguration {
         };
     }
 
+    /**
+     * Configures how JWT permissions and roles are turned into Spring authorities.
+     *
+     * @param jwtDecoder decoder used for JWT introspection
+     * @return authentication converter for JWT tokens
+     */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(JwtDecoder jwtDecoder) {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();

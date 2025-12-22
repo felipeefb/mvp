@@ -1,6 +1,5 @@
 package com.felipe.belo.mvp.application.user.dto;
 
-import com.felipe.belo.mvp.application.role.dto.RoleListDto;
 import jakarta.validation.constraints.Email;
 
 import java.io.Serial;
@@ -15,10 +14,10 @@ import java.util.UUID;
  * @param name      the display name
  * @param email     the e-mail address
  * @param role      the role summary
- * @param deletedBy user id who soft-deleted the user, if any
+ * @param deletedBy user e-mail who soft-deleted the user, if any
  * @param deletedAt soft-delete timestamp, if any
  */
-public record UserEntityListDto(UUID id, String name, @Email String email, RoleListDto role, UUID deletedBy,
+public record UserEntityListDto(UUID id, String name, @Email String email, UserRoleListDto role, String deletedBy,
                                 LocalDateTime deletedAt) implements Serializable {
     @Serial
     private static final long serialVersionUID = 5220714431208772028L;

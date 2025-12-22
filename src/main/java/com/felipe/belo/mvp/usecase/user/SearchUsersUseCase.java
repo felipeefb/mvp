@@ -1,9 +1,18 @@
 package com.felipe.belo.mvp.usecase.user;
 
 import com.felipe.belo.mvp.core.domain.model.User;
-import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO;
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
 import org.springframework.data.domain.Page;
 
+/**
+ * Use case for searching users with filters/pagination.
+ */
 public interface SearchUsersUseCase {
-    Page<User> search(SearchRequestDTO request);
+    /**
+     * Executes a search.
+     *
+     * @param request search and paging parameters
+     * @return paged users
+     */
+    Page<User> search(SearchRequestDto request);
 }

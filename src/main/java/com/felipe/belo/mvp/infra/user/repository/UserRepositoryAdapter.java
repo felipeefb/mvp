@@ -1,6 +1,8 @@
 package com.felipe.belo.mvp.infra.user.repository;
 
+import com.felipe.belo.mvp.core.domain.SearchSpecification;
 import com.felipe.belo.mvp.core.domain.model.User;
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
 import com.felipe.belo.mvp.infra.user.entity.UserEntity;
 import com.felipe.belo.mvp.infra.user.mapper.UserEntityMapper;
 import com.felipe.belo.mvp.usecase.user.port.UserRepository;
@@ -13,13 +15,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * JPA-backed implementation of the user repository port.
+ */
 @Repository
 public class UserRepositoryAdapter implements UserRepository {
     private final UserJpaRepository userJpaRepository;
-    private final UserEntityMapper userMapper = new UserEntityMapper();
+    private final UserEntityMapper userMapper;
 
-    public UserRepositoryAdapter(UserJpaRepository userJpaRepository) {
+    /**
+     * Creates a new adapter.
+     *
+     * @param userJpaRepository JPA repository
+     * @param userMapper        mapper for entity/domain conversion
+     */
+    public UserRepositoryAdapter(UserJpaRepository userJpaRepository, UserEntityMapper userMapper) {
         this.userJpaRepository = userJpaRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -38,8 +50,8 @@ public class UserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public Page<User> search(String search, boolean includeDeleted, Pageable pageable) {
-        Page<UserEntity> page = userJpaRepository.search(search, includeDeleted, pageable);
+    public Page<User> search(SearchRequestDto request, Pageable pageable) {
+        Page<UserEntity> page = userJpaRepository.findAll(SearchSpecification.build(request, userMapper), pageable);
         List<User> content = page.getContent().stream().map(userMapper::toDomain).toList();
         return new PageImpl<>(content, pageable, page.getTotalElements());
     }

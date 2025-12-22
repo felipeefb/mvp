@@ -1,6 +1,5 @@
 package com.felipe.belo.mvp.application.user.dto;
 
-import com.felipe.belo.mvp.application.role.dto.RoleDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,7 +20,7 @@ public record UpdateUserEntityDto( @NotBlank(message = "{I18nConstants.MESSAGE_U
                                    @Email(message = "{I18nConstants.MESSAGE_USER_EMAIL_INVALID}")
                                    @NotBlank(message = "{I18nConstants.MESSAGE_USER_EMAIL_REQUIRED}")
                                    @Size(min = 5, max = 20, message = "{I18nConstants.MESSAGE_USER_EMAIL_LENGTH}")
-                                   String email, RoleDto role) implements Serializable {
+                                   String email, UserRoleDto role) implements Serializable {
     @Serial
     private static final long serialVersionUID = 8860836577394346456L;
 }

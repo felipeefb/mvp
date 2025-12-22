@@ -5,10 +5,13 @@ import com.felipe.belo.mvp.application.role.dto.RoleDto;
 import com.felipe.belo.mvp.application.role.dto.RoleListDto;
 import com.felipe.belo.mvp.application.role.dto.UpdateRoleDto;
 import com.felipe.belo.mvp.application.role.mapper.RoleDtoMapper;
+import com.felipe.belo.mvp.application.shared.UserEmailResolver;
 import com.felipe.belo.mvp.core.domain.model.Role;
+import com.felipe.belo.mvp.core.domain.model.User;
 import com.felipe.belo.mvp.usecase.role.command.CreateRoleCommand;
 import com.felipe.belo.mvp.usecase.role.command.UpdateRoleCommand;
 import com.felipe.belo.mvp.core.utils.permissions.Permissions;
+import com.felipe.belo.mvp.usecase.user.LookupUserByIdUseCase;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumSet;
@@ -18,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class RoleMapperTest {
 
-    private final RoleDtoMapper mapper = new RoleDtoMapper();
+    private final RoleDtoMapper mapper = new RoleDtoMapper(new UserEmailResolver(new RoleMapperUserLookupStub()));
 
     @Test
     void toCreateCommand_FromCreateRoleDto() {
@@ -56,5 +59,12 @@ class RoleMapperTest {
         List<RoleListDto> list = mapper.toListDtos(List.of(r1, r2));
         assertThat(list).hasSize(2);
         assertThat(list.stream().map(RoleListDto::name)).containsExactlyInAnyOrder("A", "B");
+    }
+}
+
+class RoleMapperUserLookupStub implements LookupUserByIdUseCase {
+    @Override
+    public java.util.Optional<User> findOptionalById(java.util.UUID id) {
+        return java.util.Optional.empty();
     }
 }

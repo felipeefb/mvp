@@ -6,8 +6,11 @@ import com.felipe.belo.mvp.application.role.dto.RoleListDto;
 import com.felipe.belo.mvp.application.role.dto.UpdateRoleDto;
 import com.felipe.belo.mvp.application.role.mapper.RoleDtoMapper;
 import com.felipe.belo.mvp.core.domain.model.Role;
-import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDTO;
+import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
+import com.felipe.belo.mvp.core.utils.I18nConstants;
 import com.felipe.belo.mvp.usecase.role.RoleUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +22,26 @@ import java.util.UUID;
 
 /**
  * REST controller for managing roles.
+ * Maps HTTP request/response DTOs to domain use cases at the application boundary.
  */
 @RestController
 @RequestMapping("/api/v1/roles")
 @Validated
+@Tag(name = "Roles", description = I18nConstants.SWAGGER_ROLE_TAG)
 public class RoleController {
 
     private final RoleUseCase roleUseCase;
-    private final RoleDtoMapper mapper = new RoleDtoMapper();
+    private final RoleDtoMapper mapper;
 
     /**
      * Creates a new controller instance.
      *
      * @param roleUseCase the role use case
+     * @param mapper mapper for translating role DTOs
      */
-    public RoleController(RoleUseCase roleUseCase) {
+    public RoleController(RoleUseCase roleUseCase, RoleDtoMapper mapper) {
         this.roleUseCase = roleUseCase;
+        this.mapper = mapper;
     }
 
     /**
@@ -45,9 +52,13 @@ public class RoleController {
      */
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_CREATE')")
-    public ResponseEntity<RoleDto> createRole(@RequestBody @Validated CreateRoleDto roleDto) {
+    @Operation(
+            summary = I18nConstants.SWAGGER_ROLE_CREATE_SUMMARY,
+            description = I18nConstants.SWAGGER_ROLE_CREATE_DESC
+    )
+    public ResponseEntity<CreateRoleDto> createRole(@RequestBody @Validated CreateRoleDto roleDto) {
         Role created = this.roleUseCase.create(mapper.toCreateCommand(roleDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(created));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toCreateDto(created));
     }
 
     /**
@@ -55,9 +66,13 @@ public class RoleController {
      * @param searchRequest search request containing filters, pagination, and soft-delete inclusion
      * @return a paginated list of roles
      */
-    @PostMapping("/search")
+    @GetMapping
     @PreAuthorize("hasAuthority('ROLE_LIST')")
-    public ResponseEntity<Page<RoleListDto>> listRoles(@RequestBody @Validated SearchRequestDTO searchRequest) {
+    @Operation(
+            summary = I18nConstants.SWAGGER_ROLE_LIST_SUMMARY,
+            description = I18nConstants.SWAGGER_ROLE_LIST_DESC
+    )
+    public ResponseEntity<Page<RoleListDto>> listRoles(@ModelAttribute @Validated SearchRequestDto searchRequest) {
         Page<Role> result = this.roleUseCase.findAll(searchRequest);
         return ResponseEntity.ok(result.map(mapper::toListDto));
     }
@@ -70,6 +85,10 @@ public class RoleController {
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_READ')")
+    @Operation(
+            summary = I18nConstants.SWAGGER_ROLE_GET_SUMMARY,
+            description = I18nConstants.SWAGGER_ROLE_GET_DESC
+    )
     public ResponseEntity<RoleDto> getRoleById(@PathVariable UUID id) {
         return ResponseEntity.ok(mapper.toDto(this.roleUseCase.findById(id)));
     }
@@ -83,9 +102,13 @@ public class RoleController {
      */
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_UPDATE')")
-    public ResponseEntity<RoleDto> updateRole(@PathVariable UUID id, @RequestBody @Validated UpdateRoleDto updateRoleDto) {
+    @Operation(
+            summary = I18nConstants.SWAGGER_ROLE_UPDATE_SUMMARY,
+            description = I18nConstants.SWAGGER_ROLE_UPDATE_DESC
+    )
+    public ResponseEntity<UpdateRoleDto> updateRole(@PathVariable UUID id, @RequestBody @Validated UpdateRoleDto updateRoleDto) {
         Role updated = this.roleUseCase.update(id, mapper.toUpdateCommand(updateRoleDto));
-        return ResponseEntity.ok(mapper.toDto(updated));
+        return ResponseEntity.ok(mapper.toUpdateDto(updated));
     }
 
     /**
@@ -96,21 +119,13 @@ public class RoleController {
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_DELETE')")
+    @Operation(
+            summary = I18nConstants.SWAGGER_ROLE_DELETE_SUMMARY,
+            description = I18nConstants.SWAGGER_ROLE_DELETE_DESC
+    )
     public ResponseEntity<Void> deleteRole(@PathVariable UUID id) {
         this.roleUseCase.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    /**
-     * Returns permissions grouped by entity for a role (e.g., USER -> [CREATE, READ]).
-     *
-     * @param id role id
-     * @return grouped permissions
-     */
-    @GetMapping("/{id}/permissions")
-    @PreAuthorize("hasAuthority('ROLE_READ')")
-    public ResponseEntity<java.util.Map<String, java.util.Set<String>>> getRolePermissions(@PathVariable UUID id) {
-        return ResponseEntity.ok(this.roleUseCase.findPermissionGroups(id));
     }
 
 }

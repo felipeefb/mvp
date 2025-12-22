@@ -1,3 +1,6 @@
+/**
+ * User use case layer exposing commands, services, and ports.
+ */
 @ApplicationModule(
         type = ApplicationModule.Type.OPEN
 )

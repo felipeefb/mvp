@@ -1,3 +1,6 @@
+/**
+ * Role use case layer containing commands, services, and ports.
+ */
 @ApplicationModule(
         type = ApplicationModule.Type.OPEN
 )

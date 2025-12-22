@@ -10,6 +10,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 public class InfraSecurityConfig {
+    /** Default constructor for component scanning. */
+    public InfraSecurityConfig() { }
+
+    /**
+     * Provides a BCrypt password encoder bean.
+     *
+     * @return password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
