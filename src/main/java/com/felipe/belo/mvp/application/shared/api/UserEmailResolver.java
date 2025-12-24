@@ -1,4 +1,4 @@
-package com.felipe.belo.mvp.application.shared;
+package com.felipe.belo.mvp.application.shared.api;
 
 import com.felipe.belo.mvp.core.domain.model.User;
 import com.felipe.belo.mvp.usecase.user.LookupUserByIdUseCase;

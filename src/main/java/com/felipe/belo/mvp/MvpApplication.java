@@ -1,4 +1,4 @@
-package com.felipe.belo.mvp.application;
+package com.felipe.belo.mvp;
 
 import com.felipe.belo.mvp.core.config.security.SecurityProps;
 import org.springframework.boot.SpringApplication;
@@ -11,8 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * Spring Boot application entry point.
  */
-@SpringBootApplication(scanBasePackages = "com.felipe.belo.mvp")
-@EnableJpaAuditing (auditorAwareRef = "auditorAwareImpl")
+@SpringBootApplication
+@EnableJpaAuditing(auditorAwareRef = "auditorAwareImpl")
 @EnableScheduling
 @EnableAsync
 @EnableConfigurationProperties({SecurityProps.class})
@@ -21,7 +21,8 @@ public class MvpApplication {
     /**
      * Utility constructor to prevent instantiation.
      */
-    public MvpApplication() { }
+    public MvpApplication() {
+    }
 
     /**
      * Bootstraps the Spring application.
@@ -31,5 +32,4 @@ public class MvpApplication {
     public static void main(String[] args) {
         SpringApplication.run(MvpApplication.class, args);
     }
-
 }

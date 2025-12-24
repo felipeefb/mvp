@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = com.felipe.belo.mvp.application.MvpApplication.class)
+@ContextConfiguration(classes = com.felipe.belo.mvp.MvpApplication.class)
 @TestPropertySource(properties = {
         "spring.jpa.hibernate.ddl-auto=validate",
         "spring.flyway.enabled=true",

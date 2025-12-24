@@ -1,6 +1,6 @@
 package com.felipe.belo.mvp.application.user.mapper;
 
-import com.felipe.belo.mvp.application.shared.UserEmailResolver;
+import com.felipe.belo.mvp.application.shared.api.UserEmailResolver;
 import com.felipe.belo.mvp.application.user.dto.CreateUserEntityDto;
 import com.felipe.belo.mvp.application.user.dto.UpdateUserEntityDto;
 import com.felipe.belo.mvp.application.user.dto.UserEntityDto;

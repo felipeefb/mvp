@@ -13,12 +13,14 @@ Use it as a starting point to add new domains/entities quickly while keeping con
 - [Tech stack](#tech-stack)
 - [How the project is organized](#how-the-project-is-organized)
 - [Architecture and conventions](#architecture-and-conventions)
+- [Configuring a new module (Spring Modulith)](#configuring-a-new-module-spring-modulith)
 - [System design](#system-design)
 - [Security and permissions](#security-and-permissions)
 - [Auditing and soft delete](#auditing-and-soft-delete)
 - [Database & migrations](#database--migrations)
 - [Internationalization (i18n)](#internationalization-i18n)
 - [Implementing a new feature (DDD flow)](#implementing-a-new-feature-ddd-flow)
+- [Creating a new entity (annotations and placement)](#creating-a-new-entity-annotations-and-placement)
 - [How to implement a new entity (step-by-step)](#how-to-implement-a-new-entity-step-by-step)
 - [Creating a new Flyway migration](#creating-a-new-flyway-migration)
 - [Automatically generating migrations (plugins & tools)](#automatically-generating-migrations-plugins--tools)
@@ -105,6 +107,28 @@ Cross-cutting:
 
 ---
 
+### Configuring a new module (Spring Modulith)
+
+Modules are declared at the package level with `package-info.java`. Only packages annotated with `@NamedInterface` are exported; everything else is internal by default.
+
+1. Add `@ApplicationModule` to the module root package (`package-info.java`).
+2. Add `@NamedInterface("<name>")` to each package you want to expose (e.g., `controller` as `web`, `dto` as `dto`, `core.service` as `service`).
+3. Leave implementation packages unannotated to keep them internal.
+4. Run `./gradlew :application:test` to let `ModulithArchitectureTest` verify boundaries.
+
+Example:
+```
+// src/main/java/com/felipe/belo/mvp/application/project/package-info.java
+@ApplicationModule
+package com.felipe.belo.mvp.application.project;
+
+// src/main/java/com/felipe/belo/mvp/application/project/controller/package-info.java
+@NamedInterface("web")
+package com.felipe.belo.mvp.application.project.controller;
+```
+
+---
+
 ### System design
 
 This codebase is organized around clean architecture and DDD-friendly boundaries:
@@ -143,6 +167,23 @@ Use this checklist when adding a new feature (e.g., `Project`):
    - Controller tests for API contracts (`application`).
 
 When in doubt, mirror the existing `role` and `user` implementations for structure and naming.
+
+---
+
+### Creating a new entity (annotations and placement)
+
+- Put persistence entities in `src/main/java/com/felipe/belo/mvp/infra/<feature>/entity`; annotate with `@Entity`/`@Table` and map columns to your Flyway migration.
+- Extend `AudityEntity` for auditing/soft-delete support; add `deletedAt`/`deletedBy` if you want soft delete.
+- Keep domain models in `core.domain.model` **without** JPA annotations; map between domain and entity via mappers.
+- Repositories/adapters live in `infra/<feature>/repository` and should implement the use case port.
+- DTOs/mappers stay under `application/<feature>` and should not carry JPA annotations.
+- Export only the packages you want other modules to use via `@NamedInterface`; persistence packages remain internal.
+
+Checklist:
+- `@Entity`, `@Id` (and `@GeneratedValue` if applicable), column constraints.
+- New Flyway migration for tables/columns.
+- Mapper updates for domain ↔ entity.
+- Repository + use case tests (ideally with Testcontainers).
 
 ---
 

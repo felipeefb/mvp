@@ -1,5 +1,6 @@
 package com.felipe.belo.mvp.application;
 
+import com.felipe.belo.mvp.MvpApplication;
 import org.springframework.boot.SpringApplication;
 
 public class TestMvpApplication {

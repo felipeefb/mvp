@@ -8,7 +8,7 @@ import com.felipe.belo.mvp.application.role.controller.RoleController;
 import com.felipe.belo.mvp.application.role.dto.CreateRoleDto;
 import com.felipe.belo.mvp.application.role.dto.UpdateRoleDto;
 import com.felipe.belo.mvp.application.role.mapper.RoleDtoMapper;
-import com.felipe.belo.mvp.application.shared.UserEmailResolver;
+import com.felipe.belo.mvp.application.shared.api.UserEmailResolver;
 import com.felipe.belo.mvp.core.domain.model.Role;
 import com.felipe.belo.mvp.core.domain.model.User;
 import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
