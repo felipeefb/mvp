@@ -57,8 +57,7 @@ class RoleControllerTest {
 
     @Test
     void createRole_ReturnsCreated() throws Exception {
-        Role response = new Role(UUID.randomUUID(), "Managers", EnumSet.of(Permissions.ROLE_LIST));
-        roleService.createResponse = response;
+        roleService.createResponse = new Role(UUID.randomUUID(), "Managers", EnumSet.of(Permissions.ROLE_LIST));
 
         CreateRoleDto body = new CreateRoleDto("Managers", EnumSet.of(Permissions.ROLE_LIST));
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/roles")

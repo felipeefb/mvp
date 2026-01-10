@@ -1,13 +1,5 @@
 package com.felipe.belo.mvp.application.auth;
 
-import com.felipe.belo.mvp.core.component.JwtService;
-import com.felipe.belo.mvp.core.config.security.SecurityProps;
-import com.felipe.belo.mvp.core.utils.I18nConstants;
-import com.felipe.belo.mvp.core.exception.BusinessException;
-import com.felipe.belo.mvp.core.domain.model.User;
-import com.felipe.belo.mvp.usecase.user.port.UserRepository;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +7,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.felipe.belo.mvp.core.component.JwtService;
+import com.felipe.belo.mvp.core.domain.model.User;
+import com.felipe.belo.mvp.core.exception.BusinessException;
+import com.felipe.belo.mvp.core.utils.I18nConstants;
+import com.felipe.belo.mvp.usecase.user.port.UserRepository;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Controller responsible for handling authentication-related operations,
@@ -52,7 +53,7 @@ public class AuthController {
      * @param email    user e-mail
      * @param password raw password
      */
-    public static record LoginRequest(String email, String password) {}
+    public record LoginRequest(String email, String password) {}
 
     /**
      * Token response payload containing access and refresh tokens.
@@ -60,14 +61,14 @@ public class AuthController {
      * @param accessToken  short-lived access token
      * @param refreshToken long-lived refresh token
      */
-    public static record TokenResponse(String accessToken, String refreshToken) {}
+    public record TokenResponse(String accessToken, String refreshToken) {}
 
     /**
      * Refresh request payload.
      *
      * @param refreshToken an existing valid refresh token
      */
-    public static record RefreshRequest(String refreshToken) {}
+    public record RefreshRequest(String refreshToken) {}
 
     /**
      * Authenticates a user and returns JWT tokens.

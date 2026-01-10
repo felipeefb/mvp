@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
@@ -41,7 +42,7 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String accessToken = authHeader.substring(7);
@@ -63,9 +64,7 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
                                 // Authenticate for the current request
                                 Jwt newJwt = jwtService.decode(newAccessToken);
                                 var auth = jwtAuthenticationConverter.convert(newJwt);
-                                if (auth != null) {
-                                    SecurityContextHolder.getContext().setAuthentication(auth);
-                                }
+                                SecurityContextHolder.getContext().setAuthentication(auth);
 
                                 // Add new tokens to response headers
                                 response.addHeader("X-New-Access-Token", newAccessToken);

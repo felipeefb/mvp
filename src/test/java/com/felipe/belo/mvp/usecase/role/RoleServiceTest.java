@@ -59,9 +59,8 @@ class RoleServiceTest {
     void create_Success() {
         when(roleRepository.findByNormalizedName("Managers")).thenReturn(Optional.empty());
         when(roleRepository.save(any(Role.class))).thenAnswer(inv -> {
-            Role r = inv.getArgument(0);
             // simulate id set by DB
-            return r;
+            return inv.<Role>getArgument(0);
         });
 
         Role role = service.create(new CreateRoleCommand("Managers", EnumSet.of(Permissions.ROLE_LIST)));
@@ -163,7 +162,7 @@ class RoleServiceTest {
 
         List<Role> list = service.findAll();
         assertThat(list).hasSize(1);
-        assertThat(list.get(0).getName()).isEqualTo("A");
+        assertThat(list.getFirst().getName()).isEqualTo("A");
     }
     // --- helpers & stubs ---
     static class FakeCurrentUserService extends CurrentUserService {

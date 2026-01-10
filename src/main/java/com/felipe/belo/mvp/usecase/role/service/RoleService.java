@@ -153,7 +153,7 @@ public class RoleService implements RoleUseCase {
      * @param id   current id for updates, null for create
      */
     private void checkConstraints(Role role, UUID id) {
-        if (role != null && (id == null || !role.getId().equals(id))) {
+        if (role != null && (!role.getId().equals(id))) {
             throw new BusinessException(HttpStatus.CONFLICT, I18nConstants.MESSAGE_ROLE_NAME_EXISTS);
         }
     }
