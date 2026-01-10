@@ -36,4 +36,17 @@ subprojects {
             mavenBom "org.springframework.modulith:spring-modulith-bom:1.4.4"
         }
     }
+    tasks.register('aggregateJavadoc', Javadoc) {
+        description = 'Generates aggregated Javadoc for all modules'
+        group = JavaBasePlugin.DOCUMENTATION_GROUP
+
+        // collect all main sources from subprojects
+        source = subprojects*.sourceSets.main*.allJava
+        // union of classpaths so cross-module types resolve
+        classpath = files(subprojects*.sourceSets.main*.compileClasspath)
+
+        destinationDir = file("$layout.buildDirectory/docs/javadoc-aggregate")
+        options.encoding = 'UTF-8'
+        options.addBooleanOption('html5', true)
+    }
 }

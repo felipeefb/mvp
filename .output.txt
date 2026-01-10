@@ -1,0 +1,247 @@
+warning: in the working copy of 'build.gradle', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/felipe/belo/mvp/MvpApplication.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/felipe/belo/mvp/application/permissions/controller/PermissionsController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/felipe/belo/mvp/usecase/role/package-info.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/felipe/belo/mvp/usecase/user/package-info.java', LF will be replaced by CRLF the next time Git touches it
+diff --git a/build.gradle b/build.gradle
+index 6a2bcaa..6d51292 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -36,4 +36,17 @@ subprojects {
+             mavenBom "org.springframework.modulith:spring-modulith-bom:1.4.4"
+         }
+     }
+-}
++    tasks.register('aggregateJavadoc', Javadoc) {
++        description = 'Generates aggregated Javadoc for all modules'
++        group = JavaBasePlugin.DOCUMENTATION_GROUP
++
++        // collect all main sources from subprojects
++        source = subprojects*.sourceSets.main*.allJava
++        // union of classpaths so cross-module types resolve
++        classpath = files(subprojects*.sourceSets.main*.compileClasspath)
++
++        destinationDir = file("$buildDir/docs/javadoc-aggregate")
++        options.encoding = 'UTF-8'
++        options.addBooleanOption('html5', true)
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/com/felipe/belo/mvp/MvpApplication.java b/src/main/java/com/felipe/belo/mvp/MvpApplication.java
+index a281101..f87aff5 100644
+--- a/src/main/java/com/felipe/belo/mvp/MvpApplication.java
++++ b/src/main/java/com/felipe/belo/mvp/MvpApplication.java
+@@ -7,6 +7,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
+ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+ import org.springframework.scheduling.annotation.EnableAsync;
+ import org.springframework.scheduling.annotation.EnableScheduling;
++import org.springframework.util.StringUtils;
++
++import java.util.Arrays;import java.util.Stack;
+
+ /**
+  * Spring Boot application entry point.
+@@ -32,4 +35,9 @@ public class MvpApplication {
+     public static void main(String[] args) {
+         SpringApplication.run(MvpApplication.class, args);
+     }
+-}
++
++    public static void test(){
++        int[] nums = {1,3,5,6};
++        int index = Arrays.binarySearch(nums, 5);
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/com/felipe/belo/mvp/application/auth/AuthController.java b/src/main/java/com/felipe/belo/mvp/application/auth/AuthController.java
+index 672134b..b98d115 100644
+--- a/src/main/java/com/felipe/belo/mvp/application/auth/AuthController.java
++++ b/src/main/java/com/felipe/belo/mvp/application/auth/AuthController.java
+@@ -1,7 +1,7 @@
+ package com.felipe.belo.mvp.application.auth;
+
+ import com.felipe.belo.mvp.core.config.security.SecurityProps;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.core.exception.BusinessException;
+ import com.felipe.belo.mvp.core.domain.model.User;
+ import com.felipe.belo.mvp.usecase.user.port.UserRepository;
+diff --git a/src/main/java/com/felipe/belo/mvp/application/config/security/SecurityConfiguration.java b/src/main/java/com/felipe/belo/mvp/application/config/security/SecurityConfiguration.java
+index 7895fa7..fbc5d31 100644
+--- a/src/main/java/com/felipe/belo/mvp/application/config/security/SecurityConfiguration.java
++++ b/src/main/java/com/felipe/belo/mvp/application/config/security/SecurityConfiguration.java
+@@ -5,7 +5,7 @@ import com.felipe.belo.mvp.core.component.MessageService;
+ import com.felipe.belo.mvp.core.config.security.SecurityProps;
+ import com.felipe.belo.mvp.core.domain.model.User;
+ import com.felipe.belo.mvp.usecase.user.port.UserRepository;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.core.utils.permissions.Permissions;
+ import com.nimbusds.jose.JWSAlgorithm;
+ import com.nimbusds.jose.jwk.JWKSet;
+diff --git a/src/main/java/com/felipe/belo/mvp/application/permissions/controller/PermissionsController.java b/src/main/java/com/felipe/belo/mvp/application/permissions/controller/PermissionsController.java
+index 79915d3..08ab495 100644
+--- a/src/main/java/com/felipe/belo/mvp/application/permissions/controller/PermissionsController.java
++++ b/src/main/java/com/felipe/belo/mvp/application/permissions/controller/PermissionsController.java
+@@ -1,7 +1,7 @@
+ package com.felipe.belo.mvp.application.permissions.controller;
+
+ import com.felipe.belo.mvp.core.utils.permissions.Permissions;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import io.swagger.v3.oas.annotations.Operation;
+ import io.swagger.v3.oas.annotations.tags.Tag;
+ import org.springframework.http.ResponseEntity;
+diff --git a/src/main/java/com/felipe/belo/mvp/application/role/controller/RoleController.java b/src/main/java/com/felipe/belo/mvp/application/role/controller/RoleController.java
+index 82f8a2c..eb9bbda 100644
+--- a/src/main/java/com/felipe/belo/mvp/application/role/controller/RoleController.java
++++ b/src/main/java/com/felipe/belo/mvp/application/role/controller/RoleController.java
+@@ -7,7 +7,7 @@ import com.felipe.belo.mvp.application.role.dto.UpdateRoleDto;
+ import com.felipe.belo.mvp.application.role.mapper.RoleDtoMapper;
+ import com.felipe.belo.mvp.core.domain.model.Role;
+ import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.usecase.role.RoleUseCase;
+ import io.swagger.v3.oas.annotations.Operation;
+ import io.swagger.v3.oas.annotations.tags.Tag;
+diff --git a/src/main/java/com/felipe/belo/mvp/application/user/controller/UserController.java b/src/main/java/com/felipe/belo/mvp/application/user/controller/UserController.java
+index ffca501..0f2ae0a 100644
+--- a/src/main/java/com/felipe/belo/mvp/application/user/controller/UserController.java
++++ b/src/main/java/com/felipe/belo/mvp/application/user/controller/UserController.java
+@@ -6,7 +6,7 @@ import com.felipe.belo.mvp.application.user.dto.UserEntityListDto;
+ import com.felipe.belo.mvp.application.user.mapper.UserDtoMapper;
+ import com.felipe.belo.mvp.core.domain.model.User;
+ import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.usecase.user.CreateUserUseCase;
+ import com.felipe.belo.mvp.usecase.user.GetUserByIdUseCase;
+ import com.felipe.belo.mvp.usecase.user.SearchUsersUseCase;
+diff --git a/src/main/java/com/felipe/belo/mvp/core/exception/GlobalExceptionHandler.java b/src/main/java/com/felipe/belo/mvp/core/exception/GlobalExceptionHandler.java
+index ad7642d..63fc208 100644
+--- a/src/main/java/com/felipe/belo/mvp/core/exception/GlobalExceptionHandler.java
++++ b/src/main/java/com/felipe/belo/mvp/core/exception/GlobalExceptionHandler.java
+@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
+ import org.springframework.web.bind.annotation.ExceptionHandler;
+ import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import org.springframework.web.client.HttpServerErrorException;
+
+ /**
+diff --git a/src/main/java/com/felipe/belo/mvp/core/utils/i18n/I18nConstants.java b/src/main/java/com/felipe/belo/mvp/core/utils/i18n/I18nConstants.java
+index 8eff04b..2ec50a3 100644
+--- a/src/main/java/com/felipe/belo/mvp/core/utils/i18n/I18nConstants.java
++++ b/src/main/java/com/felipe/belo/mvp/core/utils/i18n/I18nConstants.java
+@@ -1,4 +1,4 @@
+-package com.felipe.belo.mvp.core.utils;
++package com.felipe.belo.mvp.core.utils.i18n;
+
+ /**
+  * Centralized i18n message keys used across the application.
+diff --git a/src/main/java/com/felipe/belo/mvp/core/utils/package-info.java b/src/main/java/com/felipe/belo/mvp/core/utils/package-info.java
+index 2ebc92c..ca1675e 100644
+--- a/src/main/java/com/felipe/belo/mvp/core/utils/package-info.java
++++ b/src/main/java/com/felipe/belo/mvp/core/utils/package-info.java
+@@ -2,9 +2,8 @@
+  * Utility package containing shared helpers and cross-cutting types
+  * such as string utilities, i18n constants, and permissions.
+  */
+-@ApplicationModule(
+-        type = ApplicationModule.Type.OPEN
+-)
+-package com.felipe.belo.mvp.core.utils;
+-
+-import org.springframework.modulith.ApplicationModule;
+\ No newline at end of file
++@ApplicationModule(type = ApplicationModule.Type.OPEN)
++@org.springframework.modulith.NamedInterface("utils")
++package com.felipe.belo.mvp.core.utils;
++
++import org.springframework.modulith.ApplicationModule;
+diff --git a/src/main/java/com/felipe/belo/mvp/usecase/role/package-info.java b/src/main/java/com/felipe/belo/mvp/usecase/role/package-info.java
+index ae2062a..195c126 100644
+--- a/src/main/java/com/felipe/belo/mvp/usecase/role/package-info.java
++++ b/src/main/java/com/felipe/belo/mvp/usecase/role/package-info.java
+@@ -1,9 +1,8 @@
+ /**
+  * Role use case layer containing commands, services, and ports.
+  */
+-@ApplicationModule(
+-        type = ApplicationModule.Type.OPEN
+-)
++@ApplicationModule(type = ApplicationModule.Type.OPEN)
++@org.springframework.modulith.NamedInterface("usecase")
+ package com.felipe.belo.mvp.usecase.role;
+
+ import org.springframework.modulith.ApplicationModule;
+diff --git a/src/main/java/com/felipe/belo/mvp/usecase/role/service/RoleService.java b/src/main/java/com/felipe/belo/mvp/usecase/role/service/RoleService.java
+index 169dee2..f46b1b6 100644
+--- a/src/main/java/com/felipe/belo/mvp/usecase/role/service/RoleService.java
++++ b/src/main/java/com/felipe/belo/mvp/usecase/role/service/RoleService.java
+@@ -5,7 +5,7 @@ import com.felipe.belo.mvp.core.domain.model.User;
+ import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
+ import com.felipe.belo.mvp.core.domain.page.PageableUtils;
+ import com.felipe.belo.mvp.core.exception.BusinessException;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.usecase.core.service.CurrentUserService;
+ import com.felipe.belo.mvp.usecase.role.RoleUseCase;
+ import com.felipe.belo.mvp.usecase.role.command.CreateRoleCommand;
+diff --git a/src/main/java/com/felipe/belo/mvp/usecase/user/package-info.java b/src/main/java/com/felipe/belo/mvp/usecase/user/package-info.java
+index b42655e..5540444 100644
+--- a/src/main/java/com/felipe/belo/mvp/usecase/user/package-info.java
++++ b/src/main/java/com/felipe/belo/mvp/usecase/user/package-info.java
+@@ -1,9 +1,8 @@
+ /**
+  * User use case layer exposing commands, services, and ports.
+  */
+-@ApplicationModule(
+-        type = ApplicationModule.Type.OPEN
+-)
++@ApplicationModule(type = ApplicationModule.Type.OPEN)
++@org.springframework.modulith.NamedInterface("usecase")
+ package com.felipe.belo.mvp.usecase.user;
+
+ import org.springframework.modulith.ApplicationModule;
+diff --git a/src/main/java/com/felipe/belo/mvp/usecase/user/service/UserService.java b/src/main/java/com/felipe/belo/mvp/usecase/user/service/UserService.java
+index 48caf58..12fac34 100644
+--- a/src/main/java/com/felipe/belo/mvp/usecase/user/service/UserService.java
++++ b/src/main/java/com/felipe/belo/mvp/usecase/user/service/UserService.java
+@@ -5,7 +5,7 @@ import com.felipe.belo.mvp.core.domain.model.User;
+ import com.felipe.belo.mvp.core.domain.page.request.SearchRequestDto;
+ import com.felipe.belo.mvp.core.domain.page.PageableUtils;
+ import com.felipe.belo.mvp.core.exception.BusinessException;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.usecase.user.CreateUserUseCase;
+ import com.felipe.belo.mvp.usecase.user.FindUserByEmailUseCase;
+ import com.felipe.belo.mvp.usecase.user.FindUserByUsernameUseCase;
+diff --git a/src/test/java/com/felipe/belo/mvp/application/role/RoleControllerTest.java b/src/test/java/com/felipe/belo/mvp/application/role/RoleControllerTest.java
+index 793798f..8ed6154 100644
+--- a/src/test/java/com/felipe/belo/mvp/application/role/RoleControllerTest.java
++++ b/src/test/java/com/felipe/belo/mvp/application/role/RoleControllerTest.java
+@@ -16,7 +16,7 @@ import com.felipe.belo.mvp.usecase.role.RoleUseCase;
+ import com.felipe.belo.mvp.usecase.role.command.CreateRoleCommand;
+ import com.felipe.belo.mvp.usecase.role.command.UpdateRoleCommand;
+ import com.felipe.belo.mvp.usecase.user.LookupUserByIdUseCase;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.core.utils.permissions.Permissions;
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;
+diff --git a/src/test/java/com/felipe/belo/mvp/usecase/role/RoleServiceTest.java b/src/test/java/com/felipe/belo/mvp/usecase/role/RoleServiceTest.java
+index 24ef653..e9abdbd 100644
+--- a/src/test/java/com/felipe/belo/mvp/usecase/role/RoleServiceTest.java
++++ b/src/test/java/com/felipe/belo/mvp/usecase/role/RoleServiceTest.java
+@@ -8,7 +8,7 @@ import com.felipe.belo.mvp.usecase.role.command.CreateRoleCommand;
+ import com.felipe.belo.mvp.usecase.role.command.UpdateRoleCommand;
+ import com.felipe.belo.mvp.usecase.role.port.RoleRepository;
+ import com.felipe.belo.mvp.usecase.role.service.RoleService;
+-import com.felipe.belo.mvp.core.utils.I18nConstants;
++import com.felipe.belo.mvp.core.utils.I18nConstants;
+ import com.felipe.belo.mvp.core.utils.permissions.Permissions;
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;

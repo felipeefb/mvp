@@ -1,9 +1,9 @@
 package com.felipe.belo.mvp.application.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.felipe.belo.mvp.core.component.JwtService;
 import com.felipe.belo.mvp.core.component.MessageService;
 import com.felipe.belo.mvp.core.config.security.SecurityProps;
-import com.felipe.belo.mvp.core.domain.model.User;
 import com.felipe.belo.mvp.usecase.user.port.UserRepository;
 import com.felipe.belo.mvp.core.utils.I18nConstants;
 import com.felipe.belo.mvp.core.utils.permissions.Permissions;
@@ -32,6 +32,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -79,8 +80,11 @@ public class SecurityConfiguration {
             JwtEncoder jwtEncoder,
             UserDetailsService userDetailsService,
             MessageService messageService,
-            ObjectMapper objectMapper
+            ObjectMapper objectMapper,
+            JwtService jwtService,
+            UserRepository userRepository
     ) throws Exception {
+        JwtAuthenticationConverter jwtAuthenticationConverter = jwtAuthenticationConverter();
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -89,11 +93,12 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter(jwtDecoder)))
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
                 )
+                .addFilterBefore(new JwtRefreshFilter(jwtService, userRepository, jwtAuthenticationConverter), BearerTokenAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((req, res, authEx) ->
-                                res.sendError(HttpServletResponse.SC_FORBIDDEN))
+                                res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                         .accessDeniedHandler(customAccessDeniedHandler(messageService, objectMapper))
                 );
         return http.build();
@@ -220,11 +225,10 @@ public class SecurityConfiguration {
     /**
      * Configures how JWT permissions and roles are turned into Spring authorities.
      *
-     * @param jwtDecoder decoder used for JWT introspection
      * @return authentication converter for JWT tokens
      */
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter(JwtDecoder jwtDecoder) {
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         // Converter que extrai permissões do claim 'permissions' e trata SUPER_ADMIN
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {

@@ -110,7 +110,7 @@ public class RoleService implements RoleUseCase {
      */
     @Transactional
     public void delete(UUID id) {
-        Role existing = this.roleRepository.findById(id).orElse(null);
+        var existing = this.roleRepository.findById(id).orElse(null);
         checkIsNull(existing);
         existing.setDeletedAt(java.time.LocalDateTime.now());
         existing.setDeletedBy(currentUserService.getCurrentUser().map(User::getId).orElse(null));

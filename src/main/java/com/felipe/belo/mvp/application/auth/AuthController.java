@@ -1,5 +1,6 @@
 package com.felipe.belo.mvp.application.auth;
 
+import com.felipe.belo.mvp.core.component.JwtService;
 import com.felipe.belo.mvp.core.config.security.SecurityProps;
 import com.felipe.belo.mvp.core.utils.I18nConstants;
 import com.felipe.belo.mvp.core.exception.BusinessException;
@@ -9,20 +10,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.JwsHeader;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
 /**
  * Controller responsible for handling authentication-related operations,
@@ -39,27 +31,19 @@ public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final JwtEncoder jwtEncoder;
-
-    private final JwtDecoder jwtDecoder;
-
-    private final SecurityProps securityProps;
+    private final JwtService jwtService;
 
     /**
      * Creates a new authentication controller.
      *
-     * @param userRepository repository for user lookup
+     * @param userRepository  repository for user lookup
      * @param passwordEncoder encoder for password verification
-     * @param jwtEncoder encoder for generating JWTs
-     * @param jwtDecoder decoder for validating JWTs
-     * @param securityProps security configuration properties
+     * @param jwtService     service for JWT operations
      */
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, SecurityProps securityProps) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtEncoder = jwtEncoder;
-        this.jwtDecoder = jwtDecoder;
-        this.securityProps = securityProps;
+        this.jwtService = jwtService;
     }
 
     /**
@@ -106,8 +90,8 @@ public class AuthController {
             throw new BusinessException(HttpStatus.UNAUTHORIZED, "user.invalid.credentials");
         }
 
-        String accessToken = generateToken(user, securityProps.accessTokenExpirationMinutes());
-        String refreshToken = generateToken(user, securityProps.refreshTokenExpirationMinutes());
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
         return new TokenResponse(accessToken, refreshToken);
     }
 
@@ -126,44 +110,17 @@ public class AuthController {
     public TokenResponse refreshToken(@RequestBody @Validated RefreshRequest refreshReq) {
         String refreshToken = refreshReq.refreshToken();
         try {
-            jwtDecoder.decode(refreshToken);
+            jwtService.decode(refreshToken);
         } catch (Exception e) {
             throw new BusinessException(HttpStatus.UNAUTHORIZED, "access.denied");
         }
 
-        String userEmail = jwtDecoder.decode(refreshToken).getSubject();
+        String userEmail = jwtService.decode(refreshToken).getSubject();
         User user = userRepository.findByEmailIgnoreCase(userEmail)
                 .orElseThrow(() -> new BusinessException(HttpStatus.UNAUTHORIZED, "user.not.found"));
 
-        String newAccessToken = generateToken(user, securityProps.accessTokenExpirationMinutes());
-        String newRefreshToken = generateToken(user, securityProps.refreshTokenExpirationMinutes());
+        String newAccessToken = jwtService.generateAccessToken(user);
+        String newRefreshToken = jwtService.generateRefreshToken(user);
         return new TokenResponse(newAccessToken, newRefreshToken);
-    }
-
-    /**
-     * Generates a signed JWT token for the given user.
-     *
-     * @param user             the subject user
-     * @param expiresInMinutes expiration window in minutes
-     * @return a signed JWT string
-     */
-    private String generateToken(User user, int expiresInMinutes) {
-        Instant now = Instant.now();
-        Instant expiry = now.plus(expiresInMinutes, ChronoUnit.MINUTES);
-        
-        // Create JWS Header with explicit algorithm
-        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
-        
-        // Monta as claims do JWT
-        JwtClaimsSet claims = JwtClaimsSet.builder()
-                .subject(user.getEmail())
-                .issuedAt(now)
-                .expiresAt(expiry)
-                .claim("uid", user.getId().toString())
-                .claim("role", user.getRole().getName())
-                .claim("permissions", user.getRole().getPermissions())
-                .build();
-
-        return jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
     }
 }
