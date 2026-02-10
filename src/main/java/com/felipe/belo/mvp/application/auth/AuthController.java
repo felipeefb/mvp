@@ -16,6 +16,8 @@ import com.felipe.belo.mvp.usecase.user.port.UserRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtException;
 
 /**
  * Controller responsible for handling authentication-related operations,
@@ -110,13 +112,14 @@ public class AuthController {
     )
     public TokenResponse refreshToken(@RequestBody @Validated RefreshRequest refreshReq) {
         String refreshToken = refreshReq.refreshToken();
+        Jwt decodedRefreshToken;
         try {
-            jwtService.decode(refreshToken);
-        } catch (Exception e) {
+            decodedRefreshToken = jwtService.decode(refreshToken);
+        } catch (JwtException e) {
             throw new BusinessException(HttpStatus.UNAUTHORIZED, "access.denied");
         }
 
-        String userEmail = jwtService.decode(refreshToken).getSubject();
+        String userEmail = decodedRefreshToken.getSubject();
         User user = userRepository.findByEmailIgnoreCase(userEmail)
                 .orElseThrow(() -> new BusinessException(HttpStatus.UNAUTHORIZED, "user.not.found"));
 
