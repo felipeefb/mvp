@@ -6,8 +6,9 @@ set -euo pipefail
 
 if [[ -f .env ]]; then
   set -a
+  # Support CRLF-edited `.env` files (common on Windows/WSL).
   # shellcheck disable=SC1091
-  source .env
+  source <(sed 's/\r$//' .env)
   set +a
 fi
 
