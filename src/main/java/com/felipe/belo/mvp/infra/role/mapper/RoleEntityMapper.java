@@ -17,7 +17,7 @@ import java.util.Set;
  * MapStruct mapper between {@link RoleEntity} persistence model and {@link Role} domain model.
  * Also exposes allowed search fields/aliases for dynamic filtering.
  */
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RoleEntityMapper extends SearchFieldMapper {
 
     /**

@@ -1,13 +1,10 @@
 package com.felipe.belo.mvp.core.utils;
 
-import org.springframework.modulith.NamedInterface;
-
 /**
  * Centralized i18n message keys used across the application.
  * <p>
  * These constants map to entries in {@code src/main/resources/i18n/messages*.properties}.
  */
-@NamedInterface
 public final class I18nConstants {
 
     /** Generic internal server error key. */

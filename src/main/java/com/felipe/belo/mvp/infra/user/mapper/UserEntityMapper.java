@@ -18,7 +18,7 @@ import java.util.Set;
  * MapStruct mapper between {@link UserEntity} persistence model and {@link User} domain model.
  * Provides allowed field metadata for dynamic filtering.
  */
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = RoleEntityMapper.class)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = RoleEntityMapper.class)
 public interface UserEntityMapper extends SearchFieldMapper {
 
     /**
