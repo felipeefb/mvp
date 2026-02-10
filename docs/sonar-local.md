@@ -18,13 +18,13 @@ sonar-scanner \
   -Dsonar.projectKey=felipeefb_mvp \
   -Dsonar.organization=felipeefb \
   -Dsonar.host.url=$SONAR_HOST_URL \
-  -Dsonar.login=$SONAR_TOKEN \
+  -Dsonar.token=$SONAR_TOKEN \
   -Dsonar.branch.name=$(git rev-parse --abbrev-ref HEAD) \
   -Dsonar.sources=src/main/java \
   -Dsonar.tests=src/test/java \
-  -Dsonar.java.binaries=**/build/classes/java/main \
-  -Dsonar.junit.reportPaths=**/build/test-results/test \
-  -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/test/jacocoTestReport.xml \
+  -Dsonar.java.binaries=modules/application/build/classes/java/main \
+  -Dsonar.junit.reportPaths=modules/application/build/test-results/test \
+  -Dsonar.coverage.jacoco.xmlReportPaths=modules/application/build/reports/jacoco/test/jacocoTestReport.xml \
   -Dsonar.qualitygate.wait=true
 ```
 
@@ -47,7 +47,7 @@ MCP reminder for IDE:
 
 ## Codex CLI quick check
 ```bash
-SONAR_HOST_URL=https://sonarcloud.io SONAR_TOKEN=$SONAR_TOKEN sonar-scanner -Dsonar.projectKey=felipeefb_mvp -Dsonar.organization=felipeefb -Dsonar.sources=src/main/java -Dsonar.tests=src/test/java -Dsonar.java.binaries=**/build/classes/java/main -Dsonar.junit.reportPaths=**/build/test-results/test -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/test/jacocoTestReport.xml -Dsonar.qualitygate.wait=true
+SONAR_HOST_URL=https://sonarcloud.io SONAR_TOKEN=$SONAR_TOKEN sonar-scanner -Dsonar.projectKey=felipeefb_mvp -Dsonar.organization=felipeefb -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN -Dsonar.sources=src/main/java -Dsonar.tests=src/test/java -Dsonar.java.binaries=modules/application/build/classes/java/main -Dsonar.junit.reportPaths=modules/application/build/test-results/test -Dsonar.coverage.jacoco.xmlReportPaths=modules/application/build/reports/jacoco/test/jacocoTestReport.xml -Dsonar.qualitygate.wait=true
 ```
 If secrets are missing or you’re on a non-`development`/`main` branch, CI will skip cloud analysis but still enforce coverage.
 

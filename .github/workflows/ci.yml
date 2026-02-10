@@ -55,9 +55,9 @@ jobs:
             -Dsonar.qualitygate.wait=true
             -Dsonar.sources=src/main/java
             -Dsonar.tests=src/test/java
-            -Dsonar.java.binaries=**/build/classes/java/main
-            -Dsonar.junit.reportPaths=**/build/test-results/test
-            -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/test/jacocoTestReport.xml
+            -Dsonar.java.binaries=modules/application/build/classes/java/main
+            -Dsonar.junit.reportPaths=modules/application/build/test-results/test
+            -Dsonar.coverage.jacoco.xmlReportPaths=modules/application/build/reports/jacoco/test/jacocoTestReport.xml
 
       - name: Fail if Sonar secrets are missing
         if: ${{ secrets.SONAR_TOKEN == '' || secrets.SONAR_HOST_URL == '' }}

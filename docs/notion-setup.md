@@ -31,12 +31,12 @@ Notion combines documents and relational databases. Databases can hold structure
 - No paid features required; store large artifacts outside Notion and link them.
 
 ## Running the local Notion MCP service
-1) Populate `.env` with:
+1) Copy `.env.example` to `.env` and set:
 ```
 NOTION_TOKEN=your_internal_integration_token
 NOTION_MCP_AUTH_TOKEN=shared_secret_between_mcp_and_client
 ```
-(placeholders are already present; replace with workspace-specific values).
+(placeholders are already present; replace with workspace-specific values). `.env` is gitignored and must not be committed.
 2) Start the service: `docker compose -f compose.yaml up -d notion-mcp`.
 3) Verify health: `curl -H "Authorization: Bearer $NOTION_MCP_AUTH_TOKEN" http://localhost:3000/health` (expects JSON with `"status":"healthy"`).
 4) Connect Codex: `codex mcp add notion --url http://127.0.0.1:3000/mcp --bearer-token-env-var NOTION_MCP_AUTH_TOKEN --transport http` and restart Codex if prompted.
