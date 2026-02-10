@@ -18,17 +18,18 @@ sonar-scanner \
   -Dsonar.projectKey=felipeefb_mvp \
   -Dsonar.organization=felipeefb \
   -Dsonar.host.url=$SONAR_HOST_URL \
+  -Dsonar.login=$SONAR_TOKEN \
   -Dsonar.token=$SONAR_TOKEN \
   -Dsonar.branch.name=$(git rev-parse --abbrev-ref HEAD) \
   -Dsonar.sources=src/main/java \
   -Dsonar.tests=src/test/java \
-  -Dsonar.java.binaries=modules/application/build/classes/java/main \
+  -Dsonar.java.binaries=modules/application/build/classes/java/main,modules/core/build/classes/java/main,modules/usecase/build/classes/java/main,modules/infra/build/classes/java/main \
   -Dsonar.junit.reportPaths=modules/application/build/test-results/test \
   -Dsonar.coverage.jacoco.xmlReportPaths=modules/application/build/reports/jacoco/test/jacocoTestReport.xml \
-  -Dsonar.qualitygate.wait=true
+  -Dsonar.qualitygate.wait=false
 ```
 
-Tip: the `.githooks/pre-push` hook sources `.env` automatically and runs the same analysis when `SONAR_*` vars are present.
+Tip: the `.githooks/pre-push` hook sources `.env` automatically and runs the same analysis when `SONAR_*` vars are present (it only waits for the quality gate on the `development` branch).
 
 ## Coverage
 `./gradlew test jacocoTestReport jacocoTestCoverageVerification` enforces 90% minimum line coverage. Sonar picks up XML reports automatically (`**/build/reports/jacoco/test/jacocoTestReport.xml`).
@@ -47,7 +48,7 @@ MCP reminder for IDE:
 
 ## Codex CLI quick check
 ```bash
-SONAR_HOST_URL=https://sonarcloud.io SONAR_TOKEN=$SONAR_TOKEN sonar-scanner -Dsonar.projectKey=felipeefb_mvp -Dsonar.organization=felipeefb -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN -Dsonar.sources=src/main/java -Dsonar.tests=src/test/java -Dsonar.java.binaries=modules/application/build/classes/java/main -Dsonar.junit.reportPaths=modules/application/build/test-results/test -Dsonar.coverage.jacoco.xmlReportPaths=modules/application/build/reports/jacoco/test/jacocoTestReport.xml -Dsonar.qualitygate.wait=true
+SONAR_HOST_URL=https://sonarcloud.io SONAR_TOKEN=$SONAR_TOKEN sonar-scanner -Dsonar.projectKey=felipeefb_mvp -Dsonar.organization=felipeefb -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.token=$SONAR_TOKEN -Dsonar.sources=src/main/java -Dsonar.tests=src/test/java -Dsonar.java.binaries=modules/application/build/classes/java/main,modules/core/build/classes/java/main,modules/usecase/build/classes/java/main,modules/infra/build/classes/java/main -Dsonar.junit.reportPaths=modules/application/build/test-results/test -Dsonar.coverage.jacoco.xmlReportPaths=modules/application/build/reports/jacoco/test/jacocoTestReport.xml -Dsonar.qualitygate.wait=false
 ```
 If secrets are missing or you’re on a non-`development`/`main` branch, CI will skip cloud analysis but still enforce coverage.
 
