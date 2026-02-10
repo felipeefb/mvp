@@ -4,31 +4,31 @@ This repo is wired to SonarCloud (`felipeefb_mvp`, org `felipeefb`). You can run
 
 ## Prereqs
 - Java 21
+- `sonar-scanner` installed and on `PATH` (`sonar-scanner --version`)
 - Sonar token with “Execute analysis” permission on the org/project. Export it as `SONAR_TOKEN`.
 - Host URL: `https://sonarcloud.io`
 
 ## Commands
-Analyze current branch (uses Gradle Sonar plugin):
+Analyze current branch (standalone scanner):
 ```bash
 export SONAR_TOKEN=your_token
-./gradlew sonarqube \
-  -Dsonar.host.url=https://sonarcloud.io \
+export SONAR_HOST_URL=https://sonarcloud.io
+
+sonar-scanner \
+  -Dsonar.projectKey=felipeefb_mvp \
+  -Dsonar.organization=felipeefb \
+  -Dsonar.host.url=$SONAR_HOST_URL \
   -Dsonar.login=$SONAR_TOKEN \
   -Dsonar.branch.name=$(git rev-parse --abbrev-ref HEAD) \
-  --no-daemon
+  -Dsonar.sources=src/main/java \
+  -Dsonar.tests=src/test/java \
+  -Dsonar.java.binaries=**/build/classes/java/main \
+  -Dsonar.junit.reportPaths=**/build/test-results/test \
+  -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/test/jacocoTestReport.xml \
+  -Dsonar.qualitygate.wait=true
 ```
 
-If you want PR-style analysis (optional, useful for feature branches):
-```bash
-export SONAR_TOKEN=your_token
-./gradlew sonarqube \
-  -Dsonar.host.url=https://sonarcloud.io \
-  -Dsonar.login=$SONAR_TOKEN \
-  -Dsonar.pullrequest.key=$(git rev-parse --short HEAD) \
-  -Dsonar.pullrequest.branch=$(git rev-parse --abbrev-ref HEAD) \
-  -Dsonar.pullrequest.base=development \
-  --no-daemon
-```
+Tip: the `.githooks/pre-push` hook sources `.env` automatically and runs the same analysis when `SONAR_*` vars are present.
 
 ## Coverage
 `./gradlew test jacocoTestReport jacocoTestCoverageVerification` enforces 90% minimum line coverage. Sonar picks up XML reports automatically (`**/build/reports/jacoco/test/jacocoTestReport.xml`).
@@ -47,7 +47,7 @@ MCP reminder for IDE:
 
 ## Codex CLI quick check
 ```bash
-SONAR_HOST_URL=https://sonarcloud.io SONAR_TOKEN=$SONAR_TOKEN ./gradlew sonarqube --no-daemon -Dsonar.qualitygate.wait=true
+SONAR_HOST_URL=https://sonarcloud.io SONAR_TOKEN=$SONAR_TOKEN sonar-scanner -Dsonar.projectKey=felipeefb_mvp -Dsonar.organization=felipeefb -Dsonar.sources=src/main/java -Dsonar.tests=src/test/java -Dsonar.java.binaries=**/build/classes/java/main -Dsonar.junit.reportPaths=**/build/test-results/test -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/test/jacocoTestReport.xml -Dsonar.qualitygate.wait=true
 ```
 If secrets are missing or you’re on a non-`development`/`main` branch, CI will skip cloud analysis but still enforce coverage.
 

@@ -663,13 +663,13 @@ JWT secret & dev users:
   - Unix/macOS: `./gradlew :application:test`
 - Integration tests use Testcontainers (PostgreSQL). Docker must be available.
 - Coverage gate: `./gradlew test jacocoTestReport jacocoTestCoverageVerification` (fails if <90%).
-- CI (`.github/workflows/ci.yml`) runs on `main` and `development`; SonarCloud runs only on `development` when `SONAR_HOST_URL` and `SONAR_TOKEN` secrets are set.
+- CI (`.github/workflows/ci.yml`) runs on `main` and `development`; SonarCloud runs when `SONAR_HOST_URL` and `SONAR_TOKEN` secrets are set (and waits for the quality gate).
 - Local pre-push hook: copy `.githooks/pre-push` to `.git/hooks/pre-push` or set `git config core.hooksPath .githooks` to auto-run tests/coverage and Sonar (when `SONAR_TOKEN` & `SONAR_HOST_URL` are set) before pushing.
 
 ### Quality (coverage & Sonar)
 - SonarCloud project: `felipeefb_mvp` (org `felipeefb`).  
   [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=felipeefb_mvp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=felipeefb_mvp)
-- Local analysis: see `docs/sonar-local.md` for commands using `./gradlew sonarqube` with `SONAR_TOKEN`.
+- Local analysis: see `docs/sonar-local.md` for `sonar-scanner` commands using `SONAR_TOKEN`.
 - Coverage reports live at `modules/*/build/reports/jacoco/test/html`.
 
 ---

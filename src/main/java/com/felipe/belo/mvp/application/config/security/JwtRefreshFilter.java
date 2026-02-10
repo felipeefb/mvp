@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NonNull;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
@@ -23,6 +24,10 @@ import java.io.IOException;
  * and adds new tokens to the response headers.
  */
 public class JwtRefreshFilter extends OncePerRequestFilter {
+
+    static final String HEADER_REFRESH_TOKEN = "X-Refresh-Token";
+    static final String HEADER_NEW_ACCESS_TOKEN = "X-New-Access-Token";
+    static final String HEADER_NEW_REFRESH_TOKEN = "X-New-Refresh-Token";
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
@@ -43,14 +48,14 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String accessToken = authHeader.substring(7);
             try {
                 jwtService.decode(accessToken);
             } catch (JwtValidationException e) {
                 if (isExpired(e)) {
-                    String refreshToken = request.getHeader("X-Refresh-Token");
+                    String refreshToken = request.getHeader(HEADER_REFRESH_TOKEN);
                     if (refreshToken != null) {
                         try {
                             Jwt decodedRefreshToken = jwtService.decode(refreshToken);
@@ -67,8 +72,8 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
                                 SecurityContextHolder.getContext().setAuthentication(auth);
 
                                 // Add new tokens to response headers
-                                response.addHeader("X-New-Access-Token", newAccessToken);
-                                response.addHeader("X-New-Refresh-Token", newRefreshToken);
+                                response.addHeader(HEADER_NEW_ACCESS_TOKEN, newAccessToken);
+                                response.addHeader(HEADER_NEW_REFRESH_TOKEN, newRefreshToken);
                             }
                         } catch (Exception ex) {
                             // Refresh token invalid or expired, continue and let standard security handle it

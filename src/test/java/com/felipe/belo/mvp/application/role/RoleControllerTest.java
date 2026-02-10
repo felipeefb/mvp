@@ -117,57 +117,58 @@ class RoleControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(I18nConstants.MESSAGE_ROLE_NAME_NOT_FOUND));
     }
-}
 
-// Simple stub services to avoid Mockito/inline mocking issues on newer JDKs
-class MessageServiceStub extends MessageService {
-    MessageServiceStub() { super(null); }
-    @Override public String getMessage(String code, Object[] args) { return code; }
-    @Override public String getMessage(String code) { return code; }
-}
-
-class StubRoleService implements RoleUseCase {
-    Role createResponse;
-    Page<Role> pageResponse;
-    Role getByIdResponse;
-    Role updateResponse;
-    boolean throwNotFound = false;
-    StubRoleService() { }
-
-    @Override
-    public Role create(CreateRoleCommand command) {
-        return createResponse;
+    // Simple stub services to avoid Mockito/inline mocking issues on newer JDKs
+    static final class MessageServiceStub extends MessageService {
+        MessageServiceStub() { super(null); }
+        @Override public String getMessage(String code, Object[] args) { return code; }
+        @Override public String getMessage(String code) { return code; }
     }
 
-    @Override
-    public Role update(UUID id, UpdateRoleCommand command) {
-        return updateResponse;
+    static final class StubRoleService implements RoleUseCase {
+        Role createResponse;
+        Page<Role> pageResponse;
+        Role getByIdResponse;
+        Role updateResponse;
+        UUID deletedId;
+        boolean throwNotFound = false;
+
+        @Override
+        public Role create(CreateRoleCommand command) {
+            return createResponse;
+        }
+
+        @Override
+        public Role update(UUID id, UpdateRoleCommand command) {
+            return updateResponse;
+        }
+
+        @Override
+        public Role findById(UUID id) {
+            if (throwNotFound) throw new BusinessException(HttpStatus.NOT_FOUND, I18nConstants.MESSAGE_ROLE_NAME_NOT_FOUND);
+            return getByIdResponse;
+        }
+
+        @Override
+        public void delete(UUID id) {
+            this.deletedId = id;
+        }
+
+        @Override
+        public org.springframework.data.domain.Page<Role> findAll(SearchRequestDto searchRequest) {
+            return pageResponse;
+        }
+
+        @Override
+        public java.util.List<Role> findAll() {
+            return java.util.List.of();
+        }
     }
 
-    @Override
-    public Role findById(UUID id) {
-        if (throwNotFound) throw new BusinessException(HttpStatus.NOT_FOUND, I18nConstants.MESSAGE_ROLE_NAME_NOT_FOUND);
-        return getByIdResponse;
-    }
-
-    @Override
-    public void delete(UUID id) { /* no-op */ }
-
-    @Override
-    public org.springframework.data.domain.Page<Role> findAll(SearchRequestDto searchRequest) {
-        return pageResponse;
-    }
-
-    @Override
-    public java.util.List<Role> findAll() {
-        return java.util.List.of();
-    }
-
-}
-
-class StubUserLookupUseCase implements LookupUserByIdUseCase {
-    @Override
-    public java.util.Optional<User> findOptionalById(UUID id) {
-        return java.util.Optional.empty();
+    static final class StubUserLookupUseCase implements LookupUserByIdUseCase {
+        @Override
+        public java.util.Optional<User> findOptionalById(UUID id) {
+            return java.util.Optional.empty();
+        }
     }
 }

@@ -41,15 +41,26 @@ jobs:
           name: jacoco-report
           path: modules/*/build/reports/jacoco/test/html
 
-      - name: SonarQube / SonarCloud analysis
-        if: ${{ secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != '' && (github.ref == 'refs/heads/development' || github.ref == 'refs/heads/main') }}
+      - name: SonarQube / SonarCloud analysis (standalone scanner)
+        if: ${{ secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != '' }}
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew sonarqube --no-daemon -Dsonar.qualitygate.wait=true -Dsonar.projectKey=felipeefb_mvp -Dsonar.organization=felipeefb
+        with:
+          args: >
+            -Dsonar.projectKey=felipeefb_mvp
+            -Dsonar.organization=felipeefb
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.sources=src/main/java
+            -Dsonar.tests=src/test/java
+            -Dsonar.java.binaries=**/build/classes/java/main
+            -Dsonar.junit.reportPaths=**/build/test-results/test
+            -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/test/jacocoTestReport.xml
 
       - name: Fail if Sonar secrets are missing
-        if: ${{ (secrets.SONAR_TOKEN == '' || secrets.SONAR_HOST_URL == '') && (github.ref == 'refs/heads/development' || github.ref == 'refs/heads/main') }}
+        if: ${{ secrets.SONAR_TOKEN == '' || secrets.SONAR_HOST_URL == '' }}
         run: |
           echo "Sonar secrets not configured (SONAR_TOKEN, SONAR_HOST_URL). Skipping analysis." >&2
           exit 0

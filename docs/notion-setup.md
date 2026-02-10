@@ -104,15 +104,15 @@ Relations:
 - Auth: `/api/v1/auth/login` issues HS256 JWTs (claims: `sub` email, `uid`, `role`, `permissions`); `/api/v1/auth/refresh` exchanges refresh tokens. Resource server secret in `application.properties` (`security.jwt.secret`), access token 1440 min, refresh token 10080 min. `JwtRefreshFilter` accepts expired access tokens if a valid `X-Refresh-Token` is present and returns rotated tokens in `X-New-Access-Token` / `X-New-Refresh-Token`.
 - Security: Swagger (`/swagger-ui/**`) and `/api/v1/auth/**` are public; everything else requires auth and maps permissions from token claims.
 - Persistence: Flyway migrations V1–V6 create role/user tables, session tables, auditing and soft-delete columns, and enable `unaccent`.
-- CI/CD: `.github/workflows/ci.yml` runs `./gradlew test jacocoTestReport jacocoTestCoverageVerification` (coverage gate 90%), uploads Jacoco HTML, and (when `SONAR_HOST_URL`/`SONAR_TOKEN` secrets are set) runs `./gradlew sonarqube -Dsonar.qualitygate.wait=true` so PRs fail if the Sonar quality gate fails.
-- Sonar: configured for `felipeefb_mvp` (org `felipeefb`). Add secrets `SONAR_HOST_URL=https://sonarcloud.io` and `SONAR_TOKEN` to enable analysis; coverage fed via Jacoco XML paths in Gradle.
+- CI/CD: `.github/workflows/ci.yml` runs `./gradlew test jacocoTestReport jacocoTestCoverageVerification` (coverage gate 90%), uploads Jacoco HTML, and (when `SONAR_HOST_URL`/`SONAR_TOKEN` secrets are set) runs SonarCloud via the standalone scanner with `-Dsonar.qualitygate.wait=true` so PRs fail if the Sonar quality gate fails.
+- Sonar: configured for `felipeefb_mvp` (org `felipeefb`). Add secrets `SONAR_HOST_URL=https://sonarcloud.io` and `SONAR_TOKEN` to enable analysis; coverage fed via Jacoco XML (`**/build/reports/jacoco/test/jacocoTestReport.xml`).
 
 [↑ Back to TOC](#table-of-contents)
 
 ## Initial seeding from this repo
 - ADRs: JWT HS256 resource server choice; modulith boundaries; Flyway migration ordering; Javadoc publishing via GH Actions; Testcontainers strategy for integration tests; coverage target ≥90%.
 - Runbooks: local dev start (`./gradlew :application:bootRun` + `docker compose -f compose.yaml up -d` for Postgres), test suite (`./gradlew :application:test`), Javadoc workflow steps, placeholder Sonar scan steps (to be filled when Sonar is wired), seeded dev accounts (SUPER_ADMIN with all permissions; USER with ROLE_LIST/USER_LIST).
-- Quality Dashboard: target coverage 90%, actual 0 for now, Sonar “Not Connected”. Update once Sonar/coverage is wired in CI.
+- Quality Dashboard: target coverage 90%, keep actual above target (see Jacoco report), Sonar “Connected” when CI secrets are set.
 - Releases: log future main/development deploys (AWS target TBD).
 - Incidents: empty until first CI/deploy issue; template ready.
 

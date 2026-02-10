@@ -1,12 +1,16 @@
 package com.felipe.belo.mvp.application;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Assumptions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestPropertySource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @TestPropertySource(properties = {
@@ -22,6 +26,9 @@ import org.springframework.test.context.TestPropertySource;
         "spring.jpa.show-sql=false"
 })
 class MvpApplicationTests {
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @BeforeAll
     static void verifyDockerAvailable() {
@@ -50,6 +57,7 @@ class MvpApplicationTests {
 
     @Test
     void contextLoads() {
+        assertThat(applicationContext).isNotNull();
     }
 
 }

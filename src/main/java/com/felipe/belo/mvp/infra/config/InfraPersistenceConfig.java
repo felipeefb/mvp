@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "com.felipe.belo.mvp.infra")
-@EntityScan(basePackages = "com.felipe.belo.mvp.infra")
+@EntityScan(basePackages = {
+        "com.felipe.belo.mvp.infra",
+        "org.springframework.modulith.events.jpa"
+})
 public class InfraPersistenceConfig {
-    /** Default constructor for component scanning. */
-    public InfraPersistenceConfig() { }
 }

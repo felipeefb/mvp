@@ -157,19 +157,13 @@ public class SecurityConfiguration {
     @Bean
     public JwtEncoder jwtEncoder() {
         byte[] secretBytes = securityProps.secret().getBytes(StandardCharsets.UTF_8);
-        
-        System.out.println("DEBUG: Secret length: " + secretBytes.length + " bytes");
-        System.out.println("DEBUG: Secret value: " + securityProps.secret());
-        
+
         // Create an OctetSequenceKey with an explicit algorithm
         OctetSequenceKey jwk = new OctetSequenceKey.Builder(secretBytes)
                 .algorithm(JWSAlgorithm.HS256)
                 .keyID("mvp-jwt-key")
                 .build();
-        
-        System.out.println("DEBUG: JWK created - Algorithm: " + jwk.getAlgorithm());
-        System.out.println("DEBUG: JWK Key ID: " + jwk.getKeyID());
-        
+
         // Create JWKSource from the key
         JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
         
