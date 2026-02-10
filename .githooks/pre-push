@@ -20,19 +20,35 @@ echo "[pre-push] Checking Javadoc compilation..."
 
 if command -v sonar-scanner >/dev/null 2>&1 && [[ -n "${SONAR_TOKEN:-}" && -n "${SONAR_HOST_URL:-}" ]]; then
   branch="$(git rev-parse --abbrev-ref HEAD)"
-  echo "[pre-push] Running SonarCloud analysis (standalone scanner) for branch ${branch}..."
+
+  # SonarCloud quality gate waiting can be slow and may fail for local/short-lived branches depending on account/org
+  # settings. Always enforce the quality gate on the long-lived default branch ("development" in this repo) and run
+  # best-effort analysis on other branches.
+  quality_gate_wait=false
+  if [[ "${branch}" == "development" ]]; then
+    quality_gate_wait=true
+  fi
+
+  echo "[pre-push] Running SonarCloud analysis (standalone scanner) for branch ${branch} (quality gate wait: ${quality_gate_wait})..."
+
   sonar-scanner \
     -Dsonar.projectKey=felipeefb_mvp \
     -Dsonar.organization=felipeefb \
     -Dsonar.host.url="${SONAR_HOST_URL}" \
+    -Dsonar.login="${SONAR_TOKEN}" \
     -Dsonar.token="${SONAR_TOKEN}" \
     -Dsonar.branch.name="${branch}" \
     -Dsonar.sources=src/main/java \
     -Dsonar.tests=src/test/java \
-    -Dsonar.java.binaries=modules/application/build/classes/java/main \
+    -Dsonar.java.binaries=modules/application/build/classes/java/main,modules/core/build/classes/java/main,modules/usecase/build/classes/java/main,modules/infra/build/classes/java/main \
     -Dsonar.junit.reportPaths=modules/application/build/test-results/test \
     -Dsonar.coverage.jacoco.xmlReportPaths=modules/application/build/reports/jacoco/test/jacocoTestReport.xml \
-    -Dsonar.qualitygate.wait=true
+    -Dsonar.qualitygate.wait="${quality_gate_wait}" || {
+      if [[ "${branch}" == "development" ]]; then
+        exit 1
+      fi
+      echo "[pre-push] Sonar analysis failed; continuing (non-development branch)."
+    }
 else
   echo "[pre-push] sonar-scanner or SONAR_* vars missing; skipping Sonar analysis."
 fi
