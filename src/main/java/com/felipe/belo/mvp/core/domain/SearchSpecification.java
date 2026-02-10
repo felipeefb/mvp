@@ -56,12 +56,7 @@ public final class SearchSpecification {
                     String rawValue = filter.value();
 
                     switch (operation) {
-                        case "contains" -> {
-                            if (fieldPath.getJavaType() == String.class) {
-                                predicates.add(cb.like(cb.lower(fieldPath.as(String.class)),
-                                        "%" + rawValue.toLowerCase() + "%"));
-                            }
-                        }
+                        case "contains" -> predicates.add(buildContainsPredicate(cb, fieldPath, rawValue));
                         case ">" -> predicates.add(buildGreaterThanPredicate(cb, fieldPath, value));
                         case "<" -> predicates.add(buildLessThanPredicate(cb, fieldPath, value));
                         default -> predicates.add(cb.equal(fieldPath, value));
@@ -78,6 +73,14 @@ public final class SearchSpecification {
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };
+    }
+
+    private static <T> Predicate
+    buildContainsPredicate(CriteriaBuilder cb, Path<T> fieldPath, String rawValue) {
+        if (fieldPath.getJavaType() == String.class) {
+            return cb.like(cb.lower(fieldPath.as(String.class)), "%" + rawValue.toLowerCase() + "%");
+        }
+        throw new IllegalArgumentException("Contains operation is only supported for String fields");
     }
 
     private static String normalizeOperation(String operation) {

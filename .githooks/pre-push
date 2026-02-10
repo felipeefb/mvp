@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Pre-push hook: run tests, coverage, and (optionally) SonarCloud on the current branch.
+# Skips Sonar if SONAR_TOKEN or SONAR_HOST_URL are missing.
+
+set -euo pipefail
+
+echo "[pre-push] Running tests + coverage gate (90%)..."
+./gradlew test jacocoTestReport jacocoTestCoverageVerification --no-daemon
+
+echo "[pre-push] Checking Javadoc compilation..."
+./gradlew :application:javadoc --no-daemon
+
+if [[ -n "${SONAR_TOKEN:-}" && -n "${SONAR_HOST_URL:-}" ]]; then
+  branch="$(git rev-parse --abbrev-ref HEAD)"
+  echo "[pre-push] Running SonarCloud analysis (standalone scanner) for branch ${branch}..."
+  sonar-scanner \
+    -Dsonar.projectKey=felipeefb_mvp \
+    -Dsonar.organization=felipeefb \
+    -Dsonar.host.url="${SONAR_HOST_URL}" \
+    -Dsonar.login="${SONAR_TOKEN}" \
+    -Dsonar.branch.name="${branch}" \
+    -Dsonar.sources=src/main/java \
+    -Dsonar.tests=src/test/java \
+    -Dsonar.java.binaries=**/build/classes/java/main \
+    -Dsonar.junit.reportPaths=**/build/test-results/test \
+    -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/test/jacocoTestReport.xml
+else
+  echo "[pre-push] SONAR_TOKEN or SONAR_HOST_URL not set; skipping Sonar analysis."
+fi
+
+echo "[pre-push] Done."

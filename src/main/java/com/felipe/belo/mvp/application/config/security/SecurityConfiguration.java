@@ -70,6 +70,8 @@ public class SecurityConfiguration {
      * @param userDetailsService user lookup service
      * @param messageService message source for localized responses
      * @param objectMapper JSON serializer for error payloads
+     * @param jwtService service that issues/validates JWTs and refresh tokens
+     * @param userRepository repository used to resolve users for refresh flow
      * @return the configured filter chain
      * @throws Exception if configuration fails
      */

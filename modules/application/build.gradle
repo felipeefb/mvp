@@ -66,3 +66,13 @@ tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+def jacocoExcludes = ['com/felipe/belo/mvp/application/config/security/**']
+
+tasks.named('jacocoTestReport') {
+    classDirectories.setFrom(classDirectories.files.collect { fileTree(dir: it, exclude: jacocoExcludes) })
+}
+
+tasks.named('jacocoTestCoverageVerification') {
+    classDirectories.setFrom(classDirectories.files.collect { fileTree(dir: it, exclude: jacocoExcludes) })
+}

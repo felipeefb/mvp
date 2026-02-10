@@ -33,6 +33,19 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     restart: unless-stopped
 
+  notion-mcp:
+    image: mcp/notion:latest
+    container_name: notion-mcp
+    environment:
+      NOTION_TOKEN: ${NOTION_TOKEN}
+      NOTION_MCP_AUTH_TOKEN: ${NOTION_MCP_AUTH_TOKEN}
+      OPENAPI_MCP_HEADERS: |
+        {"Authorization":"Bearer ${NOTION_TOKEN}","Notion-Version":"2022-06-28"}
+    command: ["--transport","http","--port","3000","--auth-token","${NOTION_MCP_AUTH_TOKEN}"]
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
 
 volumes:
   mvp-postgres-data:

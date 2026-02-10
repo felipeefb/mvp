@@ -5,6 +5,7 @@ This project is a minimal-yet-complete Spring Boot REST API template with produc
 Use it as a starting point to add new domains/entities quickly while keeping consistency and testability.
 
 **[📚 View API Documentation (Javadoc)](https://felipeefb.github.io/mvp/)**
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=felipeefb_mvp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=felipeefb_mvp)
 
 ---
 
@@ -27,6 +28,7 @@ Use it as a starting point to add new domains/entities quickly while keeping con
 - [Javadoc: writing and generating API docs](#javadoc-writing-and-generating-api-docs)
 - [Running locally](#running-locally)
 - [Testing](#testing)
+- [Quality (coverage & Sonar)](#quality-coverage--sonar)
 - [Contributing](#contributing)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
@@ -660,6 +662,15 @@ JWT secret & dev users:
   - Windows: `gradlew.bat :application:test`
   - Unix/macOS: `./gradlew :application:test`
 - Integration tests use Testcontainers (PostgreSQL). Docker must be available.
+- Coverage gate: `./gradlew test jacocoTestReport jacocoTestCoverageVerification` (fails if <90%).
+- CI (`.github/workflows/ci.yml`) runs on `main` and `development`; SonarCloud runs only on `development` when `SONAR_HOST_URL` and `SONAR_TOKEN` secrets are set.
+- Local pre-push hook: copy `.githooks/pre-push` to `.git/hooks/pre-push` or set `git config core.hooksPath .githooks` to auto-run tests/coverage and Sonar (when `SONAR_TOKEN` & `SONAR_HOST_URL` are set) before pushing.
+
+### Quality (coverage & Sonar)
+- SonarCloud project: `felipeefb_mvp` (org `felipeefb`).  
+  [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=felipeefb_mvp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=felipeefb_mvp)
+- Local analysis: see `docs/sonar-local.md` for commands using `./gradlew sonarqube` with `SONAR_TOKEN`.
+- Coverage reports live at `modules/*/build/reports/jacoco/test/html`.
 
 ---
 
