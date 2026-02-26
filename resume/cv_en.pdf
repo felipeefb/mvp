@@ -1,0 +1,137 @@
+%PDF-1.4
+%
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Length 3170 >>
+stream
+BT
+/F1 11 Tf
+50 742 Td (Felipe Eduardo Farias Belo) Tj
+50 728 Td (Senior Software Engineer) Tj
+50 714 Td () Tj
+50 700 Td (Summary) Tj
+50 686 Td (I am a software engineer with a strong ability to learn quickly and deliver high-quality value ) Tj
+50 672 Td (across diverse languages, frameworks, and scopes. Throughout my career, I have worked in backend, ) Tj
+50 658 Td (full stack, MIB/NETCONF, YANG models, Grafana, InfluxDB, and VR/AR projects for robotic systems ) Tj
+50 644 Td (control, including real-time GPU processing and rendering to optimize large data volumes. I am ) Tj
+50 630 Td (currently specializing in Java backend \(Java 17+ and Spring Boot 3+\), SQL, AWS, CI/CD, code agents, ) Tj
+50 616 Td (NoSQL, and messaging.) Tj
+50 602 Td () Tj
+50 588 Td (Professional Experience \(grouped by technology\)) Tj
+50 574 Td (Virtus ? Center for Research, Development and Innovation in Information Technology, Communication ) Tj
+50 560 Td (and Automation \(CEEI/UFCG\) | 2015?2025) Tj
+50 546 Td () Tj
+50 532 Td (Java) Tj
+50 518 Td (- Spring Boot \(Backend\)) Tj
+50 504 Td (  - Epson ? Senior Software Engineer, Backend Tech Lead | 2022?2023) Tj
+50 490 Td (    - Built a POC backend with Java Spring Boot and PostgreSQL; integrated three front-ends; ) Tj
+50 476 Td (deployed on Raspberry Pi.) Tj
+50 462 Td (  - TukLuk ? Software Engineer, Full Stack Developer | 2019?2020) Tj
+50 448 Td (    - Developed features with Java, Spring Boot, Angular, and PostgreSQL; integrated Google Drive ) Tj
+50 434 Td (API.) Tj
+50 420 Td (- Android) Tj
+50 406 Td (  - VALID ? Software Engineer, Android Developer | 2018?2019) Tj
+50 392 Td (    - White-label Android app; prototyping and verification flows.) Tj
+50 378 Td (  - Asus ? Software Engineer, Android Developer | 2017) Tj
+50 364 Td (    - Android application used globally.) Tj
+50 350 Td (  - Asus ? Junior Software Engineer, Game Developer | 2015?2016) Tj
+50 336 Td (    - Android game; AAR package for component security; new features.) Tj
+50 322 Td (  - Embedded ? Laboratory of Embedded Systems and Pervasive Computing | 2012?2015) Tj
+50 308 Td (    - Academic projects with Android, smart home, OCR, and smartwatch apps.) Tj
+50 294 Td () Tj
+50 280 Td (C#) Tj
+50 266 Td (- Unity / VR/AR) Tj
+50 252 Td (  - Ericsson ? Senior Software Engineer, Tech Lead \(Unity VR\) | 2023?2024) Tj
+50 238 Td (    - Unity VR app for robot control \(Meta Quest 3\); compute shaders for real-time point cloud ) Tj
+50 224 Td (processing.) Tj
+50 210 Td (  - Compal Electronics ? Software Engineer, Unity/Game Tech Lead | 2016?2017) Tj
+50 196 Td (    - Networked game for Windows Surface Table and PCs; OCR and core gameplay features.) Tj
+50 182 Td (  - Asus ? Junior Software Engineer, Game Developer | 2015?2016) Tj
+50 168 Td (    - Unity \(C#\) development for Android game.) Tj
+50 154 Td (- .NET Framework) Tj
+50 140 Td (  - Positivo ? Senior Software Engineer, Backend Developer | 2020?2021) Tj
+50 126 Td (    - REST APIs and PostgreSQL schema for React + .NET Framework web app; unit tests.) Tj
+50 112 Td () Tj
+50 98 Td (Python) Tj
+50 84 Td (- Django / Flask) Tj
+50 70 Td (  - Asus ? Software Engineer, Backend Developer | 2017?2018) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+5 0 obj
+<< /Length 2028 >>
+stream
+BT
+/F1 11 Tf
+50 742 Td (    - Backend features; profiling and query optimization.) Tj
+50 728 Td (  - Inovatic ? Senior Software Engineer, Front-end Tech Lead | 2021?2022) Tj
+50 714 Td (    - Angular \(FE\) + Flask \(BE\) application; maintained Django system; Grafana dashboards with MIBs ) Tj
+50 700 Td (and YANG models.) Tj
+50 686 Td () Tj
+50 672 Td (TypeScript / JavaScript) Tj
+50 658 Td (- NestJS \(Backend\)) Tj
+50 644 Td (  - Moura ? Senior Software Engineer, Backend Tech Lead | 2025) Tj
+50 630 Td (    - Initial backend architecture for MES; Docker/containers; scalability focus.) Tj
+50 616 Td () Tj
+50 602 Td (C) Tj
+50 588 Td (- BELADIA ? Laboratory of Research in Bioenergy, Dedicated Architectures and AI | 2014) Tj
+50 574 Td (  - C application with fuzzy logic to assess power plant emissions; integrated with CEMS monitoring.) Tj
+50 560 Td () Tj
+50 546 Td (Education) Tj
+50 532 Td (- Electrical Engineering \(incomplete\) ? UFCG | 2003?2008) Tj
+50 518 Td (- B.Sc. Computer Science \(incomplete\) ? UFPB | 2008?2012) Tj
+50 504 Td (- Technology Degree in Digital Games ? Facisa | 2010?2013) Tj
+50 490 Td () Tj
+50 476 Td (Skills and Status) Tj
+50 462 Td (- Java \(ongoing\)) Tj
+50 448 Td (- Spring Boot \(ongoing\)) Tj
+50 434 Td (- SQL \(ongoing\)) Tj
+50 420 Td (- AWS \(todo\)) Tj
+50 406 Td (- CI/CD \(ongoing\)) Tj
+50 392 Td (- Code agents \(ongoing\)) Tj
+50 378 Td (- NoSQL \(todo\)) Tj
+50 364 Td (- Messaging \(ongoing\)) Tj
+50 350 Td (- PostgreSQL \(ongoing\)) Tj
+50 336 Td (- Docker/Containers \(ongoing\)) Tj
+50 322 Td (- Grafana/Observability \(ongoing\)) Tj
+50 308 Td (- MIB/NETCONF and YANG Models \(ongoing\)) Tj
+50 294 Td (- VR/AR and GPU Rendering \(ongoing\)) Tj
+50 280 Td (- Unity \(ongoing\)) Tj
+50 266 Td (- Android \(ongoing\)) Tj
+50 252 Td () Tj
+50 238 Td (Contact) Tj
+50 224 Td (Email: felipeefb@gmail.com) Tj
+50 210 Td (Phone: +55 83 99980-6074 / +55 83 99650-2223) Tj
+50 196 Td (Location: Campina Grande, Paraiba - Brazil) Tj
+50 182 Td (LinkedIn: linkedin.com/in/felipe-eduardo-farias-belo) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000003286 00000 n 
+0000003412 00000 n 
+0000005492 00000 n 
+0000005681 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+5751
+%%EOF

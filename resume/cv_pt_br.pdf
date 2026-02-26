@@ -1,0 +1,137 @@
+%PDF-1.4
+%
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Length 3367 >>
+stream
+BT
+/F1 11 Tf
+50 742 Td (Felipe Eduardo Farias Belo) Tj
+50 728 Td (Engenheiro de Software Snior) Tj
+50 714 Td () Tj
+50 700 Td (Resumo) Tj
+50 686 Td (Sou engenheiro de software com forte capacidade de aprender rapidamente e gerar valor com qualidade ) Tj
+50 672 Td (em linguagens, frameworks e escopos diversos. Ao longo da carreira, atuei em backend, full stack, ) Tj
+50 658 Td (MIB/NETCONF, modelos YANG, Grafana, InfluxDB e em projetos com VR/AR para controle de sistemas ) Tj
+50 644 Td (robticos, incluindo processamento e renderizao em tempo real na GPU para otimizao de grandes ) Tj
+50 630 Td (volumes de dados. Atualmente estou me especializando em Java backend \(Java 17+ e Spring Boot 3+\), ) Tj
+50 616 Td (SQL, AWS, CI/CD, code agents, NoSQL e mensageria.) Tj
+50 602 Td () Tj
+50 588 Td (Experincia Profissional \(agrupada por tecnologia\)) Tj
+50 574 Td (Virtus ? Ncleo de Pesquisa, Desenvolvimento e Inovao em Tecnologia da Informao, Comunicao e ) Tj
+50 560 Td (Automao \(CEEI/UFCG\) | 2015?2025) Tj
+50 546 Td () Tj
+50 532 Td (Java) Tj
+50 518 Td (- Spring Boot \(Backend\)) Tj
+50 504 Td (  - Epson ? Engenheiro de Software Snior, Lder Tcnico de Backend | 2022?2023) Tj
+50 490 Td (    - Desenvolvi backend POC com Java Spring Boot e PostgreSQL; integrao com trs front-ends; ) Tj
+50 476 Td (implantao em Raspberry Pi.) Tj
+50 462 Td (  - TukLuk ? Engenheiro de Software Pleno, Desenvolvedor Full Stack | 2019?2020) Tj
+50 448 Td (    - Desenvolvimento de funcionalidades com Java, Spring Boot, Angular e PostgreSQL; integrao com) Tj
+50 434 Td ( API Google Drive.) Tj
+50 420 Td (- Android) Tj
+50 406 Td (  - VALID ? Engenheiro de Software Pleno, Desenvolvedor Android | 2018?2019) Tj
+50 392 Td (    - App Android white-label; prototipao e fluxos de verificao.) Tj
+50 378 Td (  - Asus ? Engenheiro de Software Pleno, Desenvolvedor Android | 2017) Tj
+50 364 Td (    - App Android utilizado globalmente.) Tj
+50 350 Td (  - Asus ? Engenheiro de Software Jnior, Game Developer | 2015?2016) Tj
+50 336 Td (    - Jogo Android; pacote AAR para segurana de componentes; novas funcionalidades.) Tj
+50 322 Td (  - Embedded ? Laboratrio de Sistemas Embarcados e Computao Pervasiva | 2012?2015) Tj
+50 308 Td (    - Projetos acadmicos com Android, smart home, OCR e smartwatch.) Tj
+50 294 Td () Tj
+50 280 Td (C#) Tj
+50 266 Td (- Unity / VR/AR) Tj
+50 252 Td (  - Ericsson ? Engenheiro de Software Snior, Lder Tcnico \(Unity VR\) | 2023?2024) Tj
+50 238 Td (    - App em Unity VR para controle de rob \(Meta Quest 3\); compute shaders para nuvem de pontos em ) Tj
+50 224 Td (tempo real.) Tj
+50 210 Td (  - Compal Electronics ? Engenheiro de Software Pleno, Lder Tcnico Unity/Game | 2016?2017) Tj
+50 196 Td (    - Jogo em rede para Windows Surface Table e PCs; OCR e funcionalidades centrais.) Tj
+50 182 Td (  - Asus ? Engenheiro de Software Jnior, Game Developer | 2015?2016) Tj
+50 168 Td (    - Desenvolvimento Unity \(C#\) em jogo Android.) Tj
+50 154 Td (- .NET Framework) Tj
+50 140 Td (  - Positivo ? Engenheiro de Software Snior, Desenvolvedor Backend | 2020?2021) Tj
+50 126 Td (    - APIs REST e esquema PostgreSQL para app web React + .NET Framework; testes unitrios.) Tj
+50 112 Td () Tj
+50 98 Td (Python) Tj
+50 84 Td (- Django / Flask) Tj
+50 70 Td (  - Asus ? Engenheiro de Software Pleno, Desenvolvedor Backend | 2017?2018) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+5 0 obj
+<< /Length 2098 >>
+stream
+BT
+/F1 11 Tf
+50 742 Td (    - Novas funcionalidades backend; profiling e otimizao de queries.) Tj
+50 728 Td (  - Inovatic ? Engenheiro de Software Snior, Lder Tcnico Front-end | 2021?2022) Tj
+50 714 Td (    - Aplicao Angular \(FE\) + Flask \(BE\); manuteno de sistema Django; integrao com Grafana, ) Tj
+50 700 Td (MIBs e modelos YANG.) Tj
+50 686 Td () Tj
+50 672 Td (TypeScript / JavaScript) Tj
+50 658 Td (- NestJS \(Backend\)) Tj
+50 644 Td (  - Moura ? Engenheiro de Software Snior, Lder Tcnico de Backend | 2025) Tj
+50 630 Td (    - Arquitetura inicial de backend MES; Docker/containers; foco em escalabilidade.) Tj
+50 616 Td () Tj
+50 602 Td (C) Tj
+50 588 Td (- BELADIA ? Laboratrio de Pesquisas em BioEnergia, Arquiteturas Dedicadas e IA | 2014) Tj
+50 574 Td (  - Aplicao em C com lgica fuzzy para avaliar emisses; integrao com monitoramento CEMS.) Tj
+50 560 Td () Tj
+50 546 Td (Formao Acadmica) Tj
+50 532 Td (- Graduao em Engenharia Eltrica \(incompleto\) ? UFCG | 2003?2008) Tj
+50 518 Td (- Bacharelado em Cincia da Computao \(incompleto\) ? UFPB | 2008?2012) Tj
+50 504 Td (- Tecnlogo em Jogos Digitais ? Facisa | 2010?2013) Tj
+50 490 Td () Tj
+50 476 Td (Habilidades e Status) Tj
+50 462 Td (- Java \(ongoing\)) Tj
+50 448 Td (- Spring Boot \(ongoing\)) Tj
+50 434 Td (- SQL \(ongoing\)) Tj
+50 420 Td (- AWS \(todo\)) Tj
+50 406 Td (- CI/CD \(ongoing\)) Tj
+50 392 Td (- Code agents \(ongoing\)) Tj
+50 378 Td (- NoSQL \(todo\)) Tj
+50 364 Td (- Mensageria \(ongoing\)) Tj
+50 350 Td (- PostgreSQL \(ongoing\)) Tj
+50 336 Td (- Docker/Containers \(ongoing\)) Tj
+50 322 Td (- Grafana/Observabilidade \(ongoing\)) Tj
+50 308 Td (- MIB/NETCONF e Modelos YANG \(ongoing\)) Tj
+50 294 Td (- VR/AR e Renderizao GPU \(ongoing\)) Tj
+50 280 Td (- Unity \(ongoing\)) Tj
+50 266 Td (- Android \(ongoing\)) Tj
+50 252 Td () Tj
+50 238 Td (Contato) Tj
+50 224 Td (Email: felipeefb@gmail.com) Tj
+50 210 Td (Telefone: +55 83 99980-6074 / +55 83 99650-2223) Tj
+50 196 Td (Localizao: Campina Grande, Paraba - Brasil) Tj
+50 182 Td (LinkedIn: linkedin.com/in/felipe-eduardo-farias-belo) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000003483 00000 n 
+0000003609 00000 n 
+0000005759 00000 n 
+0000005948 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+6018
+%%EOF
